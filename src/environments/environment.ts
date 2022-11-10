@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://invictus-api-hml.azurewebsites.net/api'
+  baseUrl: 'https://'
+  //baseUrl: 'https://invictus-api-hml.azurewebsites.net/api'
   // baseUrl: 'http://localhost:5000/api'
   //baseUrl: 'https://localhost:5001/api'
   //Moq:
