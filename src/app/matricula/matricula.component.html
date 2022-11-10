@@ -1,0 +1,188 @@
+<ng-container>
+
+
+    <mat-sidenav-container class="example-container" style="
+    background-color: rgba(250, 245, 245, 0); ">
+        <mat-sidenav style="" #sidenav mode="side" opened class="example-sidenav mat-elevation-z8">
+            <div class="d-flex flex-column text-white " style="position: absolute;
+            width: auto;
+            top: 0px;
+            bottom: 0px;
+            left: 0;
+            background-color: rgb(109, 218, 109);
+            right: 0;">
+                <a class="d-flex align-items-center  mb-md-0 me-md-auto text-white text-decoration-none">
+                    <!-- <svg class="bi" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> -->
+                    <span style="width: 190px;
+                    text-align: center;margin-top: 15px;font-size: 1em;">
+                        MATRÍCULA<br>Unidade {{tokenInfo.Unidade}}
+                    </span>
+                </a>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+
+                    <li *ngFor="let item of menu" routerLinkActive="active" class="nav-item {{item.class}}"
+                        style="overflow: auto;">
+
+                        <a [routerLink]="[item.path]" class="nav-link text-white">
+                            <mat-icon style="top: -3px;
+                                        position:relative;
+                                        overflow: auto;
+                                        color:rgb(245, 243, 243); 
+                                        vertical-align: middle;
+                                        ">
+                                {{item.typeIcon}}
+                            </mat-icon>
+                            {{item.title}}
+                        </a>
+                    </li>
+
+
+
+                    <!-- <li class="nav-item">
+
+                        <a routerLink="/adm/usuarios" class="nav-link active">
+                            
+                            <mat-icon style="top: -3px;
+                                        position:relative; 
+                                        color:rgb(245, 243, 243); 
+                                        vertical-align: middle;
+                                        margin-left: 5px;">
+                                        manage_accounts
+                            </mat-icon>
+                            Usuários
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/adm/unidades" class="nav-link text-white">
+                            
+                            Unidades
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/adm/colaboradores" class="nav-link text-white">
+                            <svg class="bi me-2" width="16" height="16">
+                                <use xlink:href="#people-circle"></use>
+                            </svg>
+                            Colaboradores
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/adm/produtos" class="nav-link text-white">
+                            <svg class="bi me-2" width="16" height="16">
+                                <use xlink:href="#people-circle"></use>
+                            </svg>
+                            Produtos
+                        </a>
+                    </li> -->
+                </ul>
+                <!-- <hr>
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32"
+                            class="rounded-circle me-2">
+                        <strong>conta</strong>
+                    </a>
+                    <ul id="menu" class="dropdown-menu dropdown-menu text-small shadow" aria-labelledby="dropdownUser1"
+                        style="background-color: rgb(73, 168, 73);">
+                        <li><a style="color: white;" class="dropdown-item">New project...</a></li>
+                        <li><a style="color: white;" class="dropdown-item">Settings</a></li>
+                        <li><a style="color: white;" class="dropdown-item">Profile</a></li>
+                        <li>
+                            <hr style="color: white;" class="dropdown-divider">
+                        </li>
+                        <li><a type="button"
+                            (click)="logOut()"
+                            style="color: white;" class="dropdown-item">Sign out</a></li>
+                    </ul>
+                </div> -->
+            </div>
+            <!-- <div class="sidenav">
+
+              
+                <a routerLink="/adm1/child1" style="vertical-align: middle;margin-left:5px;">
+                    <mat-icon style="top: -3px;
+                    position:relative; 
+                    color:rgb(7, 7, 7); vertical-align: middle;margin-left: 5px;">manage_accounts</mat-icon>
+                    Usuários
+                </a>
+
+                <a routerLink="/adm1/unidades" style="vertical-align: middle;margin-left:5px;">
+                    <mat-icon style="top: -3px;
+                    position:relative; 
+                    color:rgb(7, 7, 7); vertical-align: middle;margin-left: 5px;">apartment</mat-icon>
+                    Unidades
+                </a>
+
+                <a routerLink="/adm1/professores" style="vertical-align: middle;margin-left:5px;">
+                    <mat-icon style="top: -3px;
+                    position:relative; 
+                    color:rgb(7, 7, 7); vertical-align: middle;margin-left: 5px;">person</mat-icon>
+                    professores
+                </a>
+
+                <a routerLink="/adm1/produtos" style="vertical-align: middle;margin-left:5px;">
+                    <mat-icon style="top: -3px;
+                    position:relative; 
+                    color:rgb(7, 7, 7); vertical-align: middle;margin-left: 5px;">production_quantity_limits</mat-icon>
+                    produtos
+                </a>
+
+                <a routerLink="/adm1/cursos" style="vertical-align: middle;margin-left:5px;">
+                    <mat-icon style="top: -3px;
+                    position:relative; 
+                    color:rgb(7, 7, 7); vertical-align: middle;margin-left: 5px;">assignment</mat-icon>
+                    cursos
+                </a>
+
+            </div> -->
+
+        </mat-sidenav>
+        <router-outlet></router-outlet>
+
+    </mat-sidenav-container>
+
+
+</ng-container>
+
+<!-- 
+
+<div class="row mainpage">
+    <div class=" sidenavBar mat-elevation-z8"
+    style="border-radius: 10.5px;
+    box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+        <div class="sidenav">
+            <a routerLink="/adm1/child1" >Usuários</a>
+            <a routerLink="/adm1/unidades">Unidades</a>
+            <a routerLink="/adm1/professores">professores</a>
+            <a routerLink="/adm1/produtos">produtos</a>
+            <a routerLink="/adm1/cursos">cursos</a>
+        </div>
+    </div>
+
+
+    <div class=" mainBar" >
+        
+        
+<router-outlet></router-outlet>
+   
+
+
+</div> -->
+<!-- <form *ngIf="!isUserAuthenticated()" class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+    <div class="container-fluid">
+        <h2 class="form-signin-heading">Login</h2>
+        <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div>
+        <br />
+        <label for="email" class="sr-only">Email address</label>
+        <input type="email" id="username" name="email" ngModel class="form-control" placeholder="User Name" required
+            autofocus>
+        <br />
+        <label for="senha" class="sr-only">Password</label>
+        <input type="password" id="password" name="senha" ngModel class="form-control" placeholder="Password"
+            required>
+        <br />
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </div>
+</form> -->

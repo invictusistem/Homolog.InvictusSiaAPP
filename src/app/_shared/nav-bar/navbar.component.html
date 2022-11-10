@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-md .bg-success.bg-gradient navbar-principal">
+    <img class="bg-primary" style="" type="button" src="../../../assets/img/logo4.png" alt="" class="img-thumbnail">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul style="margin-left: 45px;" class="navbar-nav me-auto mb-2 mb-md-0">
+                <li *ngFor="let item of menu" routerLinkActive="active" class="nav-item {{item.class}}">
+                    <a class="nav-link active" style="margin-right: 30px; font-size: 1em;color: aliceblue;"
+                        aria-current="page" [routerLink]=[item.path]>{{item.title}}</a>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <li>
+                    <button mat-button [matMenuTriggerFor]="afterMenu"><img src="../../../assets/img/nophoto.png" alt=""
+                            width="32" height="32" class="rounded-circle me-2"></button>
+                    <mat-menu #afterMenu="matMenu" xPosition="after">
+                        <button style="height: 30px;" type="button" (click)="TrocarSenha()" mat-menu-item>trocar
+                            senha</button>
+
+                        <button style="height: 30px;" (click)="Logout()" mat-menu-item>sair</button>
+                    </mat-menu>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>

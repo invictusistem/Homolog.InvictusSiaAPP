@@ -1,0 +1,63 @@
+<div style="font-size: 1.2em;">Disponibilidade
+    <i  style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar"
+        matTooltipPosition="above" matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<!-- <mat-progress-bar style="margin-top: 20px;" *ngIf="mostrarModalPrincipal;else mostraPrincipal" @rowHighlight
+    style="margin:0px" mode="query"></mat-progress-bar>
+<ng-template #mostraPrincipal>
+
+    <div @rowHighlight style="font-size: 0.9em;margin-top: 5px;">* Materias habilitadas para o professor lecionar</div>
+    <div @rowHighlight style="font-size: 0.9em;margin-top: 5px;color:red">OBS: Desabilitações apenas ocorrerão para
+        futuras marcações
+    </div> -->
+<hr>
+<div @rowHighlight>
+
+    <span>Selecione a unidade:</span>
+    <form [formGroup]="disponibilidadeForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="standard" style="width: 250px;;">
+            <mat-label>Unidade</mat-label>
+            <mat-select formControlName="unidadeId" selected required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let uni of unidades" [value]="uni.id">
+                    {{uni.descricao}} - {{uni.sigla}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- <i #tooltip="matTooltip" matTooltip="adicionar" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button  style="" mat-icon-button>
+                <mat-icon>add</mat-icon>
+            </button>
+        </i> -->
+        <br>
+        <div style="font-size: 0.9;font-style: italic;">selecione ao menos um dia da semana:</div>
+        <mat-checkbox formControlName="domingo" class="example-margin">Domingo</mat-checkbox><br>
+        <mat-checkbox formControlName="segunda" class="example-margin">Segunda-feira</mat-checkbox><br>
+        <mat-checkbox formControlName="terca" class="example-margin">Terça-feira</mat-checkbox><br>
+        <mat-checkbox formControlName="quarta" class="example-margin">Quarta-feira</mat-checkbox><br>
+        <mat-checkbox formControlName="quinta" class="example-margin">Quinta-feira</mat-checkbox><br>
+        <mat-checkbox formControlName="sexta" class="example-margin">Sexta-feira</mat-checkbox><br>
+        <mat-checkbox formControlName="sabado" class="example-margin">Sábado</mat-checkbox><br>
+        <br>
+        <mat-progress-bar *ngIf="disabledSaveButton" @rowHighlight  style="margin:0px"  mode="query"></mat-progress-bar>
+        <div style="float: right;margin-top: 15px;">
+            
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="width: 100px; position: relative; float:right;margin-bottom: 10px;
+                margin-left: 10px;">
+                Salvar
+            </button>
+
+          
+        </div>
+    </form>
+<!-- <button type="button" (click)="verDispo()">ver dispo</button> -->
+
+</div>

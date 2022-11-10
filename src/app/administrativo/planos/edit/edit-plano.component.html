@@ -1,0 +1,110 @@
+<div style="font-size: 1.2em;">Editar Plano de Pagamento
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div @rowHighlight *ngIf="showForm">
+
+    <hr>
+
+    <form novalidate [formGroup]="moduloForm" (ngSubmit)="onSubmit(moduloForm)">
+
+
+
+        <mat-form-field appearance="standard" style="width: 65%;">
+            <mat-label>Tipo/Pacote</mat-label>
+            <mat-select formControlName="typePacoteId">
+                <mat-option (click)="getContratos(type.id)" [value]="type.id" *ngFor="let type of typePacotes">
+                    {{type.nome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+        <mat-slide-toggle style="width: 8%;margin-left: 27%; " class="autoPagination-slide" #tooltip="matTooltip"
+            matTooltip="ativo/inativo" matTooltipPosition="above" formControlName="ativo" matTooltipHideDelay="250"
+            color="primary">
+        </mat-slide-toggle>
+        <!-- <mat-slide-toggle style="width: 20%; margin-left: 5%;" class="autoPagination-slide" #tooltip="matTooltip"
+        [(ngModel)]="plano.descricao" name="Descricao" required matTooltip="ativo/inativo"
+            matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle> -->
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 75%;">
+            <mat-label>Descrição</mat-label>
+            <input selected formControlName="descricao" matInput placeholder="Descrição">
+        </mat-form-field>
+
+
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 30%; ">
+            <mat-label>Valor</mat-label>
+            <input selected formControlName="valor" currencyMask
+                [options]="{ prefix: '', thousands: '.', decimal: ',' }" placeholder="00,00" matInput>
+            <span matPrefix>R$&nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 30%;margin-left: 5% ">
+            <mat-label>Taxa Matrícua</mat-label>
+            <input formControlName="taxaMatricula" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                type="text" selected matInput placeholder="R$ 00,00">
+            <span matPrefix>R$&nbsp;</span>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="standard" style="width: 30%;margin-left: 5%; ">
+            <mat-label>Bonus Pontualidade</mat-label>
+            <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                formControlName="bonusPontualidade" type="text" selected matInput placeholder="R$ 00,00">
+            <span matPrefix>R$&nbsp;</span>
+        </mat-form-field>
+
+        <br>
+
+
+        <mat-form-field appearance="standard" style="width: 40%">
+            <mat-label>Material Gratuito</mat-label>
+            <mat-select formControlName="materialGratuito" placeholder="">
+                <mat-option [value]="true">Sim</mat-option>
+                <mat-option [value]="false">Não</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 30%;margin-left: 5%; ">
+            <mat-label>Valor Material</mat-label>
+            <input selected formControlName="valorMaterial" currencyMask
+                [options]="{ prefix: '', thousands: '.', decimal: ',' }" placeholder="R$ 00,00" matInput>
+            <span matPrefix>R$&nbsp;</span>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 55%;">
+            <mat-label>Contrato</mat-label>
+            <mat-select [disabled]="disabledContrato" formControlName="contratoId" placeholder="temRecuperacao">
+                <mat-option [value]="cont.id" *ngFor="let cont of contratos">{{cont.titulo}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-progress-bar [style.visibility]="saveSpinner" mode="query"></mat-progress-bar>
+
+        <button color="primary" type="submit" [disabled]="disabledSave" mat-raised-button
+            style="float:right;margin-bottom: 10px;">
+            Salvar
+        </button>
+
+
+
+    </form>
+
+</div>

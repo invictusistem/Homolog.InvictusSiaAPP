@@ -1,0 +1,242 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+    <div>
+        <i style="" #tooltip="matTooltip" matTooltip="cadastrar professor" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="openCreateUserModal()" mat-icon-button>
+                <mat-icon>person_add_alt</mat-icon>
+            </button>
+        </i>
+    </div>
+
+    <br>
+
+
+    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm"
+        style="margin-top: 5px;display: inline-block">
+
+        <span color="primary" style="font-size: 0.9em;font-style: italic;">Digite ao menos um dos
+            campos para
+            pesquisar pelo professor:
+        </span>
+
+        <div class="form-row align-items-center divSiteForm">
+
+            <mat-form-field appearance="standard" style="">
+                <mat-label>Nome</mat-label>
+                <input formControlName="nome" matInput placeholder="digite o nome">
+            </mat-form-field>
+
+            <mat-form-field class="siteForm-select" style="margin-left: 10px;">
+                <mat-label>E-mail</mat-label>
+                <input formControlName="email" matInput placeholder="digite o E-mail">
+            </mat-form-field>
+
+            <mat-form-field class="siteForm-select" style="width: 120px;margin-left: 10px;">
+                <mat-label>CPF</mat-label>
+                <input mask="000.000.000-00" formControlName="cpf" matInput placeholder="digite o CPF">
+            </mat-form-field>
+
+            <span>
+                <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+                    matTooltipHideDelay="100">
+                    <button type="submit" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                incluir inativos:
+            </span>
+            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                todas unidades:
+            </span>
+            <mat-checkbox formControlName="todasUnidades" color="primary"></mat-checkbox>
+
+        </div>
+
+    </form>
+
+
+    <div class="card-header card-msg-response" unselectable="on" *ngIf="showMessageNoColaborador">{{mensagem}}</div>
+
+
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+        mode="query">
+    </mat-progress-bar>
+
+    <div @rowHighlight *ngIf="professores.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+            position: relative;
+            margin-top: 20px;
+            box-shadow: 0 0 1em rgb(172, 170, 170);
+            background-color: rgb(227, 240, 227);">
+
+        <div class="card-header" style="background-color: rgb(207, 231, 207);">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Professores</h4>
+            <p class="card-category">{{length}} professores localizados no sistema: </p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive" style="height: 330px;position: relative;">
+
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <thead>
+                        <tr style="">
+                            <th style="width: 2%; 
+                    text-align:left; 
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+                            <th style="width: 35%;font-size:1em;
+                                    vertical-align: middle;
+                                    text-align:left;
+                    border-top: 0px; font-weight: 400;">NOME</th>
+
+                            <th style="width: 20%;font-size:1em;
+                            vertical-align: middle;
+                            text-align:center;
+                            border-top: 0px; font-weight: 400;">EMAIL</th>
+
+                            <!-- <th style="width: 15%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">ACESSO AO SISTEMA
+                            </th> -->
+
+                            <th style="width: 13%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">UNIDADE
+                            </th>
+
+                            <th style="width: 6%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">ATIVO</th>
+
+                            <th style="width: 25%;
+                    border-top: 0px;
+                    text-align:center; 
+                    vertical-align: middle;"></th>
+
+                            <!-- <th style="width: 6%;
+                    border-top: 0px;">
+                            </th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of professores;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{(i + 1)+(pageIndexNumber)}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.email}}</td>
+
+                            <!-- <td style="text-align: center;vertical-align: middle;">{{item.perfil || 'Sem acesso'}}</td> -->
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.unidadeSigla }}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+                                <div *ngIf="item.ativo == true;else inativo">
+
+                                    <mat-icon style="margin: 0px; margin: 0px;
+                                        background-color: rgb(227, 240, 227);;color: green;" style="color: green;">
+                                        done</mat-icon>
+
+
+                                </div>
+                                <ng-template #inativo>
+
+                                    <mat-icon style="background-color: rgb(227, 240, 227);
+                                            margin: 0px; margin: 0px;color: red; ">close</mat-icon>
+
+
+                                </ng-template>
+
+                            </td>
+
+                            <td style="position: relative;text-align:center; 
+                            vertical-align: middle;">
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="showSpinner" (click)="openEditUserModal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="matérias"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="showSpinner" (click)="openProfMateriasModal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>import_contacts</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="calendário do professor" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button [disabled]="showSpinner" (click)="OpenProfCalendarioodal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>calendar_month</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="relatório de horas" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button [disabled]="showSpinner" (click)="OpenProfRelatorio(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>pending_actions</mat-icon>
+                                    </button>
+                                </i>
+
+
+                            </td>
+                            <!-- <td style="position: relative;">
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="showSpinner" (click)="deleteColaborador(item.id)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i>
+
+                            </td> -->
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <mat-paginator *ngIf="length > 5" style="
+                background-color: rgb(227, 240, 227);
+                bottom: 0px;
+                right: 0px;" 
+                [length]="length" 
+                [pageSize]="pageSize" 
+                hidePageSize="true"
+                (page)="pageEvent = Pesquisar($event)">
+            </mat-paginator>
+
+        </div>
+
+        <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+            top: 46.5%; 
+            position: absolute;">
+        </mat-spinner> -->
+    </div>
+</div>

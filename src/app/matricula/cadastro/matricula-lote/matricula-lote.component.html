@@ -1,0 +1,60 @@
+<div style="font-size: 1.2em;">Matrícula em lote
+    <close-modal [disable]="disabledCloseModalIcon"></close-modal>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm" @rowHighlight>
+
+    <hr>
+
+    <div>
+
+        <form novalidate [formGroup]="matForm" style="" (ngSubmit)="Save()">
+
+            <mat-form-field appearance="standard" style="width: 100%;">
+                <mat-label>Planilha Alunos</mat-label>
+                <input formControlName="planilhaNome" matInput>
+            </mat-form-field>
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 100%;">
+                <mat-label>Planilha Financeira</mat-label>
+                <input formControlName="planilhaFin" matInput>
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 100%;">
+                <mat-label>Turma</mat-label>
+                <mat-select formControlName="turmaId" selected required>
+                    <mat-option></mat-option>
+                    <mat-option (click)="GetPlanos(turma.typePacoteId)" *ngFor="let turma of turmas" [value]="turma.id">{{turma.descricao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 100%;">
+                <mat-label>Plano</mat-label>
+                <mat-select formControlName="planoId" selected required>
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let plano of planos" [value]="plano.id">{{plano.descricao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <span style="float: right;margin-top: 15px;">
+
+                <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton"
+                    style="float:right;margin-left: 10px;">
+                    Salvar
+                </button>
+            </span>
+
+        </form>
+
+    </div>
+</div>

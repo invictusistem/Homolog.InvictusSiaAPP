@@ -1,0 +1,101 @@
+<div style="font-size: 1.2em;">Produtos localizados
+
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button (click)="fechar()" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<hr>
+
+<div class="table-responsive" style="position: relative;">
+
+
+    <table style="margin-bottom: 0px;" class="table">
+        <thead>
+            <tr>
+                <th style="text-align: left;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">Nome</th>
+
+                <th style="text-align: left;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">Descrição</th>
+
+                <th style="text-align: center;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">Preço</th>
+                <th style="width: 10%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">Observações</th>
+                <th style="width: 10%;font-size:0.8em;font-weight: 400;
+                 border-top: 0px;"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let prod of produtos">
+                <td style="text-align: left;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">{{prod.nome}}</td>
+
+                <td style="text-align: left;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">{{prod.descricao}}</td>
+
+                <td style="text-align: center;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">{{prod.preco | currency:'BRL':true:'1.2-2'}}</td>
+
+                <td style="width: 10%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">{{prod.observacoes}}</td>
+
+                <td style="width: 10%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">
+                    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="adicionar"
+                        matTooltipPosition="above" matTooltipHideDelay="100">
+                        <button (click)="addProductToList(prod)" style="" mat-icon-button>
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </i>
+                </td>
+            </tr>
+
+        </tbody>
+
+
+
+    </table>
+
+
+</div>
+
+<!-- 
+
+<mat-form-field style="width: 21%; margin-bottom: 10px; 
+    transform: scale(0.85);" appearance="outline">
+    <mat-label>Código do Produto</mat-label>
+    <input [value]="" matInput>
+</mat-form-field>
+
+<mat-form-field style="width: 21%; margin-bottom: 10px; 
+    transform: scale(0.85);" appearance="outline">
+    <mat-label>Nome</mat-label>
+    <input [value]="" matInput>
+</mat-form-field>
+
+<mat-form-field style="width: 21%; margin-bottom: 10px; 
+    transform: scale(0.85);" appearance="outline">
+    <mat-label>Descricao</mat-label>
+    <input [value]="" matInput>
+</mat-form-field>
+
+<mat-form-field style="width: 21%; margin-bottom: 10px; 
+    transform: scale(0.85);" appearance="outline">
+    <mat-label>Preco</mat-label>
+    <input [value]="" matInput>
+</mat-form-field>
+
+<mat-form-field style="width: 21%; margin-bottom: 10px; 
+    transform: scale(0.85);" appearance="outline">
+    <mat-label>Observacoes</mat-label>
+    <input [value]="" matInput>
+</mat-form-field> -->
+
+<!-- <hr> -->

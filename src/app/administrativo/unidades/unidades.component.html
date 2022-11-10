@@ -1,0 +1,155 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+    <div>
+        <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar unidade" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="openUnidadeCreateModal()" mat-icon-button>
+                <mat-icon>home</mat-icon>
+            </button>
+        </i>
+    </div>
+
+    <br>
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+        mode="query">
+    </mat-progress-bar>
+    <!-- <div class="row justify-content-center">
+        <div class="col"> -->
+    <div *ngIf="unidades.length > 0" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+            position: relative;
+            margin-top: 20px;
+            box-shadow: 0 0 1em rgb(172, 170, 170);
+            background-color: rgb(227, 240, 227);">
+
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Unidades</h4>
+            <p class="card-category">
+                {{unidades.length}} unidades cadastradas no sistema:
+            </p>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive" style="height: 430px;position: relative;">
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+                    <thead>
+                        <tr>
+                            <th style="width: 7%;
+                    text-align:center; font-size: 1em;
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+                            <th style="width: 32%;font-size:1em;
+                                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">UNIDADE</th>
+
+                            <th style="width: 23%;font-size:1em;
+                    text-align:center;
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">CIDADE</th>
+
+                            <!-- <th style="width: 20%;font-size:1.5em;
+                    text-align:center;
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Ativo</th> -->
+
+                            <th style="width: 20%;vertical-align: middle;
+                                    text-align:center;  font-size: 1em;font-weight: 400;
+                    border-top: 0px;">SALAS<br>CADASTRADAS</th>
+
+                            <th style="width: 18%;
+                    border-top: 0px;">
+                                <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="criar usuário"
+matTooltipPosition="above" matTooltipHideDelay="100">
+<button (click)="openCreateUserModal()"
+    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+    mat-icon-button>
+    <mat-icon>plus_one</mat-icon>
+</button>
+</i> -->
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let uni of unidades; let i = index;">
+                            <td style="text-align:center;vertical-align: middle;">{{ i+1 }}</td>
+
+                            <td style="text-align:left;vertical-align: middle;">
+                                {{uni.descricao}} - {{uni.sigla}}
+                                <ng-container *ngIf="uni.isUnidadeGlobal" style="margin-left: 10px;">
+
+                                    <i style="margin: 0px; margin: 0px;vertical-align: middle;" #tooltip="matTooltip"
+                                        matTooltip="unidade global" matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <mat-icon>public</mat-icon>
+                                    </i>
+
+                                </ng-container>
+
+                            </td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+                                {{uni.cidade}} - {{uni.bairro}}
+                            </td>
+
+                            <!-- <td style="text-align: center;vertical-align: middle;">
+                                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="ativo"
+                                            matTooltipPosition="above" matTooltipHideDelay="100">
+                                            <button style="margin: 0px; margin: 0px;color: green;" mat-icon-button>
+                                                <mat-icon>done</mat-icon>
+                                            </button>
+                                        </i>
+                                    </td> -->
+
+                            <td style="position: relative;vertical-align: middle;
+                                    text-align:center;">
+                                <!-- <ng-container style="vertical-align: middle;
+                                        text-align:center;" *ngIf="uni.salas.length > 0"> -->
+                                {{ uni.salas.length }}
+                                <!-- </ng-container> -->
+
+
+
+
+
+
+
+                            </td>
+                            <td style="position: relative;">
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="editar/visualizar unidade" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button (click)="openEditUnidade(uni)" style="margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i>
+                                |
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="criar sala"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="addSala(uni)" style="margin: 0px; margin: 0px;" mat-icon-button>
+                                        <mat-icon>meeting_room</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="editar sala"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="editSala(uni)" style="margin: 0px; margin: 0px;" mat-icon-button>
+                                        <mat-icon>build</mat-icon>
+                                    </button>
+                                </i>
+
+
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>

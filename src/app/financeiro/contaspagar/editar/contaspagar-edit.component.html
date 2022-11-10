@@ -1,0 +1,139 @@
+<div style="font-size: 1.2em;">Nova Conta a Pagar
+    <close-modal [disable]="disabledCloseModalIcon"></close-modal>
+</div>
+
+<mat-progress-bar style="" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm" @rowHighlight>
+
+    <hr>
+
+    <form novalidate [formGroup]="contaForm" (ngSubmit)="Save()">
+
+        <mat-form-field appearance="standard" style="width: 145px;">
+            <mat-label>Vencimento</mat-label>
+            <input matInput [disabled]="true" [matDatepicker]="dp3" formControlName="vencimento">
+            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 30%;margin-left: 10px; ">
+            <mat-label>Valor</mat-label>
+            <input formControlName="valor" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                placeholder="R$ 00,00" matInput>
+            <span matPrefix>R$&nbsp;</span>
+        </mat-form-field> 
+
+        <mat-form-field appearance="standard" style="width: 30%;margin-left: 15px; ">
+            <mat-label>Status</mat-label>
+            <input 
+            [value]="contaForm.get('statusBoleto')?.value"
+            [disabled]="true"
+            matInput>
+           
+        </mat-form-field>      
+
+        <br>
+
+        <mat-radio-group formControlName="ehFornecedor" aria-label="Select an option">
+            <mat-radio-button color="primary" [value]="false">Colaborador/Professor</mat-radio-button>
+            <mat-radio-button color="primary" [value]="true" style="margin-left:5px">Fornecedor</mat-radio-button>
+        </mat-radio-group>
+
+        <br>
+
+        <ng-container *ngIf="eHfornecedor; else ehAluno">
+
+            <mat-form-field appearance="standard" style="width: 100%;">
+                <mat-label>Fornecedor</mat-label>
+                <mat-select formControlName="pessoaId" selected required>
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let forn of fornecedores" 
+                    [value]="forn.id">{{forn.razaoSocial}}
+            </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </ng-container>
+
+        <ng-template #ehAluno>
+            <mat-form-field appearance="standard" style="width: 100%;">
+                <mat-label>Colaborador/Professor</mat-label>
+                <mat-select formControlName="pessoaId" selected required>
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let colab of colaboradores" 
+                    [value]="colab.id">{{colab.nome}}
+            </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </ng-template>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 75%; ">
+            <mat-label>Histórico</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="historico" matInput
+                placeholder="Nome">
+        </mat-form-field>
+
+        <br>
+
+        <!-- <mat-form-field appearance="standard" style="width: 75%;">
+            <mat-label>Meio de Pagamento</mat-label>
+            <mat-select formControlName="meioPgmId" selected>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let meio of meioPagamentos" 
+            [value]="meio.id">{{meio.descricao}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 75%;">
+            <mat-label>Centro de Custo</mat-label>
+            <mat-select formControlName="centrocustoId" selected>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let centro of centroCustos" 
+            [value]="centro.id">{{centro.descricao}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <br> -->
+
+        <mat-form-field appearance="standard" style="width: 75%;">
+            <mat-label>Subconta</mat-label>
+            <mat-select formControlName="subContaId" selected>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let sub of subcontas" 
+            [value]="sub.id">{{sub.descricao}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 75%;">
+            <mat-label>Banco</mat-label>
+            <mat-select formControlName="bancoId" selected>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let banco of bancos" 
+            [value]="banco.id">{{banco.nome}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-progress-bar [style.visibility]="matProgressSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <span [style.visibility]="showSaveButton" style="float: right;margin-top: 15px;">
+
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButtonSave">
+                Salvar
+            </button>
+        </span>
+    </form>
+
+</div>

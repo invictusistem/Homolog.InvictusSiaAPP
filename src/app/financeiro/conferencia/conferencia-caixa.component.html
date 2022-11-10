@@ -1,0 +1,345 @@
+<div class="container" style="width: 100%; padding-top: 20px;">
+
+    <div>
+        <i #tooltip="matTooltip" matTooltip="saldo bancário" matTooltipPosition="above" matTooltipHideDelay="100">
+            <button (click)="SaldoBancario()" mat-icon-button>
+                <mat-icon>savings</mat-icon>
+            </button>
+        </i>
+    </div>
+
+    <br>
+
+    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm">
+
+
+        <div class="form-row align-items-center">
+
+            <mat-form-field appearance="standard">
+                <mat-label>Meio de Pagamento</mat-label>
+                <mat-select formControlName="recebimento">
+                    <mat-option [value]="false">Recebimento/Pagamentos</mat-option>
+                    <mat-option [value]="true">Recebimentos com cartão</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard">
+                <mat-label>Selecione o período</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate [disabled]="true" formControlName="start" placeholder="início">
+                    <input matEndDate formControlName="end" [disabled]="true" placeholder="fim">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
+            </mat-form-field>
+
+
+            <span>
+                <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button type="submit" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+            <!-- <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                incluir inativas/canceladas:
+            </span>
+
+            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>          -->
+
+        </div>
+
+    </form>
+
+
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+        mode="query">
+    </mat-progress-bar>
+
+    <container-element [ngSwitch]="recebimento">
+
+        <div *ngSwitchCase="'dinheiro'">
+
+            <div @rowHighlight *ngIf="contas.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+                    position: relative;
+                    margin-top: 20px;
+                    box-shadow: 0 0 1em rgb(172, 170, 170);
+                    background-color: rgb(227, 240, 227);">
+
+                <div class="card-header" style="background-color: rgb(207, 231, 207);">
+                    <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                        Conferência de caixa</h4>
+
+                    <!-- <p class="card-category">{{contas.length}} contas a pagar localizadas no sistema </p>
+                    <p class="card-category">Valor total pago: {{ totalPago | currency:'BRL':'R$ '}}. </p>
+                    <p class="card-category">Valor total em atraso: {{ totalAtraso | currency:'BRL':'R$ '}}. </p>
+                    <p class="card-category">Valor total a pagar: {{ totalPagar | currency:'BRL':'R$ '}}. </p> -->
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive table-conferencia-dinheiro">
+
+                        <table color="primary" class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+
+                                    <th>NOME</th>
+
+                                    <th>HISTÓRICO</th>
+
+                                    <th>FORMA DE PAGAMENTO</th>
+
+                                    <th>VENCIMENTO</th>
+
+                                    <th>DATA PGTO.</th>
+
+                                    <th>HORA</th>
+
+                                    <th>TIPO</th>
+
+                                    <th>VALOR PAGO</th>
+
+                                    <th>USUÁRIO</th>
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of contas;let i = index;" @rowHighlight>
+
+                                    <td style="text-align:center;vertical-align: middle;">
+                                        {{i + 1}}
+                                    </td>
+
+                                    <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.historico}}</td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.descricao}}</td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.vencimento |
+                                        date:'dd/MM/yyyy'}}
+                                    </td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.dataPagamento |
+                                        date:'dd/MM/yyyy'}}</td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.dataPagamento |
+                                        date:'HH:mm'}}</td>
+
+                                    <td style="text-align: center;vertical-align: middle;">
+                                        {{item.tipo}}
+
+
+                                    </td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.valorPago |
+                                        currency:'BRL':'R$ '}}</td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.usuario}}</td>
+
+
+                                    <td style="position: relative;text-align:center; 
+                                    vertical-align: middle;">
+
+                                        <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="estornar"
+                                            matTooltipPosition="above" matTooltipHideDelay="100">
+                                            <button
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                                        </i>
+                                        <!--
+                                        <ng-container *ngIf="item.ativo == true">
+                                        <i *ngIf="item.statusBoleto == 'Em aberto' || item.statusBoleto == 'Vencido'" 
+                                        style="margin: 0px;" #tooltip="matTooltip" matTooltip="pagar"
+                                            matTooltipPosition="above" matTooltipHideDelay="100">
+                                            <button (click)="Pagar(item)"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>payments</mat-icon>
+                                            </button>
+                                        </i>
+                                        </ng-container>
+        
+                                        <ng-container *ngIf="item.ativo == true">
+                                        <i  *ngIf="item.statusBoleto == 'Em aberto' || item.statusBoleto == 'Vencido'"
+                                        style="margin: 0px;" #tooltip="matTooltip" matTooltip="excluir"
+                                            matTooltipPosition="above" matTooltipHideDelay="100">
+                                            <button (click)="DeletarConta(item.id)"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button>
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </i>
+                                    </ng-container> -->
+
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div *ngSwitchCase="'cartao'">
+
+            <div @rowHighlight *ngIf="contas.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+                position: relative;
+                margin-top: 20px;
+                box-shadow: 0 0 1em rgb(172, 170, 170);
+                background-color: rgb(227, 240, 227);">
+
+                <div class="card-header" style="background-color: rgb(207, 231, 207);">
+                    <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                        Conferência de caixa</h4>
+                    <!-- <p class="card-category">{{contas.length}} contas a pagar localizadas no sistema </p>
+                <p class="card-category">Valor total pago: {{ totalPago | currency:'BRL':'R$ '}}. </p>
+                <p class="card-category">Valor total em atraso: {{ totalAtraso | currency:'BRL':'R$ '}}. </p>
+                <p class="card-category">Valor total a pagar: {{ totalPagar | currency:'BRL':'R$ '}}. </p> -->
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive table-conferencia-cartao">
+
+                        <table color="primary" class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+
+                                    <th>NOME</th>
+
+                                    <th>HISTÓRICO</th>
+
+                                    <th>FORMA DE PAGAMENTO</th>
+
+                                    <th>VENCIMENTO</th>
+
+                                    <th>DATA PGTO.<br>DATA COMP.</th>
+
+                                    <th>HORA</th>
+
+                                    <th>TIPO</th>
+
+                                    <th>VALOR PAGO</th>
+
+                                    <!-- <th>DATA COMP.</th> -->
+
+                                    <th>USUÁRIO</th>
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of contas;let i = index;" @rowHighlight>
+
+                                    <td style="text-align:center;vertical-align: middle;">
+                                        {{i + 1}}
+                                    </td>
+
+                                    <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.historico}}</td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.descricao}}</td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.vencimento |
+                                        date:'dd/MM/yyyy'}}
+                                    </td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.dataPagamento |
+                                        date:'dd/MM/yyyy'}}
+                                        <br>
+                                        <span style="color:red">
+                                            {{item.dataCompensacao |
+                                            date:'dd/MM/yyyy'}}
+                                        </span><br>
+                                        <div *ngIf="item.statusBoleto == 'Confirmado'" style="color:red ">compensado
+                                        </div>
+                                        <div *ngIf="item.statusBoleto == 'Pago'" style="color:red ">à compensar</div>
+                                        <div *ngIf="item.statusBoleto == 'Estornado'" style="color:red ">estornado</div>
+
+                                    </td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.dataPagamento |
+                                        date:'HH:mm'}}</td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.tipo}}</td>
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.valorPago |
+                                        currency:'BRL':'R$ '}}</td>
+
+                                    <!-- <td style="text-align: center;vertical-align: middle;">{{item.dataCompensacao |
+                                        date:'dd/MM/yyyy'}}
+                                    </td> -->
+
+
+                                    <td style="text-align: center;vertical-align: middle;">{{item.usuario}}</td>
+
+
+                                    <td style="position: relative;text-align:center; 
+                                vertical-align: middle;">
+
+                                        <div *ngIf="item.statusBoleto == 'Pago'">
+
+                                            <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="confirmar"
+                                                matTooltipPosition="above" matTooltipHideDelay="100">
+                                                <!-- <button
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button> -->
+                                                <mat-icon (click)="ConfirmarModal(item.id)" type="button"
+                                                    style="font-size: 1.6em;">check</mat-icon>
+                                                <!-- </button> -->
+                                            </i>
+                                        </div>
+
+                                        <div *ngIf="item.statusBoleto == 'Confirmado'">
+
+                                            <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="extornar"
+                                                matTooltipPosition="above" matTooltipHideDelay="100">
+                                                <!-- <button
+                                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                                mat-icon-button> -->
+                                                <mat-icon (click)="Extornar(item.id)" type="button"
+                                                    style="font-size: 1.6em;">delete</mat-icon>
+                                                <!-- </button> -->
+                                            </i>
+                                        </div>
+                                        <!-- <i style="margin: 0px;margin-left: 5px;" #tooltip="matTooltip" matTooltip="extornar"
+                                            matTooltipPosition="above" matTooltipHideDelay="100">
+                                          
+                                                <mat-icon type="button" style="font-size: 1.6em;">edit</mat-icon>
+                                           
+                                        </i>    -->
+
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div *ngSwitchDefault></div>
+
+    </container-element>
+
+
+</div>

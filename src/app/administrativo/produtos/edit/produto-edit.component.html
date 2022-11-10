@@ -1,0 +1,105 @@
+<div style="font-size: 1.2em;">Editar Produto
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm" @rowHighlight>
+    <hr>
+
+   
+
+    <form novalidate [formGroup]="produtoForm" (ngSubmit)="onSubmit()">
+
+
+        <mat-form-field appearance="standard" style="width: 45%; ">
+            <mat-label>Nome</mat-label>
+            <input color="primary" formControlName="nome" required name="templateName" matInput
+                placeholder="Nome">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 20%;margin-left: 5%; ">
+            <mat-label>Código do produto</mat-label>
+            <input disabled required [value]="produtoForm.get('codigoProduto')?.value" matInput>
+        </mat-form-field>
+
+        <mat-slide-toggle style="width: 10%; margin-left: 20%" class="autoPagination-slide" #tooltip="matTooltip"
+        formControlName="ativo" required matTooltip="ativo/inativo" 
+            [required]="false"
+            matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 45%; ">
+            <mat-label>Descrição</mat-label>
+            <input required formControlName="descricao" name="templateName" matInput placeholder="Nome">
+        </mat-form-field>
+
+        
+
+
+        <!-- <mat-form-field appearance="standard" style="width: 100px;margin-left: 10px;">
+            <mat-label>Unidade</mat-label>
+            <mat-select formControlName="unidadeId" selected required>
+                <mat-option></mat-option>
+                <mat-option [value]="uni.id" *ngFor="let uni of unidades">{{uni.sigla}}</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+
+        <br>
+
+
+        <mat-form-field appearance="standard" style="width: 20%; ">
+            <mat-label>Preço venda</mat-label>
+            <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }" formControlName="preco"
+                type="text" required name="preco" matInput placeholder="Nome">
+            <span matPrefix>R$&nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 20%;margin-left: 5% ">
+            <mat-label>Preço de custo</mat-label>
+            <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }" formControlName="precoCusto"
+                type="text" required name="precoCusto" matInput placeholder="Nome">
+            <span matPrefix>R$&nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 20%;margin-left: 5%">
+            <mat-label>Quantidade</mat-label>
+            <input formControlName="quantidade" type="number"
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" required
+                min="0" name="templateName" matInput placeholder="Nome">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 20%;margin-left: 5%">
+            <mat-label>Nível mínimo</mat-label>
+            <input formControlName="nivelMinimo" type="number"
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" required
+                min="0" name="templateName" matInput placeholder="Nome">
+        </mat-form-field>
+
+        <mat-form-field style="width: 100%" appearance="outline">
+            <mat-label>Observações</mat-label>
+            <textarea formControlName="observacoes" maxlength="200" name="observacoes" matInput></textarea>
+        </mat-form-field>
+
+        <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
+       
+        <span style="float: right;margin-top: 5px;">
+            <button type="submit" color="primary" mat-raised-button disabled="false"
+                style="float:right;margin-bottom: 0px;margin-left: 10px;" [disabled]="disabledButton">
+                Salvar
+            </button>
+        </span>
+
+    </form>
+
+</div>

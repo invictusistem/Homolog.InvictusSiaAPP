@@ -1,0 +1,184 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+  <!-- <p>comercial-filtros works!</p>
+  icone ranking consultores<br>
+  icone lista consultores (todos cadastrados como tal no sistema)<br>
+  trazer todos alunos matriculas da unidade!<br>
+  trazer todos conslutores que já cadastraram leads!<br> -->
+  <div>
+    <!-- <i #tooltip="matTooltip" matTooltip="criar pacote" matTooltipPosition="above"
+          matTooltipHideDelay="100">
+          <button (click)="createModulo()" mat-icon-button>
+              <mat-icon>assignment</mat-icon>
+          </button>
+      </i> -->
+
+    <!-- <i *ngIf="showPhroto" style="margin-left: 15px;" #tooltip="matTooltip" matTooltip="criar pacote" matTooltipPosition="above"
+      matTooltipHideDelay="100">
+      <button (click)="createModuloNovo()" disabled mat-icon-button>
+          <mat-icon>assignment</mat-icon>
+      </button>
+  </i> -->
+
+  </div>
+
+  <br>
+
+  <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm"
+    style="margin-top: 5px;display: inline-block">
+
+    <span style="font-size: 0.9em;font-style: italic;">
+      Selecione o tipo para pesquisar pelo pacote:
+    </span>
+
+    <div class="form-row align-items-center divSiteForm">
+
+      <mat-form-field appearance="standard" style="width: 300px;">
+        <mat-label>Consultores</mat-label>
+        <mat-select [disabled]="consultores.length == 0" formControlName="consultorId">
+          <mat-option></mat-option>
+          <mat-option *ngFor="let consult of consultores" [value]="consult.id">{{consult.nome}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="standard" style="margin-left: 10px; width: 300px;">
+        <mat-label>Alunos</mat-label>
+        <mat-select [disabled]="alunos.length == 0" formControlName="alunoId">
+          <mat-option></mat-option>
+          <mat-option *ngFor="let aluno of alunos" [value]="aluno.matriculaId">{{aluno.nome}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- <mat-form-field *ngIf="showTeste" appearance="standard" style="width: 80px;margin-left: 10px;">
+              <mat-label>Unidade</mat-label>
+              <mat-select formControlName="unidadeId" placeholder="type pacote">
+                  <mat-option></mat-option>
+                  <mat-option *ngFor="let uni of unidadesAutorizadas" [value]="uni.unidadeId">{{uni.unidade}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field> -->
+
+      <span>
+        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+          matTooltipHideDelay="100">
+          <button style="" mat-icon-button>
+            <mat-icon>search</mat-icon>
+          </button>
+        </i>
+      </span>
+
+    </div>
+
+  </form>
+
+  <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+  </mat-progress-bar>
+
+  <div @rowHighlight *ngIf="leads.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+    position: relative;
+    margin-top: 20px;
+    box-shadow: 0 0 1em rgb(172, 170, 170);
+    background-color: rgb(227, 240, 227);">
+
+    <div class="card-header" style="background-color: rgb(207, 231, 207);">
+      <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+        Leads</h4>
+      <p class="card-category">{{length}} Leads(s) localizada(s) no sistema: </p>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive table-colaborador">
+        <!-- nome
+        email
+        dataInclusaoSistema
+        efetivada
+        unidade
+        NumeroMatricula
+        aluno
+        turma
+        diaMatricula -->
+
+        <table color="primary" class="table">
+          <thead>
+            <tr>
+              <th></th>
+
+              <th>CONSULTOR</th>
+
+              <th>E-MAIL</th>
+
+              <th>INCLUSÃO</th>
+
+              <th>EFETIVADA</th>
+
+              <th>UNIDADE</th>
+
+              <th>MATRICULA</th>
+
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of leads;let i = index;" @rowHighlight>
+
+              <td style="text-align:center;vertical-align: middle;">
+                <!-- {{(i + 1)+(pageIndexNumber)}} -->
+                {{i + 1}}
+              </td>
+
+              <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+              <td style="text-align: center;vertical-align: middle;">{{item.email}}</td>
+
+              <td style="text-align: center;vertical-align: middle;">{{item.dataInclusaoSistema | date:'dd/MM/yyyy'}}</td>
+
+              <td style="text-align: center;vertical-align: middle;">
+
+
+                <div *ngIf="item.efetivada == true;else inativo">
+                  <mat-icon style="font-size: 1.3em;background-color: rgb(227, 240, 227);color: green;">
+                    done
+                  </mat-icon>
+                </div>
+                <ng-template #inativo>
+                  <mat-icon style="background-color: rgb(227, 240, 227);font-size: 1.3em;color: red; ">
+                    close
+                  </mat-icon>
+                </ng-template>
+              </td>
+
+              <td style="position: relative;text-align:center; vertical-align: middle;">
+                {{item.aluno }}
+              </td>
+
+              <td style="position: relative;text-align:center; vertical-align: middle;">
+                {{item.numeroMatricula }}<br>
+                {{item.diaMatricula | date:'dd/MM/yyyy' || ''}}
+              </td>
+
+              <td style="position: relative;text-align:center; vertical-align: middle;">
+              </td>
+
+
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+      <!-- <mat-paginator *ngIf="length > 5" style="
+        background-color: rgb(227, 240, 227);
+        bottom: 0px;
+        right: 0px;"
+
+        [length]="length"
+        [pageSize]="pageSize"
+        hidePageSize="true"
+        (page)="pageEvent = Pesquisar($event)">
+    </mat-paginator> -->
+
+    </div>
+
+  </div>
+</div>

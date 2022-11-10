@@ -1,0 +1,32 @@
+<div role="group" class="example-time-input-container"
+     [formGroup]="parts"
+     style="padding: 0px;"
+     [attr.aria-labelledby]="_formField?.getLabelId()">
+  <input style=""
+         class="example-time-input-element"
+         formControlName="hora" size="2"
+         maxLength="2"
+         
+         aria-label="hora code"
+         (input)="_handleInput(parts.get('hora')?.value , minuto)"
+         #hora>
+  <span class="example-time-input-spacer">:</span>
+  <input style=" "
+         class="example-time-input-element"
+         formControlName="minuto"
+         maxLength="2"
+         size="2"
+         aria-label="minuto code"
+         (input)="_handleInput(parts.get('minuto')?.value)"
+         (keyup.backspace)="autoFocusPrev(parts.get('minuto')?.value, hora)"
+         #minuto>
+  <!-- <span class="example-tel-input-spacer">&ndash;</span>
+  <input class="example-tel-input-element"
+         formControlName="subscriber"
+         maxLength="4"
+         size="4"
+         aria-label="Subscriber number"
+         (input)="_handleInput(parts.controls.subscriber)"
+         (keyup.backspace)="autoFocusPrev(parts.controls.subscriber, exchange)"
+         #subscriber> -->
+</div>

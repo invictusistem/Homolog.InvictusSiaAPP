@@ -1,0 +1,201 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+    <div>
+        <i #tooltip="matTooltip" matTooltip="nova conta" matTooltipPosition="above" matTooltipHideDelay="100">
+            <button (click)="OpenNovaContaReceberModal()" mat-icon-button>
+                <mat-icon>account_balance</mat-icon>
+            </button>
+        </i>
+    </div>
+
+    <br>
+
+    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm">
+
+        <!-- <span>Digite ao menos um dos
+            campos para
+            pesquisar pelo colaborador:
+        </span> -->
+
+        <div class="form-row align-items-center">
+
+            <mat-form-field appearance="standard" style="width: 180px;">
+                <mat-label>Meio de Pagamento</mat-label>
+                <mat-select [disabled]="disabledForm" formControlName="meioPagamentoId">
+                    <mat-option [value]="null">Todos</mat-option>
+                    <mat-option *ngFor="let meio of meiosPagamento" [value]="meio.id">{{meio.descricao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 210px;margin-left: 10px;">
+                <mat-label>Selecione o período</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate [disabled]="true" formControlName="start" placeholder="início">
+                    <input matEndDate formControlName="end" [disabled]="true" placeholder="fim">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker [disabled]="disabledForm"></mat-date-range-picker>
+            </mat-form-field>
+
+
+            <span>
+                <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button type="submit" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                incluir inativas/canceladas:
+            </span>
+
+            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
+
+
+            <!-- <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                incluir inativos:
+            </span>
+
+            <mat-checkbox color="primary"></mat-checkbox>
+
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                todas unidades:
+            </span>
+            <mat-checkbox color="primary"></mat-checkbox> -->
+
+        </div>
+
+    </form>
+
+
+    <div class="card-header card-msg-response" *ngIf="showMessageNotFound">{{mensagemNotFound}}</div>
+
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+        mode="query">
+    </mat-progress-bar>
+
+    <div @rowHighlight *ngIf="contas.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+            position: relative;
+            margin-top: 20px;
+            box-shadow: 0 0 1em rgb(172, 170, 170);
+            background-color: rgb(227, 240, 227);">
+
+        <div class="card-header" style="background-color: rgb(207, 231, 207);">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Contas a Receber</h4>
+            <p class="card-category">{{contas.length}} contas a receber localizadas no sistema. </p>
+            <p class="card-category">Valor total em atraso: {{ totalAtraso | currency:'BRL':'R$ '}}. </p>
+            <p class="card-category">Valor total a receber: {{ totalreceber | currency:'BRL':'R$ '}}. </p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive table-contas-receber">
+
+                <table color="primary" class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>ALUNO/CLIENTE</th>
+
+                            <th>VENCIMENTO</th>
+
+                            <th>HISTÓRICO</th>
+
+                            <th>VALOR</th>
+
+                            <th>STATUS</th>
+                            <!--PAGO OU NAO-->
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let conta of contas;let i = index;" @rowHighlight>
+
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{conta.nome}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{conta.vencimento |
+                                date:'dd/MM/yyyy'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{conta.historico}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{conta.valor | currency:'BRL':'R$ '}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{conta.statusBoleto}}</td>
+
+                            <td style="position: relative;text-align:center; vertical-align: middle;">
+
+                                <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="OpenEditContaReceberModal(conta)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                </i>
+
+                                <ng-container *ngIf="conta.ativo == true">
+                                    <i *ngIf="conta.statusBoleto == 'Em aberto' || conta.statusBoleto == 'Vencido'"
+                                        style="margin: 5px;" #tooltip="matTooltip" matTooltip="receber"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button (click)="Receber(conta)"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>payments</mat-icon>
+                                        </button>
+                                    </i>
+                                </ng-container>
+
+                                <ng-container *ngIf="conta.ativo == true">
+                                    <i *ngIf="conta.statusBoleto == 'Em aberto' || conta.statusBoleto == 'Vencido'"
+                                        style="margin: 5px;" #tooltip="matTooltip" matTooltip="excluir"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button (click)="DeletarConta(conta.id)"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </i>
+                                </ng-container>
+                                <!-- 
+                                <i *ngIf="podeDeletar" style="margin: 10px; " #tooltip="matTooltip"
+                                    matTooltip="deletar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="disabledOpenEditButton" 
+                                    (click)="Deletar(item.id)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i> -->
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- <mat-paginator *ngIf="length > 5" style="
+                background-color: rgb(227, 240, 227);
+                bottom: 0px;
+                right: 0px;" 
+                
+                [length]="length"
+                [pageSize]="pageSize" 
+                hidePageSize="true"
+                (page)="pageEvent = Pesquisar($event)">
+            </mat-paginator> -->
+
+        </div>
+
+    </div>
+
+</div>

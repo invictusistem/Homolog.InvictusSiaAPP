@@ -1,0 +1,67 @@
+<div style="font-size: 1.2em;">Editar Contrato
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<mat-progress-bar @rowHighlight *ngIf="showSpinnerSearch" style="margin:0px" mode="query"></mat-progress-bar>
+
+<ng-container *ngIf="showForm">
+    <hr>
+    <form @rowHighlight novalidate #form="ngForm" (ngSubmit)="onSubmit(form)">
+
+        <mat-form-field appearance="standard" style="width: 100px; ">
+            <mat-label>Código</mat-label>
+            <input selected [value]="contrato.codigoContrato" disabled required matInput placeholder="Nome">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 250px; ">
+            <mat-label>Título</mat-label>
+            <input selected [(ngModel)]="contrato.titulo" required name="titulo" matInput placeholder="Nome">
+        </mat-form-field>
+
+
+        <mat-slide-toggle style="width: 70px; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
+            [(ngModel)]="contrato.ativo" name="ativo" required matTooltip="ativo/inativo" [required]="false"
+            matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle>
+        <br>
+
+        <div>
+
+            <angular-editor color="primary" [placeholder]="'Enter text here...'" 
+            [(ngModel)]="contrato.conteudo" 
+            [config]="config"
+                required name="conteudo"></angular-editor>
+
+            <br>
+
+             <!-- <div class="html">
+            {{ contrato.conteudo }}
+          </div> -->
+          <br>
+
+          <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <span style="float: right;margin-top: 15px;">
+            <button type="submit" color="primary" mat-raised-button 
+            [disabled]="disabledButton" 
+                style="">
+                Salvar
+            </button>
+        </span>
+
+            <br>
+
+        </div>
+
+
+
+    </form>
+</ng-container>

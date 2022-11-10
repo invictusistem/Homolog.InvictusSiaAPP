@@ -1,0 +1,414 @@
+<div style="font-size: 1.2em;">Informações
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<mat-progress-bar [style.visibility]="initialSpinner" @rowHighlight mode="query"></mat-progress-bar>
+
+
+<ng-container *ngIf="showcontent">
+
+    <hr>
+
+
+    <mat-form-field appearance="standard" style="width: 35%; ">
+        <mat-label>Aluno</mat-label>
+        <input [value]="aluno.nome" selected disabled required name="nome" matInput placeholder="Nome">
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" style="width: 12%; margin-left: 5%; ">
+        <mat-label>Nº matrícula</mat-label>
+        <input [value]="aluno.numeroMatricula" selected disabled required name="nome" matInput placeholder="Nome">
+    </mat-form-field>
+    <br>
+    <!-- <div style="color:red; margin-bottom: 10px; font-size: 0.8em; font-style: italic;">* O aluno não se encontra matriculado
+    em nenhuma
+    turma.</div> -->
+
+
+
+    <mat-tab-group mat-align-tabs="start">
+
+        <!--                  CADASTRO            -->
+
+
+
+
+        <mat-tab [label]="tabs[0]">
+
+
+            <div class="table-responsive" *ngIf="debitos.length > 0">
+                <table color="primary" class="table">
+                    <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+                    <thead style="z-index: 9;
+                top: 0;
+                position: sticky;
+                background-color: aliceblue;">
+                        <tr>
+                            <th ></th>
+
+
+                            <!-- <th style="width: 8%;font-size:0.8em;
+                    vertical-align: middle; 
+                    text-align:left;
+                     border-top: 0px; font-weight: 400;">Compet.</th> -->
+
+                            <th >Curso/Turma</th>
+
+                            <th >Vencimento</th>
+
+                            <th >Val. Título</th>
+
+                            <th >Data Pagto.</th>
+
+                            <th >Val. Pago</th>
+                            <th >Status</th>
+
+                            <th >
+                                <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="adicionar parcela"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button disabled mat-icon-button>
+                                        <mat-icon>add</mat-icon>
+                                    </button>
+                                </i>
+
+
+                            </th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let debs of debitos;let i = index;">
+                            <td style="font-size:0.8em;font-weight: 400;text-align:center;vertical-align: middle;">
+                                {{ i+1 }}
+                            </td>
+
+                            <td style="font-size:0.8em;font-weight: 400;text-align:left;vertical-align: middle;">
+                                {{turma.descricao}}<br>
+                                {{turma.identificador}}
+                            </td>
+
+                            <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
+                                <span [style.color]="debs.statusBoleto == 'Vencido' ? 'red':'black'">{{debs.vencimento |
+                                    date:'dd/MM/y' }}</span> <br>
+                                <span *ngIf="debs.statusBoleto == 'Vencido'"
+                                    style="font-size: 0.7em;color: red;">Vencido</span>
+                            </td>
+
+                            <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
+                                {{debs.valor | currency:'BRL':'R$ ' }}
+                            </td>
+
+                            <td style="font-size:0.8em;font-weight: 400;;text-align: center;vertical-align: middle;">
+                                <ng-container *ngIf="debs.statusBoleto == 'Pago';else semData">
+                                    {{debs.dataPagamento | date:'dd/MM/y' }}
+                                </ng-container>
+                                <ng-template #semData>
+                                    -
+                                </ng-template>
+                            </td>
+
+                            <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
+                                <ng-container *ngIf="debs.valorPago != 0;else semValorPago">
+                                    {{ debs.valorPago | currency:'BRL':'R$ ' }}
+                                </ng-container>
+                                <ng-template #semValorPago>
+                                    -
+                                </ng-template>
+                            </td>
+
+                            <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
+                               {{ debs.statusBoleto }}
+                            </td>
+
+                            <td style="font-size:0.8em;font-weight: 400;text-align: center;vertical-align: middle;">
+
+                                <ng-container *ngIf="debs.statusBoleto == 'Pago'">
+
+                                    <i style="" #tooltip="matTooltip" matTooltip="ver" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="openEdit(debs)" style="" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">search</mat-icon>
+                                        </button>
+                                    </i>                                  
+
+                                </ng-container>
+
+                                <ng-container *ngIf="debs.statusBoleto == 'Cancelado'">
+
+                                    <i style="" #tooltip="matTooltip" matTooltip="ver" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="openEdit(debs)" style="" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">search</mat-icon>
+                                        </button>
+                                    </i>                                  
+
+                                </ng-container>
+
+                                <ng-container *ngIf="debs.statusBoleto == 'Vencido'">
+
+                                    <i style="" #tooltip="matTooltip" matTooltip="ver" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="openEdit(debs)" style="" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">search</mat-icon>
+                                        </button>
+                                    </i>
+
+                                    <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="receber"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button (click)="receber(debs)" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">paid</mat-icon>
+                                        </button>
+                                    </i>
+
+                                </ng-container>
+
+                                <ng-container *ngIf="debs.statusBoleto == 'Em aberto'">
+
+                                    <i style="" #tooltip="matTooltip" matTooltip="ver" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="openEdit(debs)" style="" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">search</mat-icon>
+                                        </button>
+                                    </i>
+
+                                    <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="enviar por email"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button [disabled]="true" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">send</mat-icon>
+                                        </button>
+                                    </i>
+
+                                    <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="imprimir boleto"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button (click)="getBoleto(debs)" style="padding:0%" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">description</mat-icon>
+                                        </button>
+                                    </i>
+
+                                    <i style="margin-right: 5px;" #tooltip="matTooltip" matTooltip="receber"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button (click)="receber(debs)" mat-icon-button>
+                                            <mat-icon style="font-size: 1.2em;">paid</mat-icon>
+                                        </button>
+                                    </i>
+
+                                </ng-container>
+
+
+                            </td>
+
+                            <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;" >
+                       
+                        
+                        </td> -->
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- <br>
+
+        <div>
+            <ng-container *ngIf="hideCursoSearchAndMessage">
+                <div *ngIf="showSelectCursoSearch; else message">
+                    Selecione o curso disponível nesta unidade:
+                    <mat-form-field appearance="standard" style="width: 25%;margin-left: 2%;">
+                        <mat-label>Curso</mat-label>
+                        <mat-select selected name="cargo" required>
+                            <mat-option></mat-option>
+                            <mat-option (click)="consultarCursos(item.descricao)" *ngFor="let item of cursosDisponiveis"
+                                [value]="item.descricao">
+                                {{item.descricao}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <ng-template #message>
+                    Não há turmas com matrículas abertas nesta unidade!
+                </ng-template>
+            </ng-container>
+
+
+            <div *ngIf="showTableCursosAndamento" class="table-responsive" style="height: 430px;position: relative;">
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 2%;height: 20px;;  
+                    text-align:left; 
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+                            <th style="width: 32%;font-size:1em;
+                                    vertical-align: middle;
+                                    text-align:left;
+                    border-top: 0px; font-weight: 400;">Descrição</th>
+
+                            <th style="width: 19%;font-size:1em;
+                            vertical-align: middle;
+                            text-align:center;
+                            border-top: 0px; font-weight: 400;">Turno</th>
+
+                            <th style="width: 15%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Prev. início</th>
+
+                            <th style="width: 15%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Prev. término</th>
+
+                            <th style="width: 6%;
+                    border-top: 0px;"></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of turmasParaMatricular;let i = index;">
+                            <td style="text-align:center;vertical-align: middle;"></td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.descricao}}<br>Turma
+                                {{item.identificador}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;"></td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+                                {{ item.previsaoAtual | date: 'dd/MM/yyyy' }}
+
+                                <br>
+
+                                <span *ngIf="item.iniciada" style="color:red; font-size: 0.8em;">
+                                    * turma
+                                    iniciada!
+                                </span>
+
+                            </td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{ item.previsaoTerminoAtual |
+                                date: 'dd/MM/yyyy' }}
+                            </td>
+
+                            <td style="position: relative;text-align: center;vertical-align: middle;">
+                                <i style="" #tooltip="matTooltip" matTooltip="ativo" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button (click)="selecionarTurma(item)" style="" mat-icon-button>
+                                        <mat-icon style="">note_add</mat-icon>
+                                    </button>
+                                </i>
+                            </td>
+                        </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <form *ngIf="showFormFinal" novalidate [formGroup]="matriculaTurmaForm"
+            (ngSubmit)="submitMatricula(matriculaTurmaForm)">
+            <mat-form-field class="example-full-width" appearance="outline" style="width: 17%;margin-left: 2%;">
+                <mat-label>Código do contrato:</mat-label>
+                <input disabled name="templateName" matInput value="CGI-34534634">
+            </mat-form-field>
+
+            <div style="float: right; width: 50px;">
+                <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="voltar"
+                    matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button (click)="voltar()" style="" mat-icon-button>
+                        <mat-icon>undo</mat-icon>
+                    </button>
+                </i>
+
+            </div>
+
+
+            <br>
+            <mat-form-field class="example-full-width" appearance="outline" style="width: 29%; ;margin-left: 2%;">
+                <mat-label>Curso</mat-label>
+                <input disabled name="templateName" matInput [(value)]="turmaSelecionada.descricao">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 13%; margin-left: 2%;">
+                <mat-label>Turma</mat-label>
+                <input disabled name="templateName" matInput [(value)]="turmaSelecionada.identificador">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 15%; margin-left: 2%;">
+                <mat-label>Investimento</mat-label>
+                <input disabled name="templateName" matInput value="R$ 4.190,00">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 10%; margin-left: 1%;">
+                <mat-label>código </mat-label>
+                <input disabled selected name="templateName" matInput placeholder="aplicar desconto">
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="outline" style="width: 13%; margin-left: 2%;">
+                <mat-label>Turno</mat-label>
+                <input disabled name="templateName" matInput [(value)]="turmaSelecionada.turno">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 18%; margin-left: 2%;">
+                <mat-label>Horário</mat-label>
+                <input disabled name="templateName" matInput value="10:00 às 16:00">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 15%; margin-left: 2%;">
+                <mat-label>Previsão início </mat-label>
+                <input selected name="templateName" matInput disabled [(value)]="previAtual" placeholder="aplicar desconto">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 15%; margin-left: 1%;">
+                <mat-label>Previsão término </mat-label>
+                <input selected name="templateName" matInput disabled [(value)]="previTerminoAtual" placeholder="aplicar desconto">
+            </mat-form-field>
+
+
+
+
+            <mat-form-field appearance="fill" style="width: 38%;margin-left: 2%;margin-top: 20px;">
+                <mat-label>Como ficou sabendo dos nossos cursos?</mat-label>
+                <mat-select formControlName="cienciaCurso" selected name="cargo" required>
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let item of cienciaCurso" [value]="item.type">
+                        {{item.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <br>
+
+            <br>
+
+            <br>
+
+            <span style="margin-left: 2%;">Escolha a forma de pagamento:</span>
+            <mat-tab-group style="">
+                <mat-tab label="Cartão de Crédito"> </mat-tab>
+                <mat-tab label="Boleto"> </mat-tab>
+                <mat-tab label="Carnê"></mat-tab>
+            </mat-tab-group>
+
+
+            <br>
+            <button type="submit" mat-raised-button disabled="false"
+                style="bottom: 0; float:right;margin-bottom: 10px;margin-left: 10px;">
+                Confirmar matrícula
+            </button>
+
+        </form> -->
+
+        </mat-tab>
+
+
+
+    </mat-tab-group>
+
+</ng-container>

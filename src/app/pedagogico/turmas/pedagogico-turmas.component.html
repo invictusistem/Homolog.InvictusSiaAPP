@@ -1,0 +1,221 @@
+<div class="container" style="width: 95%;">
+
+
+
+    <!-- <span>
+        <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar turma" matTooltipPosition="above"
+            matTooltipHideDelay="100" >
+
+            <mat-icon type="button" style="font-size: 2em;">post_add</mat-icon>
+
+        </i>
+    </span> -->
+    <br>
+
+    <div @rowHighlight *ngIf="showMessage" class="card-header " style="background-color: rgb(227, 240, 227);
+    margin-top: 50px;
+    margin-left: 10px;
+    width: 350px;
+    font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on" >
+        {{mensagem}}
+    </div>
+
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch"  @rowHighlight style="margin:0px" mode="query">
+    </mat-progress-bar>
+
+
+    <div *ngIf="showTable" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+    margin-top: 10px;
+    box-shadow: 0 0 1em rgb(172, 170, 170);
+    background-color: rgb(227, 240, 227);">
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.2em; font-weight: 400;">
+                Turmas </h4>
+            <p class="card-category">Unidade {{ tokenInfo.Unidade}}</p>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive" style="height: auto;position: relative;">
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+                    <thead>
+                        <tr>
+                            <th style="width: 2%;
+                            text-align:left;
+                            vertical-align: middle;
+                            border-top: 0px;"></th>
+
+
+                            <th style="width: 68%;font-size:1em;
+                            vertical-align: middle;
+                            text-align:left;
+                             border-top: 0px; font-weight: 400;">TURMA/DESCRIÇÃO</th>
+
+                            <!-- <th style="width: 12%;font-size:1em;
+                            vertical-align: middle;
+                            text-align:center;
+                            border-top: 0px; font-weight: 400;">Início</th>
+
+                            <th style="width: 8%;font-size:1em;
+                            text-align:center;
+                            vertical-align: middle;
+                            border-top: 0px; font-weight: 400;">Vagas</th>
+
+                            <th style="width: 12%;font-size:1em;
+                            text-align:center;
+                            vertical-align: middle;
+                            border-top: 0px; font-weight: 400;">Matriculados</th>
+
+                            <th style="width: 13%;font-size:1em;
+                            text-align:center;
+                            vertical-align: middle;
+                            border-top: 0px; font-weight: 400;">Status</th>
+                            </th> -->
+
+                            <th style="width: 30%;font-size:1em;
+                            text-align:center;
+                            vertical-align: middle;
+                            border-top: 0px; font-weight: 400;">
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let item of turmas;let i = index;">
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i+1}}</td>
+
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                                {{item.descricao}} ({{item.statusAndamento}})<br>{{item.identificador}}</td>
+                            <!--
+                            <td  @rowHighlight style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                {{item.previsaoAtual | date:"dd/MM/yy"}}<br>
+                                <span @rowHighlight style="font-size: 0.8em;color: red;">
+                                    {{item.previsao}}
+                                </span>
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{item.vagas}}</td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{item.totalAlunos}}
+
+                            </td>
+                            <td @rowHighlight style="font-size:0.9em;text-align: center;vertical-align: middle;">{{item.statusDaTurma}}</td>
+                             -->
+
+                            <td style="text-align: center;vertical-align: middle;">
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="calendário"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openCalendarioModal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>calendar_today</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin-left: 50px;" #tooltip="matTooltip" matTooltip="alunos"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="getAlunosFromTurma(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>groups</mat-icon>
+                                    </button>
+                                </i>
+
+                                <!-- <i style="margin-left: 50px;" #tooltip="matTooltip" matTooltip="lista presenças"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="listaPresenca(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>fact_check</mat-icon>
+                                    </button>
+                                </i> -->
+
+                                <i style="margin-left: 50px;" #tooltip="matTooltip" matTooltip="notas"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openNotas(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>list_alt</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin-left: 50px;" #tooltip="matTooltip" matTooltip="enviar mensagem"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openMensagem(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>outgoing_mail</mat-icon>
+                                    </button>
+                                </i>
+
+
+                                <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="grade notas"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>calendar_today</mat-icon>
+                                    </button>
+                                </i> -->
+
+                                <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="grade notas"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>calendar_today</mat-icon>
+                                    </button>
+                                </i> -->
+
+
+                                <!--
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="adiar a tumra para a próxima previsão" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button [disabled]="PodeAdiar(item)"
+                                        (click)="adiar(item.id)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon style="font-size: 1.5em;" class="material-icons-outlined">watch_later
+                                        </mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="iniciar as aulas"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="item.statusDaTurma != 'Aguardando início' ? true : false"
+                                        (click)="iniciarTurma(item.id)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon style="font-size: 1.5em;font-weight: 200;"
+                                            class="material-icons-outlined">play_arrow</mat-icon>
+                                    </button>
+                                </i>
+
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="detalhes/editar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openEditCursoModal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- <mat-spinner *ngIf="showSpinner" @rowHighlight [diameter]="100" style="
+            left: 43.5%;
+            top: 40%;
+            position: absolute;">
+    </mat-spinner> -->
+
+
+</div>

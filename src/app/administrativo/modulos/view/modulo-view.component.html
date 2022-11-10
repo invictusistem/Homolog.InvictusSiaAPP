@@ -1,0 +1,144 @@
+<div style="font-size: 1.2em;">Visualizar Pacote
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+
+<div @rowHighlight *ngIf="showContent">
+
+    <hr>
+
+    <form novalidate [formGroup]="moduloForm">     
+
+        <mat-form-field appearance="standard" style="width: 350px;">
+            <mat-label>Tipo</mat-label>
+            <input selected [value]="typePacote.nome" disabled matInput placeholder="dica: Curso Técnico de Enfermagem">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 280px; ">
+            <mat-label>Descrição</mat-label>
+            <input selected [value]="moduloForm.get('descricao')?.value" disabled matInput placeholder="dica: Curso Técnico de Enfermagem">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 80px;margin-left: 10px; ">
+            <mat-label>Total horas</mat-label>
+            <input selected disabled [value]="totalHoras" matInput placeholder="curso tal...">
+        </mat-form-field>
+
+    </form>
+
+    <mat-tab-group class="matviewmodulo">
+
+        <mat-tab label="Matérias">
+
+            <ng-container *ngIf="addMateriasForm;else showEscolhaMateriasMsg">
+               
+
+                <form novalidate [formGroup]="moduloForm">
+
+                    <ng-container formArrayName="materias">
+
+                        <ng-container *ngFor="let matForm of materias.controls; let i = index;">
+                            <div >
+
+                                <mat-form-field appearance="standard" style="width: 245px;">
+                                    <mat-label>Nome</mat-label>
+                                    <input selected value="{{i+1}} - {{matForm.value.nome}}" disabled matInput
+                                        placeholder="Descrição">
+                                </mat-form-field>
+
+                                <mat-form-field appearance="standard" style="width: 150px;margin-left: 20px;">
+                                    <mat-label>Descrição</mat-label>
+                                    <input selected [value]="matForm.value.descricao || ' '" disabled matInput
+                                        placeholder="Descrição">
+                                </mat-form-field>
+
+                                <mat-form-field appearance="standard" style="width: 85px;margin-left: 20px;">
+                                    <mat-label>Modalidade</mat-label>
+                                    <input selected [value]="matForm.value.modalidade" disabled matInput
+                                        placeholder="Descrição">
+                                </mat-form-field>
+
+                                <mat-form-field appearance="standard" style="width: 70px;margin-left: 20px;">
+                                    <mat-label>Carga Horária</mat-label>
+                                    <input selected [value]="matForm.value.cargaHoraria" disabled matInput
+                                        placeholder="semestre">
+                                </mat-form-field>
+
+                            </div>
+                        </ng-container>
+
+                    </ng-container>
+
+                </form>
+            </ng-container>
+
+            <ng-template #showEscolhaMateriasMsg>
+                <span style="font-style: italic; margin-top: 10px; font-size: 0.9em;">
+                    * escolha o tipo para poder adicionar as matérias
+                </span>
+                
+            </ng-template>
+            
+
+        </mat-tab>
+
+        <mat-tab label="Documentos">        
+
+
+            <form novalidate [formGroup]="moduloForm">
+
+                <ng-container formArrayName="documentosExigidos">
+
+                    <ng-container *ngFor="let docsForm of modulo.documentosExigidos; let i = index;">
+                        <div >
+
+                            <mat-form-field appearance="standard" style="width: 180px;">
+                                <mat-label>Descrição</mat-label>
+                                <input selected [value]="docsForm.descricao" disabled matInput
+                                    placeholder="Descrição">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="standard" style="width: 260px;margin-left: 20px;">
+                                <mat-label>Comentário</mat-label>
+                                <input selected [value]="docsForm.comentario" disabled matInput placeholder="Descrição">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="standard" style="width: 175px;;margin-left: 20px;">
+                                <mat-label>Titular</mat-label>
+                                <input selected [value]="docsForm.titular" disabled matInput placeholder="Descrição">
+                            </mat-form-field>                         
+
+                            <!-- <br>
+
+                            <mat-form-field appearance="standard" style="width: 90px;">
+                                <mat-label>Validade (dias)</mat-label>
+                                <input selected [value]="docsForm.validadeDias" disabled matInput
+                                    placeholder="semestre">
+                            </mat-form-field>
+
+                            <mat-checkbox color="primary" style="margin-left:10px ;"
+                            [value]="docsForm.obrigatorioParaMatricula" disabled>
+                                Documento obrigatório para matrícula</mat-checkbox> -->
+
+                        </div>
+                    </ng-container>
+
+                </ng-container>
+
+            </form>
+
+        </mat-tab>
+
+    </mat-tab-group>
+
+</div>

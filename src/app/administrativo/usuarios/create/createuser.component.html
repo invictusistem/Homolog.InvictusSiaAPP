@@ -1,0 +1,89 @@
+<div style="font-size: 1.2em;">Conceder acesso ao sistema.
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+<hr>
+
+<form novalidate [formGroup]="usuarioForm" (ngSubmit)="SaveUser()">
+
+    <mat-form-field appearance="standard" style="width: 40%;">
+        <mat-label>Email</mat-label>
+        <input #email required selected name="email" matInput placeholder="Email">
+    </mat-form-field>
+
+
+    <i style="width: 10%;margin-left: 10px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+
+        <button (click)="consultaUsuario(email.value)" style="margin: 0px; margin: 0px;" mat-icon-button>
+            <mat-icon>search</mat-icon>
+        </button>
+
+    </i>
+
+    <div [style.visibility]="showMensagem" style="font-size: 0.8;color: red;">
+        {{mensagem}}
+    </div>
+
+    <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+    </mat-progress-bar>
+
+
+    <ng-container *ngIf="showForm">
+
+        <mat-form-field appearance="standard" style="width: 60%;">
+            <mat-label>Nome</mat-label>
+            <input [disabled]="true" selected [value]="usuario.nome" name="nome" matInput placeholder="Nome">
+        </mat-form-field>
+
+
+
+        <mat-form-field appearance="standard" style="width: 35%;margin-left: 5%;">
+            <mat-label>Cargo</mat-label>
+            <input [disabled]="true" selected [value]="usuario.cargo" name="nome" matInput placeholder="Nome">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 25%;">
+            <mat-label>Perfil</mat-label>
+            <mat-select formControlName="perfil" selected required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let perfil of perfisArray" [value]="perfil">
+                    {{perfil}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-slide-toggle style="margin-left: 5%;" class="autoPagination-slide" #tooltip="matTooltip"
+            formControlName="perfilAtivo" required matTooltip="ativo/inativo" [required]="false"
+            matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle>
+
+
+
+        <!-- <div *ngIf="showMensagem" class="alert alert-danger" role="alert"
+            style="text-align: center; vertical-align: middle; position:relative; height: 45px; float:left;margin-bottom: 20px;">
+            {{mensagem}}
+        </div>
+        <br> -->
+
+        <mat-progress-bar [style.visibility]="sabeSpinner" @rowHighlight style="margin:0px" mode="query">
+        </mat-progress-bar>
+        <div style="float: right;margin-top: 15px;">
+
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="width: 100px; position: relative; float:right;
+                margin-left: 10px;">
+                Salvar
+            </button>
+
+
+        </div>
+
+    </ng-container>
+
+</form>

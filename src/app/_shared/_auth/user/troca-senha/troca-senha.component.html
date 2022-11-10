@@ -1,0 +1,48 @@
+<div style="font-size: 1.2em;">Trocar Senha
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+<hr>
+
+<div style="position: relative;">
+
+    <form  novalidate  [formGroup]="trocaSenhaForm" style=""
+    (ngSubmit)="onSubmit()">
+        <div style="margin: 0px; font-size: 0.8em;color:red" >* a senha deve ter de 8 a 10 caracteres</div>
+        <div style="margin: 0px; font-size: 0.8em;color:red" >* a senha deve ter letras maiúsculas e minúsculas</div>
+
+        <mat-form-field appearance="standard" style="width: 250px;">
+            <mat-label>Senha atual</mat-label>
+            <input  formControlName="senha" maxlength="10" matInput >
+        </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 250px;">
+            <mat-label>Nova senha</mat-label>
+            <input  formControlName="senhaNova" max="10" matInput >
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 250px;">
+            <mat-label>Digite novamente</mat-label>
+            <input formControlName="senhacomparacao" max="10" matInput>
+            <mat-hint *ngIf="showHintSenha">* as senhas não correspondem</mat-hint>
+        </mat-form-field>
+
+        <div style="margin: 0px; font-size: 0.8em;color:red" >{{erroMesg}}</div>
+        <mat-progress-bar [style.visibility]="initProgressBar"
+         @rowHighlight style="margin-top: 5px" mode="query">
+        </mat-progress-bar>
+        <div style="float: right;margin-top: 15px;">
+
+            <button type="submit" [disabled]="desabilitar" mat-raised-button color="primary" 
+            style="width: 100px; position: relative; float:right;margin-bottom: 10px;
+            margin-left: 10px;">
+                Salvar
+            </button>
+        </div>
+    </form>
+
+</div>

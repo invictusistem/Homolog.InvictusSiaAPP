@@ -1,0 +1,105 @@
+<ng-container>
+
+
+    <mat-sidenav-container class="example-container" style="
+    background-color: rgba(250, 245, 245, 0); ">
+        <mat-sidenav style="" #sidenav mode="side" opened class="example-sidenav mat-elevation-z8">
+            <div class="d-flex flex-column text-white " style="position: absolute;
+            width: auto;
+            top: 0px;
+            bottom: 0px;
+            left: 0;
+            background-color: rgb(109, 218, 109);
+            right: 0;">
+                <a href="/aluno-sia" class="d-flex align-items-center  mb-md-0 me-md-auto text-white text-decoration-none">
+
+                    <span style="width: 200px;
+                    text-align: center;margin-top: 15px;font-size: 1em;">ALUNO</span>
+                </a>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+
+                    <li *ngFor="let item of menu" routerLinkActive="active" class="nav-item {{item.class}}"
+                        style="overflow: auto;">
+
+                        <a [routerLink]="[item.path]" class="nav-link text-white">
+                            <mat-icon style="top: -3px;
+                                        position:relative;
+                                        overflow: auto;
+                                        color:rgb(245, 243, 243);
+                                        vertical-align: middle;
+                                        ">
+                                {{item.typeIcon}}
+                            </mat-icon>
+                            {{item.title}}
+                        </a>
+                    </li>
+
+                    <hr>
+
+                    <li *ngFor="let item of menu2" routerLinkActive="active" class="nav-item {{item.class}}"
+                        style="overflow: auto;">
+
+                        <a [routerLink]="[item.path]" class="nav-link text-white">
+                            <mat-icon style="top: -3px;
+                                        position:relative;
+                                        overflow: auto;
+                                        color:rgb(245, 243, 243);
+                                        vertical-align: middle;
+                                        ">
+                                {{item.typeIcon}}
+                            </mat-icon>
+                            {{item.title}}
+                        </a>
+                    </li>
+
+                    <hr>
+
+                    <li *ngFor="let item of menu3" routerLinkActive="active" class="nav-item {{item.class}}"
+                        style="overflow: auto;">
+
+                        <a [routerLink]="[item.path]" class="nav-link text-white">
+                            <mat-icon style="top: -3px;
+                                        position:relative;
+                                        overflow: auto;
+                                        color:rgb(245, 243, 243);
+                                        vertical-align: middle;
+                                        ">
+                                {{item.typeIcon}}
+                            </mat-icon>
+                            {{item.title}}
+                        </a>
+                    </li>
+
+
+                </ul>
+                <hr>
+                <!-- <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                        id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32"
+                            class="rounded-circle me-2">
+                        <strong>conta</strong>
+                    </a>
+                    <ul id="menu" class="dropdown-menu dropdown-menu text-small shadow" aria-labelledby="dropdownUser1"
+                        style="background-color: rgb(73, 168, 73);">
+                        <li><a style="color: white;" class="dropdown-item">New project...</a></li>
+                        <li><a style="color: white;" class="dropdown-item">Settings</a></li>
+                        <li><a style="color: white;" class="dropdown-item">Profile</a></li>
+                        <li>
+                            <hr style="color: white;" class="dropdown-divider">
+                        </li>
+                        <li><a type="button"
+                            (click)="logOut()"
+                            style="color: white;" class="dropdown-item">Sign out</a></li>
+                    </ul>
+                </div> -->
+            </div>
+
+        </mat-sidenav>
+        <router-outlet></router-outlet>
+
+    </mat-sidenav-container>
+
+
+</ng-container>

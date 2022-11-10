@@ -1,0 +1,64 @@
+::ng-deep .mat-form-field {
+    font-size: 0.9em;
+}
+
+::ng-deep .infofinanc-class {
+    height: 650px !important;
+    width: 100px;
+}
+
+.table-responsive {
+    th {
+       // border: 1px solid red;
+        font-size: 1em;
+        font-weight: 400;
+        //vertical-align: middle;
+    }
+
+    thead tr th:nth-child(1) {
+        width: 2%;
+        text-align: left;
+        border-top: 0px;        
+    }
+
+    thead tr th:nth-child(2) {
+        width: 19%;
+        text-align: left;
+        border-top: 0px;        
+    }
+
+    thead tr th:nth-child(3) {
+        width: 10%;
+        text-align: center;
+    }
+
+    thead tr th:nth-child(4) {
+        width: 10%;
+        text-align: center;
+        border-top: 0px;
+    }
+
+    thead tr th:nth-child(5) {
+        width: 10%;
+        border-top: 0px;
+        text-align: center;
+    }
+
+    thead tr th:nth-child(6) {
+        width: 10%;
+        border-top: 0px;
+        text-align: center;
+    }
+
+    thead tr th:nth-child(7) {
+        width: 12%;
+        border-top: 0px;
+        text-align: center;
+    }
+
+    thead tr th:nth-child(8) {
+        width: 27%;
+        border-top: 0px;
+        text-align: center;
+    }
+}

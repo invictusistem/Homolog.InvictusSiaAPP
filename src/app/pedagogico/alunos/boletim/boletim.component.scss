@@ -1,0 +1,45 @@
+// .table-boletim {
+//     margin-top: 5px;
+//     display: inline-block;
+
+//     span:nth-child(1) {
+//       font-size: 0.9em;
+//       font-style: italic;
+//     }
+
+tbody {
+    td {
+        font-weight: 400;
+        font-size: 0.9em;
+    }
+}
+
+::ng-deep .boletimaluno-class {
+    height: 750px !important;
+    width: 1000px;
+}
+
+::ng-deep .mat-form-field {
+    font-size: 0.9em;
+}
+
+//     div {
+//       mat-form-field:nth-child(2) {
+//         margin-left: 10px;
+//       }
+
+//       mat-form-field:nth-child(3) {
+//         margin-left: 10px;
+//       }
+
+//       i {
+//         margin-left: 5px;
+//       }
+//     }
+
+//     span:nth-child(2) {
+//       margin-left: 10px;
+//       font-size: 0.9em;
+//       font-style: italic;
+//     }
+//   }

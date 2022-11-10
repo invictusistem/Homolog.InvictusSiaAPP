@@ -1,0 +1,52 @@
+<div class="container">
+
+    <div class="row" style="margin-bottom: 10px;">
+
+        <div style="font-size: 1.2em;"></div>
+
+        <div style="font-size: 1.1em;">
+            Deseja excluir o débito/crédito?
+            <close-modal [disable]="false"></close-modal>
+        </div>
+
+        <br>
+        <div style="margin-top: 20px">
+            <form novalidate [formGroup]="contaForm">
+
+                <mat-form-field style="width: 100%" appearance="outline">
+                    <mat-label>Motivo</mat-label>
+                    <textarea formControlName="motivo" matInput></textarea>
+                    <mat-hint>* mínimo de 20 caracteres</mat-hint>
+                </mat-form-field>
+
+            </form>
+        </div>
+
+        <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <div [style.visibility]="habilitarSave">
+            <i style="margin-left: 5px;float: left;margin-left: 10px;" #tooltip="matTooltip" matTooltip="confirmar"
+                matTooltipPosition="above" matTooltipHideDelay="100">
+                <button type="button" (click)="Save(true)" 
+                [disabled]="disabledClickSave"
+                [style.color]="disabledClickSave ? 'gray':'green'"
+                mat-icon-button>
+                    <mat-icon>done</mat-icon>
+                </button>
+            </i>
+
+            <i style="margin-left: 5px;float: left;margin-left: 10px;" #tooltip="matTooltip" matTooltip="cancelar"
+                matTooltipPosition="above" matTooltipHideDelay="100">
+                <button type="button" (click)="Save(false)" 
+                [disabled]="disabledClickSave"
+                [style.color]="disabledClickSave ? 'gray':'red'"
+                mat-icon-button>
+                    <mat-icon>close</mat-icon>
+                </button>
+            </i>
+        </div>
+
+    </div>
+
+</div>

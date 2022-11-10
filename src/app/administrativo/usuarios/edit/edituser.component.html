@@ -1,0 +1,60 @@
+<div style="font-size: 1.2em;">Editar usuário
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showContent" @rowHighlight>
+    <hr>
+
+    <!-- <form novalidate #form="ngForm" (ngSubmit)="submitForm(form)" > -->
+        <form novalidate [formGroup]="usuarioForm" (ngSubmit)="submitForm(usuarioForm)">
+    
+
+        <mat-form-field appearance="standard" style="width: 45%; ">
+            <mat-label>Nome</mat-label>
+            <input matInput 
+            disabled [value]="usuarioForm.get('nome')?.value">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 45%;margin-left: 10%;">
+            <mat-label>Email</mat-label>
+            <input disabled [value]="usuarioForm.get('email')?.value" matInput>
+        </mat-form-field>
+
+        <br>
+ 
+        <mat-form-field appearance="standard" style="width: 45%;">
+            <mat-label>Perfil</mat-label>
+            <mat-select matNativeControl formControlName="roleName">
+                <mat-option *ngFor="let item of roles" [value]="item">
+                    {{item}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-slide-toggle *ngIf="usuario != null" style="width: 30%; margin-left: 10%;" class="autoPagination-slide"
+            #tooltip="matTooltip" formControlName="ativo" [required]="false"
+            matTooltip="ativo/inativo" matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle> 
+
+        <br>
+        
+        <mat-progress-bar [style.visibility]="hideSaveProgressBar" @rowHighlight mode="query">
+        </mat-progress-bar>
+        
+        <button color="primary" type="submit" [disabled]="disabledButton" mat-raised-button 
+            style="float:right;margin-top: 5px;">
+            Salvar</button>
+
+    </form>
+
+</div>

@@ -1,0 +1,235 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+    <div>
+        <i #tooltip="matTooltip" matTooltip="nova conta" matTooltipPosition="above" matTooltipHideDelay="100">
+            <button (click)="OpenNovaContaPagarModal()" mat-icon-button>
+                <mat-icon>account_balance</mat-icon>
+            </button>
+        </i>
+    </div>
+
+    <br>
+
+    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm">
+
+        <!-- <span>Digite ao menos um dos
+            campos para
+            pesquisar pelo colaborador:
+        </span> -->
+
+        <div class="form-row align-items-center">
+
+            <mat-form-field appearance="standard" style="width: 180px;">
+                <mat-label>Meio de Pagamento</mat-label>
+                <mat-select [disabled]="disabledForm" formControlName="meioPagamentoId">
+                    <mat-option [value]="null">Todos</mat-option>
+                    <mat-option *ngFor="let meio of meiosPagamento" [value]="meio.id">{{meio.descricao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 210px;margin-left: 10px;">
+                <mat-label>Selecione o período</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate [disabled]="true" formControlName="start" placeholder="início">
+                    <input matEndDate formControlName="end" [disabled]="true" placeholder="fim">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker [disabled]="disabledForm"></mat-date-range-picker>
+            </mat-form-field>
+
+
+            <span>
+                <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button type="submit" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                incluir inativas/canceladas:
+            </span>
+
+            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
+
+            <!-- <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                incluir inativos:
+            </span>
+
+            <mat-checkbox color="primary"></mat-checkbox>
+
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                todas unidades:
+            </span>
+            <mat-checkbox color="primary"></mat-checkbox> -->
+
+        </div>
+
+    </form>
+
+
+    <!-- <div class="card-header card-msg-response" 
+        *ngIf="showMessageNotFound">{{mensagemNotFound}}</div> -->
+
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+        mode="query">
+    </mat-progress-bar>
+
+    <div @rowHighlight *ngIf="contas.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+            position: relative;
+            margin-top: 20px;
+            box-shadow: 0 0 1em rgb(172, 170, 170);
+            background-color: rgb(227, 240, 227);">
+
+        <div class="card-header" style="background-color: rgb(207, 231, 207);">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Contas a Pagar</h4>
+            <p class="card-category">{{contas.length}} contas a pagar localizadas no sistema </p>
+            <p class="card-category">Valor total pago: {{ totalPago | currency:'BRL':'R$ '}}. </p>
+            <p class="card-category">Valor total em atraso: {{ totalAtraso | currency:'BRL':'R$ '}}. </p>
+            <p class="card-category">Valor total a pagar: {{ totalPagar | currency:'BRL':'R$ '}}. </p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive table-contas-pagar">
+
+                <table color="primary" class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>NOME</th>
+
+                            <th>VENCIMENTO</th>
+
+                            <th>HISTÓRICO</th>
+
+                            <th>VALOR</th>
+
+                            <th>BANCO</th>
+
+                            <th>STATUS</th>
+                            <!--PAGO OU NAO-->
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of contas;let i = index;" @rowHighlight>
+
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.vencimento |
+                                date:'dd/MM/yyyy'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.historico || '-'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.valor | currency:'BRL':'R$ '}}
+                            </td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.banco}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+                                {{item.statusBoleto}}
+
+                                <!-- <div *ngIf="item.ativo == true;else inativo">
+
+                                    <mat-icon style="font-size: 1.3em;
+                                        background-color: rgb(227, 240, 227);color: green;" >
+                                        done</mat-icon>
+
+
+                                </div>
+                                <ng-template #inativo>
+
+                                    <mat-icon style="background-color: rgb(227, 240, 227);font-size: 1.3em;
+                                            color: red; ">close</mat-icon>
+
+
+                                </ng-template> -->
+
+                            </td>
+
+                            <td style="position: relative;text-align:center; 
+                            vertical-align: middle;">
+
+                                <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" 
+                                    (click)="EditConta(item)"
+                                        mat-icon-button>
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                </i>
+
+                                <ng-container *ngIf="item.ativo == true">
+                                <i *ngIf="item.statusBoleto == 'Em aberto' || item.statusBoleto == 'Vencido'" 
+                                style="margin: 0px;" #tooltip="matTooltip" matTooltip="pagar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="Pagar(item)"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>payments</mat-icon>
+                                    </button>
+                                </i>
+                                </ng-container>
+
+                                <ng-container *ngIf="item.ativo == true">
+                                <i  *ngIf="item.statusBoleto == 'Em aberto' || item.statusBoleto == 'Vencido'"
+                                style="margin: 0px;" #tooltip="matTooltip" matTooltip="excluir"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="DeletarConta(item.id)"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </i>
+                            </ng-container>
+                                <!-- <i style="margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="disabledOpenEditButton" (click)="openEditUserModal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i *ngIf="podeDeletar" style="margin: 10px; " #tooltip="matTooltip"
+                                    matTooltip="deletar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="disabledOpenEditButton" 
+                                    (click)="Deletar(item.id)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i>  -->
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- <mat-paginator *ngIf="length > 5" style="
+                background-color: rgb(227, 240, 227);
+                bottom: 0px;
+                right: 0px;" 
+                
+                [length]="length"
+                [pageSize]="pageSize" 
+                hidePageSize="true"
+                (page)="pageEvent = Pesquisar($event)">
+            </mat-paginator> -->
+
+        </div>
+
+    </div>
+
+</div>

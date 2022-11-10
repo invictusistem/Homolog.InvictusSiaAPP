@@ -1,0 +1,21 @@
+.navbar-principal{
+    height: 60px;
+    background-color: rgb(73, 168, 73);
+    box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.2), 
+    10px 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    img{
+        margin-left: 70px; 
+        width:70px; 
+        color:white; 
+        border:none; 
+        background: rgba(202, 134, 44, 0);
+    }
+
+}
+
+a{
+    margin-right: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+}

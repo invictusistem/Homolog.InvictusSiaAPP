@@ -1,0 +1,22 @@
+<div style="font-size: 1em;">
+
+    <span>
+        Selecione a unidade que deseja acessar:
+    </span>
+
+    <hr>
+
+
+    <mat-form-field appearance="outline" style="width: 100%; font-size: 0.9em;">
+        <mat-label>Unidade</mat-label>
+        <mat-select [disabled]="disableDropDown" selected required>
+            <mat-option (click)="unidadeSelected(uni.unidadeId)" *ngFor="let uni of unidades" [value]="uni.sigla">
+            {{ uni.sigla }} - {{ uni.value }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+    </mat-progress-bar>
+
+</div>

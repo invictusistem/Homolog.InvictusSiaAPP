@@ -1,0 +1,199 @@
+<div class="container" style="width: 95%;padding-top: 20px;">
+
+    <!-- <div>
+        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pré-cadastro" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button style="" (click)="openMatriculaModal()" mat-icon-button>
+                <mat-icon>person_add_alt</mat-icon>
+            </button>
+        </i>
+    </div> -->
+
+    <br>
+
+    <form [formGroup]="pesquisarForm" (ngSubmit)="submitPesquisa()" class="form-inline siteForm">
+
+        <span>Digite ao menos um dos
+            campos para
+            pesquisar pelo aluno:
+        </span>
+
+        <div class="form-row align-items-center">
+
+            <mat-form-field appearance="standard">
+                <mat-label>Nome</mat-label>
+                <input formControlName="nome" matInput placeholder="digite o nome">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>E-mail</mat-label>
+                <input formControlName="email" matInput placeholder="digite o E-mail">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>CPF</mat-label>
+                <input mask="000.000.000-00" formControlName="cpf" matInput placeholder="digite o CPF">
+            </mat-form-field>
+
+            <span>
+                <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button type="submit" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+            <span>
+                incluir inativos:
+            </span>
+
+            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
+
+        </div>
+
+    </form>
+
+    <div class="card-header card-msg-response" unselectable="on" onselectstart="return false;"
+        *ngIf="showMessageNoAluno">{{mensagem}}</div>
+
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px" mode="query">
+    </mat-progress-bar>
+
+
+
+ <div *ngIf="alunos.length > 0" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+        margin-top: 10px;
+        box-shadow: 0 0 1em rgb(172, 170, 170);
+        background-color: rgb(227, 240, 227);">
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Alunos</h4>
+            <p class="card-category">Matrículas localizadas</p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive table-aluno">
+                <table @rowHighlight color="primary" class="table">
+
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>NOME</th>
+
+                            <th>Nº MAT.</th>
+
+                            <th>CPF</th>
+
+                            <th>UNIDADE</th>
+
+                            <th>ACESSO</th>
+
+                            <th></th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let item of alunos;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">{{i+1}}</td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+                            <td style="text-align:center;vertical-align: middle;">{{item.numeroMatricula || 'não matriculado'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.cpf}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.sigla}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.acessoSistema ? 'sim' : 'não'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+
+                                <ng-container *ngIf="item.numeroMatricula != null;else semMat">
+
+                                   <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                        matTooltip="detalhes" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="Desbloquear(item)"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>settings</mat-icon>
+                                        </button>
+
+                                    </i>
+ <!-- 
+                                    <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="informações"
+                                        matTooltipPosition="above" matTooltipHideDelay="100">
+                                        <button (click)="openInfoModal(item)"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>info</mat-icon>
+                                        </button>
+                                    </i>
+
+                                    <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                        matTooltip="matricular aluno em um curso" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="matricular(item)"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>read_more</mat-icon>
+                                        </button>
+                                    </i>
+
+                                    <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                        matTooltip="boletim escolar" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="openBoletimodal(item)"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>school</mat-icon>
+                                        </button>
+                                    </i> -->
+
+                                </ng-container>
+
+                                <ng-template #semMat>
+                                    <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                        matTooltip="informações cadastrais" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="viewInfoCadastrais(item)"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>search</mat-icon>
+                                        </button>
+
+                                    </i>
+
+                                    <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                        matTooltip="matricular aluno em um curso" matTooltipPosition="above"
+                                        matTooltipHideDelay="100">
+                                        <button (click)="matricular(item)" [disabled]="!item.ativo"
+                                            style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                            mat-icon-button>
+                                            <mat-icon>read_more</mat-icon>
+                                        </button>
+                                    </i> -->
+                                </ng-template>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <!-- <mat-paginator *ngIf="length > 5" style="
+                background-color: rgb(227, 240, 227);
+                bottom: 0px;
+                right: 0px;" [length]="length" [pageSize]="pageSize" hidePageSize="true"
+                (page)="pageEvent = submitPesquisa($event)">
+            </mat-paginator> -->
+        </div>
+    </div> 
+</div>

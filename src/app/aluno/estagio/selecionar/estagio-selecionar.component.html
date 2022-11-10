@@ -1,0 +1,112 @@
+<div style="font-size: 1.2em;">Selecionar estágio
+    <close-modal [disable]="disabledCloseModalIcon"></close-modal>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm" @rowHighlight>
+
+    <form novalidate [formGroup]="estagioForm" style="" (ngSubmit)="Salvar()">
+        <!-- 
+        <mat-form-field appearance="standard" style="width: 25%;margin-left: 5%;">
+            <mat-label>Estágio</mat-label>
+            <mat-select formControlName="cargoId" selected required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">{{cargo.value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+        <mat-form-field appearance="standard" style="width: 35%;">
+            <mat-label>Estágio</mat-label>
+            <mat-select selected required>
+                <mat-option></mat-option>
+                <mat-option (click)="GetEstagios(tipo.id)" *ngFor="let tipo of estagiosTipos" [value]="tipo.id">
+                {{tipo.nome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 55%;margin-left: 5%;">
+            <mat-label>Selecione o local</mat-label>
+            <mat-select [disabled]="disabledSelectLocal" selected required>
+                <mat-option (click)="SelectEstagio(estagio.id)" *ngFor="let estagio of estagios" [value]="estagio.id">
+                    {{ estagio.nome }} - {{ estagio.bairro }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <hr>
+        
+        <div *ngIf="showInfos">
+
+            <mat-form-field appearance="standard" style="width: 40%;">
+                <mat-label>Descrição</mat-label>
+                <input matInput [value]="estagio.nome" disabled>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 170px;margin-left: 2%;">
+                <mat-label>Início</mat-label>
+                <input matInput [value]="estagio.dataInicio | date:'dd/MM/yyyy'" disabled>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 35%;">
+                <mat-label>Logradouro</mat-label>
+                <input matInput [value]="estagio.logradouro" disabled>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="standard" style="width: 10%;margin-left: 5%;">
+                <mat-label>Nº</mat-label>
+                <input [value]="estagio.numero" disabled matInput >
+            </mat-form-field>
+
+
+            <mat-form-field appearance="standard" style="width: 45%; margin-left: 5%;">
+                <mat-label>Complemento</mat-label>
+                <input [value]="estagio.complemento" disabled matInput >
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 30%;">
+                <mat-label>Cidade</mat-label>
+                <input [value]="estagio.cidade" disabled matInput >
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 5%; margin-left: 5%;">
+                <mat-label>UF</mat-label>
+                <input [value]="estagio.uf" disabled matInput >
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 35%; margin-left: 5%;">
+                <mat-label>Bairro</mat-label>
+                <input [value]="estagio.bairro" disabled matInput >
+            </mat-form-field>
+
+        </div>
+
+
+        <!-- <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <span [style.visibility]="showMensagem" style="width: 480px; text-align: left; vertical-align: middle;
+    float:left;margin-top: 15px;
+        padding: 0px;">
+            <div *ngFor="let erro of msgErros; " style="font-size: 0.8em;color: red;">
+                * {{ erro }}
+            </div>
+        </span>
+
+        <span style="float: right;margin-top: 15px;">
+
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton"
+                style="float:right;margin-left: 10px;">
+                Salvar
+            </button>
+        </span> -->
+
+    </form>
+
+</div>

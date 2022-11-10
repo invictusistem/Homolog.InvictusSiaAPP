@@ -1,0 +1,133 @@
+<div style="font-size: 1.2em;">
+    Visualizar/Editar Colaborador
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm">
+
+    <hr>
+
+    <form novalidate [formGroup]="colaboradorForm" (ngSubmit)="edit(colaboradorForm)">
+
+
+        <mat-form-field appearance="standard" style="width: 55%; ">
+            <mat-label>Nome</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" [value]="colaboradorForm.get('nome')?.value"
+                formControlName="nome" matInput required>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 40%; margin-left: 5%;">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+        </mat-form-field>
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 18%;">
+            <mat-label>CPF</mat-label>
+            <input disabled name="cpf" matInput [value]="colaboradorForm.get('cpf')?.value | cpf">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 20%;margin-left: 5%;">
+            <mat-label>celular</mat-label>
+            <input mask="(00) 00000-0000" matInput formControlName="celular">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 25%;margin-left: 5%;">
+            <mat-label>Cargo/Função</mat-label>
+            <mat-select placeholder="cargo/função" formControlName="cargoId">
+
+                <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">
+                    {{cargo.value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-slide-toggle style="width: 10%; margin-left: 17%" class="autoPagination-slide" #tooltip="matTooltip"
+            formControlName="ativo" required matTooltip="ativo/inativo" [required]="false" matTooltipPosition="above"
+            matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle>
+
+
+        <br>
+
+        <ng-container [formGroup]="endereco">
+
+            <mat-form-field appearance="standard" style="width: 15%;">
+                <mat-label>CEP</mat-label>
+                <input required selected mask="00.000-000" minlength="8" maxlength="10" matInput formControlName="cep">
+            </mat-form-field>
+
+            <i [style.visibility]="autorizado" style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                matTooltip="pesquisar CEP" matTooltipPosition="above" matTooltipHideDelay="100">
+                <span type="button" (click)="consultaCEP(endereco.get('cep')?.value)"
+                    style="margin: 0px; margin: 0px;" mat-icon-button>
+                    <mat-icon>search</mat-icon>
+                </span>
+            </i>
+
+        </ng-container>
+
+        <br>
+        <div [formGroup]="endereco">
+            <mat-form-field appearance="standard" style="width: 35%;">
+                <mat-label>Logradouro</mat-label>
+                <input disabled [value]="endereco.get('logradouro')?.value"
+                    oninput="this.value = this.value.toUpperCase()" selected matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 10%;margin-left: 5%;">
+                <mat-label>Nº</mat-label>
+                <input formControlName="numero" oninput="this.value = this.value.toUpperCase()" required selected
+                    matInput placeholder="ex: rua tal...">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 45%; margin-left: 5%;" floatLabel="always">
+                <mat-label>Complemento</mat-label>
+                <input matInput oninput="this.value = this.value.toUpperCase()"
+                    [value]="endereco.get('complemento')?.value" formControlName="complemento">
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 30%">
+                <mat-label>Cidade</mat-label>
+                <input selected disabled [value]="endereco.get('cidade')?.value" matInput
+                    oninput="this.value = this.value.toUpperCase()">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 5%; margin-left: 5%;">
+                <mat-label>UF</mat-label>
+                <input disabled [value]="endereco.get('uf')?.value" selected
+                    oninput="this.value = this.value.toUpperCase()" matInput placeholder="digite o bairro">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 35%; margin-left: 5%" hideRequiredMarker="true">
+                <mat-label>Bairro</mat-label>
+                <input selected formControlName="bairro" matInput oninput="this.value = this.value.toUpperCase()">
+            </mat-form-field>
+
+
+        </div>
+
+        <mat-progress-bar [style.visibility]="saveBar" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <div [style.visibility]="autorizado" style="float: right;margin-top: 15px;">
+            <button color="primary" [disabled]="desabilitar" type="submit" mat-raised-button
+                style="position: relative; float:right;margin-left: 10px;">
+                Salvar
+            </button>
+        </div>
+
+    </form>
+
+
+</div>

@@ -1,0 +1,200 @@
+<div style="font-size: 1.2em;position: sticky;z-index: 9; padding-top: 20px;
+background-color: rgb(252, 253, 255);
+top: 0;">Calendario
+  <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+    matTooltipHideDelay="100">
+    <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </i>
+
+
+  <hr>
+  <div *ngIf="ShowTableHeader" style="font-size: 0.8em;margin-top: 10px;">
+    {{alunoNome}} - MATRÍCULA {{alunoMatricula}}<br>
+    {{calendarios[0].descricao }} - {{ calendarios[0].identificador}}
+  </div>
+
+  <mat-progress-bar style="margin-top: 15px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+  </mat-progress-bar>
+
+  <hr>
+
+  <div *ngIf="ShowTableHeader" class="table-responsive table-calend-top" style="position: relative;">
+    <table style="margin-bottom: 0px; " class="table">
+
+      <thead>
+        <tr>
+          <th style="width: 2%; font-size: 0.7em;
+                    text-align:left;
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+
+          <th style="width: 11%;font-size: 0.7em;
+                    vertical-align: middle;
+                    text-align:left;
+                     border-top: 0px; font-weight: 400;">DIA</th>
+
+          <th style="width: 12%;font-size: 0.7em;
+                    vertical-align: middle;
+                    text-align:center;
+                    border-top: 0px; font-weight: 400;">HORÁRIO</th>
+
+          <th style="width: 8%;font-size: 0.7em;
+                    text-align:center;
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">SALA</th>
+
+          <th style="width: 18%;font-size: 0.7em;
+                    text-align:center;
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">MATÉRIA</th>
+
+          <th style="width: 9%;font-size: 0.7em;
+                    text-align:center;
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">PRESENÇA</th>
+
+          <th style="width: 40%;font-size: 0.7em;
+            text-align:center;
+            vertical-align: middle;
+            border-top: 0px; font-weight: 400;"></th>
+
+
+        </tr>
+      </thead>
+      <!-- <tbody *ngIf="false"></tbody> -->
+    </table>
+  </div>
+
+</div>
+<div *ngIf="showSpin">
+
+  <div class="table-responsive table-calend" style="position: relative;min-height: 100px;">
+    <!-- <mat-spinner *ngIf="showSpin" @rowHighlight [diameter]="100" style="margin-left: 450px;">
+    </mat-spinner> -->
+    <table *ngIf="calendarios.length > 0" color="primary" style="height: 480px; margin-bottom: 0px;" class="table">
+
+      <tbody>
+        <ng-container *ngFor="let cale of calendarios;let i = index;">
+
+          <tr >
+
+            <td style="text-align:left;vertical-align: middle;width: 2%;">
+              {{(i + 1)+(pageIndexNumber)}}
+            </td>
+            <td style="text-align:left;vertical-align: middle;width: 11%;">
+              {{cale.diaAula | date:'dd/MM/yyyy'}}
+            </td>
+
+            <td style="text-align: center;vertical-align: middle;width: 12%;">
+              <!-- {{cale.diadasemana}}<br> -->
+              {{cale.horaInicial}} às {{cale.horaFinal}}
+            </td>
+
+            <td style="text-align: center;vertical-align: middle;width: 8%;">
+              {{cale.sala}}
+            </td>
+
+            <td style="text-align: center;vertical-align: middle;width: 18%;">
+              {{cale.materia || 'livre'}}
+            </td>
+
+            <td style="text-align: center;vertical-align: middle;width: 9%;">
+              {{cale.presenca || '-'}}
+
+            </td>
+
+            <td style="text-align: center;vertical-align: middle;width: 40%;">
+              <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="repor aula"
+                matTooltipPosition="above" matTooltipHideDelay="100">
+                <button [disabled]="!cale.podeRepor" (click)="OpenReposicaoModal(cale)" mat-icon-button>
+                  <mat-icon >calendar_month</mat-icon>
+              </button>
+
+
+              </i>
+
+            </td>
+          </tr>
+
+          <ng-container *ngIf="cale.reposicaoId != null">
+
+            <tr >
+
+              <td style="text-align:left;vertical-align: middle;width: 2%;">
+                <!-- {{(i + 1)+(pageIndexNumber)}} -->
+              </td>
+              <td style="text-align:left;vertical-align: middle;width: 11%;">
+                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip=""
+                  matTooltipPosition="above" matTooltipHideDelay="100">
+
+                    <mat-icon >subdirectory_arrow_right</mat-icon>
+
+
+
+                </i>
+
+                <span style="color:red" >reposição!</span><br>
+                <span style="margin-left: 25px;"> {{cale.reposicao.diaAula | date:'dd/MM/yyyy'}}</span>
+
+              </td>
+
+              <td style="text-align: center;vertical-align: middle;width: 12%;">
+                <!-- {{cale.diadasemana}}<br> -->
+                {{cale.reposicao.horaInicial}} às {{cale.reposicao.horaFinal}}
+              </td>
+
+              <td style="text-align: center;vertical-align: middle;width: 8%;">
+                {{cale.reposicao.sala}}
+              </td>
+
+              <td style="text-align: center;vertical-align: middle;width: 18%;">
+                {{cale.reposicao.materia || 'livre'}}
+              </td>
+
+              <td style="text-align: center;vertical-align: middle;width: 9%;">
+                <!-- {{cale.reposicao.presenca || '-'}} -->
+
+              </td>
+
+              <td style="text-align: center;vertical-align: middle;width: 40%;">
+                <i *ngIf="!cale.reposicao.efetivada" style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar reposicao"
+                  matTooltipPosition="above" matTooltipHideDelay="100">
+                  <button [disabled]="cale.reposicao.efetivada" (click)="DeleteReposicao(cale.reposicao.reposicaoId)" mat-icon-button>
+                    <mat-icon >delete</mat-icon>
+                </button>
+
+
+                </i>
+
+              </td>
+            </tr>
+
+          </ng-container>
+
+        </ng-container>
+
+        <!--  -->
+        <!--
+          TODO <tr> REPOSICAO <tr>
+        -->
+      </tbody>
+    </table>
+    <!-- <mat-spinner  @rowHighlight [diameter]="100" style="margin-left: 20.5%;
+                   position: absolute;">
+    </mat-spinner> -->
+  </div>
+  <mat-paginator *ngIf="length > 5" style="bottom: 0px;right: 0px;" [length]="length" [pageSize]="pageSize"
+    [pageIndex]="initialPage" hidePageSize="true" (page)="pageEvent = pesquisar($event, false)">
+  </mat-paginator>
+</div>
+
+<!-- style="margin-left: 42.5%;
+        margin-top: 10%;
+        position: absolute;"
+
+    check_circle
+    dangerous
+    -->

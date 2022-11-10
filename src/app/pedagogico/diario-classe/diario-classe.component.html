@@ -1,0 +1,143 @@
+<div class="container" style="width: 95%;">
+
+    <br>
+
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="showMessage"  @rowHighlight style="margin:0px" mode="query">
+    </mat-progress-bar>
+
+    <div *ngIf="showTurmas" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+            position: relative;
+            margin-top: 50px;
+            box-shadow: 0 0 1em rgb(172, 170, 170);
+            background-color: rgb(227, 240, 227);">
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Diário de classe</h4>
+            <p class="card-category">Aulas do dia (Turmas em andamento):</p>
+        </div>
+        <!-- <div @rowHighlight *ngIf="turmas.length > 0;"> -->
+        <!-- </div> -->
+        <div class="card-body">
+            <div class="table-responsive" style="z-index: 9; height: 430px;position: relative;">
+
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <thead>
+                        <!-- <tr>
+                            <th style="width: 2%;
+                                        text-align:left;
+                                        vertical-align: middle;
+                                        border-top: 0px;"></th>
+
+                            <th style="width: 40%;font-size:1.2em;
+                                    vertical-align: middle;
+                                    text-align:left;
+                                    border-top: 0px; font-weight: 400;">
+                                <div>Diário de classe</div>
+                                <span style="font-size: 0.7em;">Turmas em andamento</span>
+                            </th>
+
+                            <th style="width: 58%;font-size:1.2em;
+                            vertical-align: middle;
+                            text-align:center;
+                            border-top: 0px; font-weight: 400;">
+                            </th>
+
+                        </tr> -->
+                    </thead>
+                    <tbody>
+                        <tr @rowHighlight *ngFor="let turma of turmas; let i = index;">
+                            <td style="text-align:center;vertical-align: middle;">{{i+1}}</td>
+
+                            <td style="text-align:left;vertical-align: middle;">
+                                {{turma.descricao}} {{turma.identificador}}<br>
+                                <span *ngIf="!turma.podeIniciarAula;else emAndamento" style="font-size: 0.9em;font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;próxima aula:
+                                    {{ turma.descAula || 'sem previsao de aulas futuras'}} -
+                                    {{ turma.professor || 'sem professor alocado'}} - {{turma.proximaAula | date:'d/M/yyyy H:mm' || ''}}
+                                    às
+                                    {{turma.proximaAulaFinal | date:'H:mm'}}</span>
+
+                                    <ng-template #emAndamento>
+                                        <span style="font-size: 0.9em;font-style: italic;">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;Aula em andamento: {{ turma.descAula}} -
+                                            {{ turma.professor}} - {{turma.proximaAula | date:'d/M/yyyy H:mm'}} às
+                                            {{turma.proximaAulaFinal | date:'H:mm'}}</span>
+                                    </ng-template>
+
+                            </td>
+
+                            <td style="width: 20%; text-align: center;vertical-align: middle;">
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="agendar provas"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openAgendamento(turma)" disabled
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>pending_actions</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin: 0px; margin-left: 10%;" #tooltip="matTooltip"
+                                    matTooltip="lançar notas" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openNotas(turma)" disabled
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>assignment</mat-icon>
+                                    </button>
+                                </i>
+
+                                <!-- <i style="margin: 0px; margin-left: 15%;" #tooltip="matTooltip"
+                                    matTooltip="iniciar a aula" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="iniciarAula(turma)" [disabled]="!turma.podeIniciar"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon [style.color]="!turma.podeIniciar ? 'gray': 'green'"
+                                            style="font-size: 1.5em;font-weight: 200;" class="material-icons-outlined">
+                                            play_arrow</mat-icon>
+                                    </button>
+                                </i> -->
+                                <!-- TEMP-->
+                                <i style="margin: 0px; margin-left: 10%;" #tooltip="matTooltip"
+                                    matTooltip="iniciar a aula" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="iniciarAula(turma)" [disabled]="podeIniciarAula(turma.podeIniciarAula)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon [style.color]="turma.podeIniciarAula ? 'green': 'gray'"
+                                            style="font-size: 1.5em;font-weight: 200;" class="material-icons-outlined">
+                                            play_arrow</mat-icon>
+                                    </button>
+                                </i>
+
+
+                                <!-- <i @rowHighlight [style.visibility]="turma.aulaIniciada ?'visible':'hidden' "
+                                    style="margin: 0px;margin-left: 15%;" #tooltip="matTooltip" matTooltip="lista de presença"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openPresenca(turma)" @rowHighlight
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon @rowHighlight style="font-size: 1.5em;font-weight: 200;"
+                                            class="material-icons-outlined">description</mat-icon>
+                                    </button>
+                                </i> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- <mat-paginator style="
+                background-color: rgb(227, 240, 227);
+                bottom: 0px;
+                right: 0px;" [length]="length" [pageSize]="5" hidePageSize="true" (page)="pageEvent = $event"
+                (click)="changePage(pageEvent)">
+            </mat-paginator> -->
+
+    </div>
+
+
+
+    <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+            top: 46.5%;
+            position: absolute;">
+        </mat-spinner> -->
+    <!-- </div> -->
+</div>

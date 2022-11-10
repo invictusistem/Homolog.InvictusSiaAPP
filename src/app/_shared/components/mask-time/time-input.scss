@@ -1,0 +1,54 @@
+.example-time-input-container {
+    display: flex;
+   // transform: scale(0.9);
+  }
+  
+  .example-time-input-element {
+    border: none;
+    background: none;
+    padding: 0;
+    outline: none;
+    font: inherit;
+    text-align: center;
+    width: 40px;
+    //transform: scale(0.9);
+  }
+  
+  .example-time-input-spacer {
+    opacity: 0;
+    transition: opacity 200ms;
+    //transform: scale(0.9);
+  }
+  
+  :host.example-floating .example-time-input-spacer {
+    opacity: 1;
+    //transform: scale(0.9);
+  }
+
+
+//   mat-dialog-container{
+//     margin:0px;
+//     padding:0px;
+//     background-color:red !important;
+// }
+
+// ::ng-deep .mat-snack-bar-container{
+//     top: 50%!important;
+//     color: #155724 !important;
+//     background-color: #a6f0b7 !important;
+//     border-color:  #a6f0b7 !important;
+//   }
+//   ::ng-deep .mat-simple-snackbar-action {
+//     color: rgb(15, 15, 15);
+//   }
+
+
+  // ::ng-deep .mat-form-field {
+  //   border-top-width: 0;
+  //   margin: 0px;
+  //   //transform: translateY(-1.1em) scale(.75);
+  //   transform: scale(0.9);
+  // }
+
+
+  

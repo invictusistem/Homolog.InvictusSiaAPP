@@ -1,0 +1,368 @@
+<div style="font-size: 1.2em;">Requerimento
+  <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+    matTooltipHideDelay="100">
+    <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </i>
+</div>
+
+<mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+
+<!-- <div @rowHighlight style="position: relative;" *ngIf="showtablePrinciple;"> -->
+<div @rowHighlight style="position: relative;">
+
+  <!-- <hr> -->
+
+  <!-- <mat-form-field appearance="standard" style="width: 35%; ">
+      <mat-label>Aluno</mat-label>
+      <input [value]="data['aluno'].nome" [disabled]="true" matInput>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" style="width: 12%; margin-left: 2%; ">
+      <mat-label>Nº matrícula</mat-label>
+      <input [value]="data['aluno'].numeroMatricula" [disabled]="true" matInput>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field appearance="standard" style="width: 10%;">
+      <mat-label>Turma</mat-label>
+      <input [value]="turma.identificador" [disabled]="true" matInput>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" style="width: 35%;margin-left: 2%;">
+      <mat-label>Curso</mat-label>
+      <input [value]="turma.descricao" [disabled]="true" matInput>
+  </mat-form-field> -->
+
+
+
+  <mat-tab-group class="infoscomponent">
+
+    <!--                  CADASTRO            -->
+
+
+    <mat-tab label="Requerimento">
+
+      <div @rowHighlight class="myForm" style=" position: relative;height: 415px;">
+
+        <mat-form-field appearance="standard" style="width: 35%; ">
+          <mat-label>Requerente</mat-label>
+          <input matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="margin-left: 10px; width: 35%; ">
+          <mat-label>Matrícula</mat-label>
+          <input matInput>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="standard" style="width: 35%; ">
+          <mat-label>Requerente</mat-label>
+          <input matInput>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="standard" style="width: 35%; ">
+          <mat-label>Matrícula</mat-label>
+          <input matInput>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field style="width: 100%" appearance="outline">
+          <mat-label>Obervação</mat-label>
+          <textarea maxlength="400" style="height: 95px;" required name="observações..." matInput></textarea>
+        </mat-form-field>
+
+
+
+        <!-- <form @rowHighlight novalidate [formGroup]="respFinancForm" (ngSubmit)="saveRespFin(respFinancForm)">
+
+          <div style="border: 1px solid rgb(201, 198, 209); padding: 10px;margin-bottom: 10px;margin-top: 5px;">
+
+
+            <br>
+            <mat-form-field appearance="standard" style="width: 35%; ">
+              <mat-label>Nome completo</mat-label>
+              <input [value]="respFinancForm.get('nome')?.value" [disabled]="true" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
+              <mat-label>CPF</mat-label>
+              <input [disabled]="true" [value]="respFinancForm.get('cpf')?.value  | cpf" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 15%; margin-left: 2%;">
+              <mat-label>RG</mat-label>
+              <input [value]="respFinancForm.get('rg')?.value" [disabled]="true" matInput>
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 20%;">
+              <mat-label>Naturalidade</mat-label>
+              <input [value]="respFinancForm.get('naturalidade')?.value" [disabled]="true" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 4%; margin-left: 2%;">
+              <mat-label>UF</mat-label>
+              <input [disabled]="true" [value]="respFinancForm.get('naturalidadeUF')?.value" matInput>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="standard" style="width: 25%;margin-left: 2%;">
+              <mat-label>Email</mat-label>
+              <input [value]="respFinancForm.get('email')?.value" [disabled]="true"
+                oninput="this.value = this.value.toLowerCase()" matInput>
+            </mat-form-field>
+
+          </div>
+
+          <div style="border: 1px solid rgb(201, 198, 209); padding: 10px;margin-bottom: 10px;">
+
+            <mat-form-field appearance="standard" style="width: 17%;">
+              <mat-label>Celular</mat-label>
+              <input formControlName="telCelular" mask="(00) 00000-0000" matInput>
+              <mat-hint>telefone com DDD</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
+              <mat-label>WhatsApp</mat-label>
+              <input formControlName="telWhatsapp" mask="(00) 00000-0000" matInput>
+              <mat-hint>telefone com DDD</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 17%;margin-left: 5%;">
+              <mat-label>Residencial</mat-label>
+              <input formControlName="telResidencial" mask="(00) 0000-0000" matInput>
+              <mat-hint>telefone com DDD</mat-hint>
+            </mat-form-field>
+
+          </div>
+
+          <div style="border: 1px solid rgb(201, 198, 209); padding: 10px;margin-bottom: 10px;">
+
+
+            <mat-form-field appearance="standard" style="width: 10%;">
+              <mat-label>CEP</mat-label>
+              <input formControlName="cep" mask="00.000-000" matInput placeholder="apenas números">
+            </mat-form-field>
+
+            <i style="margin-left: 2%;vertical-align: middle;" #tooltip="matTooltip" matTooltip="pesquisar CEP"
+              matTooltipPosition="above" matTooltipHideDelay="100">
+              <span type="button" (click)="consultaCEP(respFinancForm.get('cep')?.value,respFinancForm)"
+                style="vertical-align: middle;" mat-icon-button>
+                <mat-icon>search</mat-icon>
+              </span>
+            </i>
+
+            <mat-form-field appearance="standard" style="width: 30%;margin-left: 2%;">
+              <mat-label>Logradouro</mat-label>
+              <input [value]="respFinancForm.get('logradouro')?.value" [disabled]="true" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 18%; margin-left: 2%;">
+              <mat-label>Número</mat-label>
+              <input oninput="this.value = this.value.toUpperCase()" formControlName="numero" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 25%; margin-left: 2%;">
+              <mat-label>Complemento</mat-label>
+              <input oninput="this.value = this.value.toUpperCase()" formControlName="complemento" matInput>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="standard" style="width: 30%;">
+              <mat-label>Cidade</mat-label>
+              <input [disabled]="true" [value]="respFinancForm.get('cidade')?.value" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 18%; margin-left: 2%;">
+              <mat-label>UF</mat-label>
+              <input [disabled]="true" [value]="respFinancForm.get('uf')?.value" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 30%; margin-left: 2%;">
+              <mat-label>Bairro</mat-label>
+              <input oninput="this.value = this.value.toUpperCase()" formControlName="bairro" matInput
+                placeholder="digite o bairro">
+            </mat-form-field>
+
+          </div>
+
+          <mat-progress-bar [style.visibility]="saveRespFinProgressBar" mode="query"></mat-progress-bar>
+          <div style="float: right;">
+            <button type="submit" mat-raised-button color="primary" [disabled]="saveRespFinButton">
+              Salvar
+            </button>
+          </div>
+
+        </form> -->
+
+      </div>
+
+    </mat-tab>
+
+
+
+    <!--                  RESP         -->
+
+
+
+    <mat-tab label="Resposta">
+
+      <div @rowHighlight class="myForm" style=" position: relative;height: 415px;">
+
+        <form @rowHighlight novalidate [formGroup]="respostaForm" (ngSubmit)="SaveResp()">
+
+          <br>
+
+          <mat-form-field appearance="standard" style="width: 35%;">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status" selected>
+                <mat-option></mat-option>
+                <mat-option value="deferido">Deferido</mat-option>
+                <mat-option value="indeferido">Indeferido</mat-option>
+                <!-- <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">{{cargo.value}}
+                </mat-option> -->
+            </mat-select>
+        </mat-form-field>
+
+          <br>
+
+          <mat-form-field style="width: 100%" appearance="outline">
+            <mat-label>Obervação</mat-label>
+            <textarea maxlength="230"
+            formControlName="observacao"
+            style="height: 220px;max-height: 220px;" required name="observações..." matInput></textarea>
+          </mat-form-field>
+
+          <br>
+
+          <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+          </mat-progress-bar>
+
+          <div style="margin-top: 10px; bottom: 0px;right:0px; float: right;">
+            <button [disabled]="disabledButton" type="submit" mat-raised-button color="primary">
+              Salvar
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+    </mat-tab>
+
+    <!--                             TAB DOCUMENTACAO             -->
+
+    <ng-container>
+
+      <mat-tab label="Documentação (opcional)">
+        <br>
+
+        <!-- <i style="" #tooltip="matTooltip" matTooltip="modelo ficha de matrícula" matTooltipPosition="above"
+          matTooltipHideDelay="100">
+          <button [disabled]="true" mat-icon-button>
+            <mat-icon>assignment_ind</mat-icon>
+          </button>
+        </i>
+
+        <i style="" #tooltip="matTooltip" matTooltip="lista pendência de documentos" matTooltipPosition="above"
+          matTooltipHideDelay="100">
+          <button style="" (click)="getListaPendenciaDocs()" [disabled]="downloadTabProgressBar == 'visible'"
+            mat-icon-button>
+            <mat-icon>assignment_turned_in</mat-icon>
+          </button>
+        </i>
+
+
+        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="certificado de conclusão"
+          matTooltipPosition="above" matTooltipHideDelay="100">
+          <button (click)="GetCertificado()" style="" mat-icon-button>
+            <mat-icon>school</mat-icon>
+          </button>
+        </i> -->
+
+        <!-- <mat-progress-bar style="" [style.visibility]="downloadTabProgressBar" @rowHighlight mode="query">
+        </mat-progress-bar> -->
+
+
+        <hr>
+
+        <!-- <ng-container style="margin-top: 10px;" *ngIf="documentoAluno.length > 0">
+
+          <div *ngFor="let doc of documentoAluno">
+
+            <div style="display: inline; font-size: 0.9em;">
+
+              <ng-container *ngIf="doc.docEnviado == true">
+                <mat-icon (click)="baixar(doc)" type="button" #tooltip="matTooltip" matTooltip="download"
+                  matTooltipPosition="above" matTooltipHideDelay="100" style="vertical-align: middle;
+                  margin: 0px; margin-bottom: 5px;">save_alt</mat-icon>
+              </ng-container>
+
+              {{doc.nome}} ({{doc.comentario}})
+
+            </div>
+
+            <div style="display: inline; position: relative; font-size: 0.9em;margin-left: 5px;"
+              *ngIf="doc.docEnviado == true">
+
+              <ng-container *ngIf="doc.descricao != 'contrato' && doc.descricao != 'ficha de matrícula'">
+                <button (click)="remover(doc)" type="button" style="margin: 0px; margin: 0px;" mat-icon-button
+                  [disabled]="doc.salvando">
+                  <mat-icon #tooltip="matTooltip" matTooltip="excluir arquivo" matTooltipPosition="above"
+                    matTooltipHideDelay="100" style="vertical-align: middle;
+                  margin: 0px; margin-bottom: 0px;">delete_forever
+
+                  </mat-icon>
+                </button>
+              </ng-container>
+              <div *ngIf="doc.salvando" style="display: inline;left: 30%;top:5%; position: absolute;">
+                <mat-spinner [diameter]="18"></mat-spinner>
+              </div>
+            </div>
+
+            <ng-container *ngIf="doc.docEnviado == true;else docNaoEnviado">
+
+            </ng-container>
+
+            <ng-template #docNaoEnviado>
+
+              <div style="font-size: 0.9em;display: inline;">
+                * documentação ainda não enviada
+                <input type="file" class="file-input" (change)="exportar($event, doc)" #fileUpload>
+
+                <div class="file-upload" style="display: inline;position: relative;">
+
+
+
+                  <button mat-icon-button class="upload-btn" #tooltip="matTooltip" [disabled]="doc.salvando"
+                    matTooltip="anexar arquivo" matTooltipPosition="above" matTooltipHideDelay="100"
+                    (click)="fileUpload.click()">
+                    <mat-icon>link</mat-icon>
+                  </button>
+
+                  <div *ngIf="doc.salvando" style="display: inline;left: 30%;top:5%; position: absolute;">
+                    <mat-spinner [diameter]="18"></mat-spinner>
+                  </div>
+                </div>
+              </div>
+
+            </ng-template>
+
+            <br>
+
+          </div>
+        </ng-container> -->
+
+      </mat-tab>
+    </ng-container>
+
+
+
+  </mat-tab-group>
+
+</div>

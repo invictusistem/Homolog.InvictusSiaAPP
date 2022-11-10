@@ -1,0 +1,65 @@
+<div style="font-size: 1.1em;">Criar Bolsa
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+
+<div @rowHighlight *ngIf="showContent">
+    <hr>
+
+    <form novalidate [formGroup]="bolsaForm" style="" (ngSubmit)="onSubmit(bolsaForm)">
+
+
+        <mat-form-field appearance="standard" style="width: 200px;">
+            <mat-label></mat-label>
+            <mat-select [disabled]="typesPacotes.length == 0" formControlName="typePacoteId">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let pac of typesPacotes" [value]="pac.id">{{pac.nome}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 200px;margin-left: 10px; ">
+            <mat-label>Nome</mat-label>
+            <input selected formControlName="nome" matInput placeholder="Nome">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 100px; ">
+            <mat-label>Percentual desconto</mat-label>
+            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" maxlength="3"
+                selected formControlName="percentualDesconto" matInput placeholder="Percentual">
+        </mat-form-field>
+
+        <!-- <mat-form-field appearance="standard" style="width: 150px;margin-left: 10px;  ">
+            <mat-label>Data de expiração</mat-label>
+            <input selected formControlName="dataExpiracao" matInput>
+        </mat-form-field> -->
+        <mat-form-field appearance="standard" style="width: 160px;margin-left: 10px;  ">
+            <mat-label>Data de expiração</mat-label>
+            <input matInput formControlName="dataExpiracao" [matDatepicker]="dp3" [disabled]="true">
+            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+        </mat-form-field>
+
+
+        <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight style="margin:0px" mode="query">
+        </mat-progress-bar>
+        <div style="float: right;margin-top: 15px;">
+
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="width: 100px; position: relative; float:right;margin-bottom: 10px;
+            margin-left: 10px;">
+                Salvar
+            </button>
+        </div>
+
+    </form>
+
+</div>

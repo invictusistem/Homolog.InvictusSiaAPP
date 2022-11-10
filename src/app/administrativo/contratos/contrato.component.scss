@@ -1,0 +1,68 @@
+::ng-deep .mat-form-field {
+    //transform: scale(0.85) !important ;
+    //padding: 0px !important;
+    font-size: 0.9em;
+}
+
+.table-contratos {
+    height: 330px;
+    position: relative;
+
+    table {
+        margin-bottom: 0px;
+    }
+
+    table thead tr th:nth-child(1) {
+        width: 2%;
+        text-align: left;
+        vertical-align: middle;
+        border-top: 0px;
+    }
+
+    table thead tr th:nth-child(2) {
+        width: 25%;
+        font-size: 1em;
+        vertical-align: middle;
+        text-align: left;
+        border-top: 0px;
+        font-weight: 400;
+    }
+
+    table thead tr th:nth-child(3) {
+        width: 20%;
+        font-size: 1em;
+        vertical-align: middle;
+        text-align: center;
+        border-top: 0px;
+        font-weight: 400;
+    }
+
+    table thead tr th:nth-child(4) {
+        width: 5%;
+        font-size: 1em;
+        vertical-align: middle;
+        text-align: center;
+        border-top: 0px;
+        font-weight: 400;
+    }
+
+    table thead tr th:nth-child(5) {
+        width: 20%;
+        font-size: 1em;
+        text-align: center;
+        vertical-align: middle;
+        border-top: 0px;
+        font-weight: 400;
+    }
+
+    table thead tr th:nth-child(6) {
+        width: 16%;
+        border-top: 0px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    table tbody tr td {
+        // font-size: 0.9em;
+    }
+}

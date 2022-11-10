@@ -1,0 +1,160 @@
+<div style="font-size: 1.2em;">Receber
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="iniProgressBar" @rowHighlight
+    style="margin:0px" mode="query"></mat-progress-bar>
+
+
+<div *ngIf="showForm">
+
+    <hr>
+
+    <form novalidate [formGroup]="recebimentoForm" (ngSubmit)="Quitar()">
+        <mat-form-field appearance="standard" style="width: 300px;">
+            <mat-label>Aluno</mat-label>
+            <input [value]="aluno.nome" matInput [disabled]="true">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 100px;margin-left: 10px;">
+            <mat-label>Vencimento</mat-label>
+            <input [value]="debito.vencimento | date: 'dd/MM/yyyy'" matInput [disabled]="true">
+        </mat-form-field>
+
+        <br>
+
+        <div style="border: 1px solid rgb(201, 198, 209); padding: 10px;margin-bottom: 10px;margin-top: 5px;">
+
+            <mat-form-field appearance="standard" style="width: 110px;">
+                <mat-label>Data pagamento</mat-label>
+                <input matInput [value]="hoje | date: 'dd/MM/yyyy'" [disabled]="true">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 120px;margin-left: 10px;">
+                <mat-label>Valor original</mat-label>
+                <input matInput [disabled]="true" [value]="debito.valor | currency:'BRL':'R$ '">
+            </mat-form-field>
+
+            <ng-container *ngIf="!vencido;else show">
+                <mat-form-field appearance="standard" style="width: 110px;margin-left: 10px;">
+                    <mat-label>Bônus Pontualidade</mat-label>
+                    <input matInput [disabled]="true" [value]="debito.desconto | currency:'BRL':'R$ '">
+                </mat-form-field>
+            </ng-container>
+
+            <ng-template #show>
+
+                <mat-form-field appearance="standard" style="width: 110px;margin-left: 10px;">
+                    <mat-label>Multa</mat-label>
+                    <input matInput [disabled]="true" value="" placeholder="Nome">
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" style="width: 110px;margin-left: 10px;">
+                    <mat-label>Juros</mat-label>
+                    <input matInput value="" [disabled]="true" placeholder="Nome">
+                </mat-form-field>
+            </ng-template>
+
+        </div>
+
+        <div style="border: 1px solid rgb(201, 198, 209); padding: 10px;margin-bottom: 10px;">
+
+
+            <mat-form-field appearance="standard" style="width: 110px;margin-left: 10px;">
+                <mat-label>Valor a Receber</mat-label>
+                <input matInput [value]="recebimentoForm.get('valorReceber')?.value | currency:'BRL':'R$ '" [disabled]="true">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 120px;margin-left: 10px;">
+                <mat-label>Valor quitado/pago</mat-label>
+                <input matInput formControlName="valorRecebido" currencyMask
+                    [options]="{ prefix: '', thousands: '.', decimal: ',' }">
+                <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
+
+        </div>
+
+        <div style="border: 1px solid rgb(201, 198, 209); padding: 10px;margin-bottom: 10px;">
+
+            <mat-form-field appearance="standard" style="width: 200px;">
+                <mat-label>Forma Recebimento</mat-label>
+                <mat-select formControlName="formaRecebimentoId">
+                    <!-- <mat-option></mat-option> -->
+                    <mat-option [value]="forma.id" *ngFor="let forma of formasRecebimento">
+                    {{ forma.descricao }}
+                    </mat-option>
+                    
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 140px;margin-left: 10px;">
+                <mat-label>últimos 4 digitos cartão</mat-label>
+                <input matInput formControlName="digitosCartao" mask="0000">
+            </mat-form-field>
+
+
+            <mat-form-field appearance="standard" style="width: 170px;margin-left: 10px;">
+                <mat-label>Transferir Para</mat-label>
+                <input matInput 
+                [value]="banco" disabled>
+                
+            </mat-form-field>
+            <!-- <mat-form-field appearance="standard" style="width: 170px;margin-left: 10px;">
+                <mat-label>Transferir Para</mat-label>
+                <mat-select formControlName="bancoId" >
+                    <mat-option [value]="banco.id" *ngFor="let banco of bancos"
+                    [disabled]="disabledTransf(banco)"
+                    >{{ banco.nome}}</mat-option>
+                </mat-select>
+            </mat-form-field> -->
+
+        </div>
+
+
+        <!-- <div *ngIf="formaRecebimento == 'Dinheiro'"
+        style="border: 1px solid rgb(201, 198, 209); padding: 10px;margin-bottom: 10px;">
+
+
+        <mat-form-field appearance="standard" style="width: 110px;">
+            <mat-label>Valor a receber</mat-label>
+            <input matInput value="" placeholder="Nome">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 110px;margin-left: 10px;">
+            <mat-label>Valor recebido</mat-label>
+            <input matInput value="" placeholder="Nome">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 110px;margin-left: 10px;">
+            <mat-label>Troco</mat-label>
+            <input matInput value="" placeholder="Nome">
+        </mat-form-field>
+
+    </div> -->
+
+        <mat-progress-bar [style.visibility]="saveSpinner" mode="query"></mat-progress-bar>
+
+        <!-- <span *ngFor="let msg of errorMsg" style="margin-top: 20px; font-size: 0.8em;color: red;width: 350px;">
+        {{ msg }}
+
+    </span> -->
+
+
+        <span style="bottom: 0px;">
+
+            <button type="submit" mat-raised-button color="primary" [disabled]="saveButton"
+                style="float:right;margin-top: 10px">
+
+                salvar
+            </button>
+
+        </span>
+    </form>
+
+</div>

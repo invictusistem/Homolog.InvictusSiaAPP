@@ -1,0 +1,200 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+    <div>
+        <i #tooltip="matTooltip" matTooltip="criar pacote" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="createModulo()" mat-icon-button>
+                <mat-icon>assignment</mat-icon>
+            </button>
+        </i>
+
+        <!-- <i *ngIf="showPhroto" style="margin-left: 15px;" #tooltip="matTooltip" matTooltip="criar pacote" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button (click)="createModuloNovo()" disabled mat-icon-button>
+            <mat-icon>assignment</mat-icon>
+        </button>
+    </i> -->
+
+    </div> 
+
+    <br>
+
+    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm"
+        style="margin-top: 5px;display: inline-block">
+
+        <span style="font-size: 0.9em;font-style: italic;">
+            Selecione o tipo para pesquisar pelo pacote:
+        </span>
+
+        <div class="form-row align-items-center divSiteForm">
+
+            <mat-form-field appearance="standard" style="width: 200px;">
+                <mat-label>Type Pacote</mat-label>
+                <mat-select [disabled]="typesPacotes.length == 0" formControlName="typePacoteId" placeholder="type pacote">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let pac of typesPacotes" [value]="pac.id">{{pac.nome}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- <mat-form-field *ngIf="showTeste" appearance="standard" style="width: 80px;margin-left: 10px;">
+                <mat-label>Unidade</mat-label>
+                <mat-select formControlName="unidadeId" placeholder="type pacote">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let uni of unidadesAutorizadas" [value]="uni.unidadeId">{{uni.unidade}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field> -->
+
+            <span>
+                <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+                    matTooltipHideDelay="100">
+                    <button style="" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+        </div>
+
+    </form>
+
+    <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+    </mat-progress-bar>
+
+    <div @rowHighlight *ngIf="pacotes.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+            position: relative;
+            margin-top: 20px;
+            box-shadow: 0 0 1em rgb(172, 170, 170);
+            background-color: rgb(227, 240, 227);">
+
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Pacotes</h4>
+            <p class="card-category"> Pacotes cadastrados no sistema </p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive" style="height: 430px;position: relative;">
+
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 2%; 
+                    text-align:left; 
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+                            <th style="width: 30%;font-size:1em;
+                                    vertical-align: middle;
+                                    text-align:left;
+                    border-top: 0px; font-weight: 400;">NOME</th>
+
+                            <th style="width: 20%;font-size:1em;
+                            vertical-align: middle;
+                            text-align:center;
+                            border-top: 0px; font-weight: 400;">CARGA HORÁRIA</th>
+
+                            <th style="width: 20%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">ATIVO</th>
+
+                            <th style="width: 6%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;"></th>
+                            <!-- 
+                            <th style="width: 6%;
+                    border-top: 0px;"></th> -->
+
+                            <th style="width: 22%;
+                    border-top: 0px;">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of pacotes;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.descricao}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.totalHoras}} hrs</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.ativo? 'sim':'não'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+                                <!-- <div *ngIf="item.ativo == true;else inativo">
+
+                                    <mat-icon style="margin: 0px; margin: 0px;
+                                        background-color: rgb(227, 240, 227);;color: green;" style="color: green;">
+                                        done_outline</mat-icon>
+
+
+                                </div>
+                                <ng-template #inativo>
+
+                                    <mat-icon style="background-color: rgb(227, 240, 227);
+                                            margin: 0px; margin: 0px;color: red; ">close</mat-icon>
+
+
+                                </ng-template> -->
+
+                            </td>
+
+                            <td style="position: relative;">
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openDetailModal(item)" 
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>search</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin: 0px; margin-left: 50px;" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openEditModal(item)" 
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>mode_edit</mat-icon>
+                                    </button>
+                                </i>
+
+                            </td>
+                            <td style="position: relative;">
+
+                                <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="showSpinner" (click)="deleteColaborador(item.id)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i> -->
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- <mat-paginator *ngIf="length > 5" style="
+                background-color: rgb(227, 240, 227);
+                bottom: 0px;
+                right: 0px;" [length]="length" [pageSize]="5" hidePageSize="true" (page)="pageEvent = $event"
+                (click)="changePage(pageEvent)">
+            </mat-paginator> -->
+
+        </div>
+        <!-- 
+        <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+            top: 46.5%; 
+            position: absolute;">
+        </mat-spinner> -->
+    </div>
+</div>

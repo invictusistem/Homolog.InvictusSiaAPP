@@ -1,0 +1,35 @@
+<div style="font-size: 1em;">Adicionar Comentário
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<hr>
+<div style="">
+
+    <form @rowHighlight novalidate #comentForm="ngForm" (ngSubmit)="saveComent(comentForm)">
+
+
+        <div>
+            <mat-form-field style="width: 100%" appearance="outline">
+                <mat-label>Anotações</mat-label>
+                <textarea maxlength="400" style="height: 100px;" [(ngModel)]="comentario" required name="comentario"
+                    matInput></textarea>
+            </mat-form-field>
+
+         
+        </div>
+
+        <div style="margin-top: 20px; bottom: 0px;right:0px; float: right;">
+            <button type="submit" mat-raised-button color="primary" [disabled]="!comentForm.valid">
+                Salvar
+            </button>
+        </div>
+
+    </form>
+
+
+</div>

@@ -1,0 +1,62 @@
+<div style="font-size: 1.2em;">Requerimento
+    <close-modal [disable]="disabledCloseModalIcon"></close-modal>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div @rowHighlight>  
+
+    <hr>
+
+    <div>
+
+        <form novalidate [formGroup]="requerimentoForm" style="" (ngSubmit)="onSubmit()">
+
+
+
+            <mat-form-field appearance="standard" style="width: 50%;">
+                <mat-label>Categoria do requerimento</mat-label>
+                <mat-select formControlName="catId" selected required [disabled]="formCat">
+                    <mat-option></mat-option>
+                    <mat-option (click)="CategoriaSect(cat.id)" 
+                    *ngFor="let cat of categorias" [value]="cat.id">{{cat.descricao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 50%;">
+                <mat-label>Requerimento</mat-label>
+                <mat-select formControlName="typeId" selected required [disabled]="formType">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let tipo of tipos" [value]="tipo.id">{{tipo.descricao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="outline" style="width: 100%;" >
+                <mat-label>Descreva o seu pedido</mat-label>
+                <textarea style="height: 150px;"  
+                formControlName="observacao" matInput></textarea>
+            </mat-form-field>
+
+
+            <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+            </mat-progress-bar>            
+
+            <span style="float: right;margin-top: 15px;">
+                <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton"
+                    style="float:right;margin-left: 10px;">
+                    Salvar
+                </button>
+            </span>
+
+        </form>
+
+    </div>
+</div>

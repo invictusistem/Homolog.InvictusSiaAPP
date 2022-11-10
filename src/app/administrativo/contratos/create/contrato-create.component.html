@@ -1,0 +1,74 @@
+<div style="font-size: 1.2em;">Criar Contrato
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+<div style="font-size: 0.8em;margin-top: 5px;">* O contrato poderá ser visualizado, utilizado e editado por todas as unidades.</div>
+
+<hr>
+
+<form novalidate [formGroup]="contratoForm" (ngSubmit)="onSubmit(contratoForm)">
+
+    <!-- <div class="card-body"> -->
+    <mat-form-field appearance="standard" style="width: 250px; ">
+        <mat-label>Título</mat-label>
+        <input selected formControlName="titulo" required name="templateName" matInput placeholder="Nome">
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" style="width: 350px;margin-left: 10px;">
+        <mat-label>Pacote</mat-label>
+        <mat-select formControlName="typePacoteId" placeholder="">
+            <mat-option 
+            [value]="type.id"
+            *ngFor="let type of typePacotes" >
+                {{type.nome}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-slide-toggle style="width: 70px; margin-left: 40px;" class="autoPagination-slide" #tooltip="matTooltip"
+            formControlName="ativo" required matTooltip="ativo/inativo" [required]="false"
+            matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle>
+    <br>
+    <!-- <mat-form-field appearance="standard" style="width: 45%; ">
+        <mat-label>Pacote</mat-label>
+        <input selected formControlName="nome" required name="templateName" matInput placeholder="Nome">
+    </mat-form-field> -->
+    <!-- <mat-form-field appearance="standard" style="width: 200px;margin-left: 5px;">
+        <mat-label>Modalidade</mat-label>
+        <mat-select formControlName="pacoteId" placeholder="modalidade">
+            <mat-option [value]="1">APH/Enfermageme</mat-option>
+           
+        </mat-select>
+    </mat-form-field>
+    <br> -->
+
+    <div>
+        <!-- Configurações! <br> -->
+        <angular-editor style="height: 300px;" color="primary" 
+        [config]="config" [disabled]="true" [placeholder]="'Enter text here...'" 
+        formControlName="conteudo"></angular-editor>
+        <!-- <angular-editor color="primary"  [innerHTML]="htmlContent" ></angular-editor> -->
+
+
+        <br>
+        <!-- <div class="html">
+            {{ contratoForm.get('conteudo')?.value }}
+          </div> -->
+          <br>
+          <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
+        <button type="submit" color="primary" mat-raised-button disabled="false"
+            style="float:right;margin-bottom: 0px;margin-left: 10px;" [disabled]="disabledButton">
+            Salvar
+        </button>
+        <br>
+    </div>
+
+    <!-- <div [innerHTML]="mensagem"> -->
+
+</form>

@@ -1,0 +1,54 @@
+<div style="font-size: 1.2em;">Cadastrar tipo de requerimento
+    <close-modal [disable]="disabledCloseModalIcon"></close-modal>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm" @rowHighlight>
+
+    <hr>
+
+    <form novalidate [formGroup]="tipoReqForm" (ngSubmit)="Save()">
+
+       <mat-form-field appearance="standard" style="width: 55%;">
+            <mat-label>Descrição</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="descricao" matInput
+                placeholder="Nome">
+        </mat-form-field>
+
+        <!-- <mat-form-field appearance="standard" style="float:right;width: 110px;margin-left: 10px;">
+            <mat-label>Tipo:</mat-label>
+            <mat-select formControlName="tipo" selected>
+                <mat-option value="credito">Crédito</mat-option>                  
+                <mat-option value="debito">Débito</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 50%;">
+            <mat-label>Categoria</mat-label>
+            <input [value] ="data['cat'].descricao" [disabled]="true" matInput>
+        </mat-form-field>
+
+        <mat-slide-toggle style="width: 10%; margin-left: 40%" class="autoPagination-slide" #tooltip="matTooltip"
+        formControlName="ativo" required matTooltip="ativo/inativo" 
+            [required]="false"
+            matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle>      
+         
+
+        <mat-progress-bar [style.visibility]="matProgressSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <span style="float: right;margin-top: 15px;">
+
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButtonSave">
+                Salvar
+            </button>
+        </span>
+
+    </form>
+
+</div>

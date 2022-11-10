@@ -1,0 +1,166 @@
+<div style="font-size: 1.2em;">Matérias habilitadas
+  <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+    matTooltipHideDelay="100">
+    <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </i>
+
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<ng-container *ngIf="showForm">
+  <hr>
+
+  <mat-form-field appearance="standard" style="width: 350px;">
+    <mat-label>Nome</mat-label>
+    <input [value]="data['prof'].nome" disabled selected matInput>
+  </mat-form-field>
+
+  <mat-form-field style="width: 350px; margin-left: 15px" appearance="standard">
+    <mat-label>Email</mat-label>
+    <input [value]="data['prof'].email" selected matInput disabled>
+  </mat-form-field>
+
+  <br>
+
+  <div @rowHighlight>
+
+    <mat-tab-group class="profmaterias">
+      <mat-tab label="Matérias">
+        <div>
+
+
+          <br>
+          <mat-progress-bar [style.visibility]="editAndSaveBar" @rowHighlight style="margin:0px" mode="query">
+          </mat-progress-bar>
+          <div class="table-responsive" style="position: relative;height: 350px;">
+
+            <table color="primary" style="margin-bottom: 0px;" class="table">
+
+              <thead>
+                <tr>
+                  <th style="width: 2%;
+                        text-align:left;
+                        vertical-align: middle;
+                        border-top: 0px;"></th>
+
+
+                  <th style="width: 40%;font-size:0.9em;
+                        vertical-align: middle;
+                        text-align:left;
+                         border-top: 0px; font-weight: 400;">MATÉRIA</th>
+
+                  <th style="width: 29%;font-size:0.9em;
+                        vertical-align: middle;
+                        text-align:center;
+                        border-top: 0px; font-weight: 400;">PACOTE</th>
+
+                  <th style="width: 29%;font-size:1em;
+                        text-align:center;
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">
+
+                    <i style="float: right;" #tooltip="matTooltip" matTooltip="adicionar matéria em lote"
+                      matTooltipPosition="above" matTooltipHideDelay="100">
+                      <button color="primary" (click)="openAddMatLoteModal()" style="" mat-icon-button>
+                        <mat-icon>download</mat-icon>
+                      </button>
+                    </i>
+
+                    <i style="float: right;" #tooltip="matTooltip" matTooltip="adicionar matéria"
+                      matTooltipPosition="above" matTooltipHideDelay="100">
+                      <button color="primary" (click)="openAddMatModal()" style="" mat-icon-button>
+                        <mat-icon>add_circle_outline</mat-icon>
+                      </button>
+                    </i>
+                  </th>
+
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr @rowHighlight *ngFor="let mat of profMateriasSlice;let i = index;">
+                  <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                    {{(i + 1)+(pageIndex * pageSize)}}
+                  </td>
+
+                  <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                    {{ mat.nome }}
+                  </td>
+
+                  <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                    {{ mat.nomePacote }}
+                  </td>
+
+                  <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+
+                    <i style="" #tooltip="matTooltip" matTooltip="excluir" matTooltipPosition="above"
+                      matTooltipHideDelay="100">
+                      <button color="primary" (click)="removeMateria(mat.id)" type="button" style="position: relative;"
+                        [disabled]="disableDeleteButton" mat-icon-button>
+                        <mat-icon>delete_forever</mat-icon>
+
+                      </button>
+                    </i>
+
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <mat-paginator *ngIf="profMaterias.length > 5" style="
+                        bottom: 0px;
+                        right: 0px;" [length]="length" [pageSize]="pageSize" hidePageSize="true"
+            (page)="pageEvent = changePage($event)">
+          </mat-paginator>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Disponibilidades">
+        <div>
+          <br>
+          <i #tooltip="matTooltip" matTooltip="adicionar" matTooltipPosition="above" matTooltipHideDelay="100">
+            <button [disabled]="unidades.length == 0" (click)="openAddDispoModal()" style="position:relative"
+              mat-icon-button>
+              <mat-icon>add</mat-icon>
+            </button>
+          </i>
+
+
+          <ng-container *ngIf="disponibilidades.length > 0">
+
+            <br>
+            <mat-form-field *ngFor="let item of disponibilidades" style="width: 100%;" appearance="fill">
+              <mat-label>{{ item.descricao }}</mat-label>
+              <mat-chip-list [disabled]="true" multiple>
+                <mat-chip *ngIf="item.domingo">Domingo</mat-chip>
+                <mat-chip *ngIf="item.segunda">Segunda-feira</mat-chip>
+                <mat-chip *ngIf="item.terca">Terça-feira</mat-chip>
+                <mat-chip *ngIf="item.quarta">Quarta-feira</mat-chip>
+                <mat-chip *ngIf="item.quinta">Quinta-feira</mat-chip>
+                <mat-chip *ngIf="item.sexta">Sexta-feira</mat-chip>
+                <mat-chip *ngIf="item.sabado">Sábado</mat-chip>
+              </mat-chip-list>
+              <button mat-icon-button matSuffix #tooltip="matTooltip" matTooltip="editar" matTooltipPosition="above"
+                matTooltipHideDelay="100" (click)="opeEditDispoModal(item)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </mat-form-field>
+
+          </ng-container>
+          <br>
+
+        </div>
+
+      </mat-tab>
+
+    </mat-tab-group>
+
+
+  </div>
+
+</ng-container>

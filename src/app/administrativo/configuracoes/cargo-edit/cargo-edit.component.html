@@ -1,0 +1,53 @@
+<div style="font-size: 1.2em;">Editar cargo
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm">
+
+    <hr>
+
+    <form novalidate [formGroup]="cargoForm" (ngSubmit)="onSubmit(cargoForm)">
+
+        <mat-form-field appearance="standard" style="width: 35%; ">
+            <mat-label>Nome</mat-label>
+            <input selected oninput="this.value = this.value.toUpperCase()" formControlName="value" required name="nome"
+                matInput placeholder="Nome">
+        </mat-form-field>
+
+        <mat-slide-toggle style="width: 10%; margin-left: 55%" class="autoPagination-slide" #tooltip="matTooltip"
+        formControlName="ativo" required matTooltip="ativo/inativo" 
+            [required]="false"
+            matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle>
+
+      
+        <br>
+
+        <mat-form-field style="width: 100%" appearance="outline">
+            <mat-label>Descrição do cargo</mat-label>
+            <textarea formControlName="comentario" name="descricao" matInput></textarea>
+        </mat-form-field>        
+
+        <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <span style="float: right;margin-top: 15px;">
+
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton"
+                style="position: relative; float:right;margin-left: 10px;">
+                Salvar
+            </button>
+        </span>
+
+    </form>
+
+</div>

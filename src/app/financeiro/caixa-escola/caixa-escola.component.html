@@ -1,0 +1,134 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+   
+    <br>
+
+    <form novalidate [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()"
+    class="form-inline siteForm">
+
+        <!-- <span>Selecione o período
+            para pesquisar pelas
+            vendas efetuadas:
+        </span>       -->
+
+        <div class="form-row align-items-center">
+
+            <mat-form-field appearance="standard" style="width: 180px;">
+                <mat-label>Meio de Pagamento</mat-label>
+                <mat-select  formControlName="cartao">
+                    <mat-option [value]="false">Dinheiro</mat-option>
+                    <mat-option [value]="true">Cartão</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 210px;margin-left: 10px;">
+                <mat-label>Selecione o período</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate [disabled]="true" formControlName="start" placeholder="início">
+                    <input matEndDate formControlName="end" [disabled]="true" placeholder="fim">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
+            </mat-form-field>
+
+            <span>
+                <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button type="submit" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+        </div>
+
+    </form>
+
+   
+    <div class="card-header card-msg-response" *ngIf="showMessageNotFound">{{mensagemNotFound}}</div>
+
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+        mode="query">
+    </mat-progress-bar>
+
+    <div @rowHighlight *ngIf="contas.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+            position: relative;
+            margin-top: 20px;
+            box-shadow: 0 0 1em rgb(172, 170, 170);
+            background-color: rgb(227, 240, 227);">
+
+        <div class="card-header" style="background-color: rgb(207, 231, 207);">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Conferência de Caixa</h4>
+            <p class="card-category">{{contas.length}} contas pagas localizadas no período. </p>
+            <p class="card-category">Valor total recebido: {{ totalRecebido | currency:'BRL':'R$ '}}. </p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive table-contas-receber">
+			 
+                <table color="primary" class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>VENCIMENTO</th>
+
+                            <th>PESSOA</th>
+
+                            <th>FORMA RECEBIMENTO</th>
+
+                            <th>VALOR PAGO</th>
+
+                            <th>DATA PGTO.</th>                         
+
+                            <!-- <th>HORA</th> -->
+
+                            <th>DATA COMPENSAR</th>
+
+                            <th>Nº CARTÃO</th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let conta of contas;let i = index;" @rowHighlight>
+
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{conta.vencimento |
+                                date:'dd/MM/yyyy'}}</td>
+
+                            <td style="text-align: left;vertical-align: middle;">{{conta.nome}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{conta.descricao}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{conta.valorPago | currency:'BRL':'R$ '}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{conta.dataPagamento |
+                                date:'dd/MM/yyyy'}}</td>
+
+                            <!-- <td style="position: relative;text-align:center; vertical-align: middle;">
+                                {{conta.dataPagamento | date:'HH:mm'}}
+                            </td> -->
+
+                            <td style="text-align: center;vertical-align: middle;"></td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{conta.digitosCartao || '-'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;"></td>
+                            
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>          
+
+        </div>
+
+    </div>
+
+
+</div>

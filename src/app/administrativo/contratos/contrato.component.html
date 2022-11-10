@@ -1,0 +1,190 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+    <div>
+        <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar contrato" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="openCreateContratoModal()" mat-icon-button>
+                <mat-icon>description</mat-icon>
+            </button>
+        </i>
+    </div>
+
+    <br>
+
+    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm"
+        style="margin-top: 5px;display: inline-block">
+
+        <span style="font-size: 0.9em;font-style: italic;">
+            Selecione o tipo do pacote para pesquisar pelo contrato:
+        </span>
+
+        <div class="form-row align-items-center divSiteForm">
+
+            <mat-form-field appearance="standard" style="width: 200px;">
+
+                <mat-label></mat-label>
+                <mat-select [disabled]="typesPacotes.length == 0" formControlName="typePacoteId"
+                    placeholder="type pacote">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let pac of typesPacotes" [value]="pac.id">{{pac.nome}}</mat-option>
+                </mat-select>
+
+            </mat-form-field>
+
+            <span>
+                <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+                    matTooltipHideDelay="100">
+                    <button style="" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+        </div>
+
+    </form>
+
+    <mat-progress-bar @rowHighlight [style.visibility]="initProgressBar" style="margin:0px" mode="query">
+    </mat-progress-bar>
+
+    <div @rowHighlight *ngIf="contratos.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+        position: relative;
+       
+        box-shadow: 0 0 1em rgb(172, 170, 170);
+        background-color: rgb(227, 240, 227);">
+
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Contratos</h4>
+            <p class="card-category">Contratos cadastrados no sistema:</p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive table-contratos">
+
+                <table color="primary" class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>TÍTULO</th>
+
+                            <th>CÓDIGO</th>
+
+                            <th>ATIVO</th>
+
+                            <th>DATA CADASTRO</th>
+
+                            <th></th>
+
+                            <!-- <th style="width: 6%;
+                border-top: 0px;"></th>
+
+                        <th style="width: 6%;
+                border-top: 0px;">
+                        </th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of contratos;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.titulo}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.codigoContrato }}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.ativo? 'sim' : 'não' }}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.dataCriacao |
+                                date:'dd/M/yyyy'}}</td>
+
+                            <td style="position: relative;">
+
+                                <i style="margin: 0px; margin: 0px;" *ngIf="item.podeEditar" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openEditContratoModal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i style="margin-left: 10px; " *ngIf="item.podeEditar" #tooltip="matTooltip"
+                                matTooltip="baixar exemplo" matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button (click)="GetSamplePDFModal(item.id)"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon>file_download</mat-icon>
+                                </button>
+                            </i>
+
+                            </td>
+                            <!-- <td style="text-align: center;vertical-align: middle;">
+                            <div *ngIf="item.ativo == true;else inativo">
+
+                                <mat-icon style="margin: 0px; margin: 0px;
+                                    background-color: rgb(227, 240, 227);;color: green;" style="color: green;">
+                                    done_outline</mat-icon>
+                                
+
+                            </div>
+                            <ng-template #inativo>
+
+                                <mat-icon style="background-color: rgb(227, 240, 227);
+                                        margin: 0px; margin: 0px;color: red; ">close</mat-icon>
+
+
+                            </ng-template>
+
+                        </td>
+
+                        <td style="position: relative;">
+
+                            <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button [disabled]="showSpinner" (click)="openEditUserModal(item)"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon>settings</mat-icon>
+                                </button>
+                            </i>
+
+                        </td>
+                        <td style="position: relative;">
+
+                            <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar"
+                                matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button [disabled]="showSpinner" (click)="deleteColaborador(item.id)"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon>delete_outline</mat-icon>
+                                </button>
+                            </i>
+
+                        </td> -->
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- <mat-paginator *ngIf="length > 5" style="
+            background-color: rgb(227, 240, 227);
+            bottom: 0px;
+            right: 0px;" [length]="length" [pageSize]="5" hidePageSize="true" (page)="pageEvent = $event"
+            (click)="changePage(pageEvent)">
+        </mat-paginator> -->
+
+        </div>
+
+        <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+        top: 46.5%; 
+        position: absolute;">
+    </mat-spinner> -->
+    </div>
+
+
+</div>

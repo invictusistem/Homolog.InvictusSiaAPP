@@ -1,0 +1,77 @@
+<div style="font-size: 1.2em;">Matéria em lote
+  <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+    matTooltipHideDelay="100">
+    <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </i>
+
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" *ngIf="!mostrarDivPrincipal;else mostraPrincipal" @rowHighlight
+  style="margin:0px" mode="query"></mat-progress-bar>
+<ng-template #mostraPrincipal>
+
+  <hr>
+
+  <div style="position: relative; height: 165px;">
+    <form [formGroup]="materiasForm" (ngSubmit)="save()">
+      <mat-form-field appearance="standard" style="width: 200px;">
+        <mat-label>Selecione o pacote</mat-label>
+        <mat-select formControlName="typePacoteId" selected required>
+          <mat-option (click)="adicionar()"></mat-option>
+          <mat-option (click)="adicionar()" *ngFor="let type of typePacotes" [value]="type.id">
+            {{ type.nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+
+      <!-- <mat-form-field *ngIf="materias.length > 0" appearance="standard" style="width: 320px;">
+              <mat-label>escolha a matéria que deseja adicionar</mat-label>
+              <mat-select formControlName="materiaId" selected required>
+                  <mat-option></mat-option>
+                  <mat-option *ngFor="let mat of materias" [value]="mat.id">
+                      {{ mat.nome }}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+          <br> -->
+
+      <!-- <div *ngIf="showMateriaMsg" class="alert alert-danger" role="alert" style="text-align: left; vertical-align: middle; position:relative;  float:left;margin-bottom: 0px;
+          padding: 5px;">
+              <div style="font-size: 0.8em;">
+                  O professor já está habilitado para a matéria selecionada.
+
+              </div>
+
+          </div> -->
+
+      <mat-progress-bar *ngIf="disabledSaveButton" @rowHighlight style="margin:0px" mode="query">
+      </mat-progress-bar>
+
+
+      <span *ngIf="showMateriaMsg" style="position: absolute; bottom: 0px;left:0px;">
+        <span style="font-size: 0.8em;color: red">
+          O professor já está habilitado para a matéria selecionada.
+
+        </span>
+
+      </span>
+
+
+      <span style="position: absolute; bottom: 0px;right:0px;">
+
+        <!-- <div style="float: right;bottom: 0px; margin-top: 15px;"> -->
+
+        <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" style="">
+          Salvar
+        </button>
+        <!-- </div> -->
+      </span>
+
+    </form>
+  </div>
+
+</ng-template>

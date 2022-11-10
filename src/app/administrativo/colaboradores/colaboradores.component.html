@@ -1,0 +1,183 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+    <div>
+        <i #tooltip="matTooltip" matTooltip="cadastrar colaborador" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="openCreateUserModal()" mat-icon-button>
+                <mat-icon>person_add_alt</mat-icon>
+            </button>
+        </i>
+    </div>
+
+    <br>   
+
+
+    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" 
+    class="form-inline siteForm">
+
+        <span>Digite ao menos um dos
+            campos para
+            pesquisar pelo colaborador:
+        </span>
+
+        <div class="form-row align-items-center">
+
+            <mat-form-field appearance="standard">
+                <mat-label>Nome</mat-label>
+                <input formControlName="nome" selected matInput placeholder="digite o nome">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>E-mail</mat-label>
+                <input formControlName="email" selected matInput placeholder="digite o E-mail">
+            </mat-form-field>
+
+            <mat-form-field >
+                <mat-label>CPF</mat-label>
+                <input mask="000.000.000-00" formControlName="cpf" selected matInput placeholder="digite o CPF">
+            </mat-form-field>
+
+            <span>
+                <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+                    matTooltipHideDelay="100">
+                    <button type="submit" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                incluir inativos:
+            </span>
+
+            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
+
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                todas unidades:
+            </span>
+            <mat-checkbox formControlName="todasUnidades" color="primary"></mat-checkbox>
+
+        </div>
+
+    </form>
+
+
+    <div class="card-header card-msg-response" 
+        *ngIf="showMessageNotFound">{{mensagemNotFound}}</div>
+
+    <mat-progress-bar style="margin-top: 20px;" 
+    [style.visibility]="spinnerSearch"  @rowHighlight style="margin:0px" mode="query">
+    </mat-progress-bar>
+
+    <div @rowHighlight *ngIf="colaboradores.length > 0" class="card card-plain mat-elevation-z8" 
+            style="width: 100%;
+            position: relative;
+            margin-top: 20px;
+            box-shadow: 0 0 1em rgb(172, 170, 170);
+            background-color: rgb(227, 240, 227);">
+
+        <div class="card-header" style="background-color: rgb(207, 231, 207);">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Colaboradores</h4>
+            <p class="card-category">{{length}} colaborador(s) localizado(s) no sistema: </p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive table-colaborador" >
+
+                <table color="primary" class="table">
+                    <thead>
+                        <tr >
+                            <th ></th>
+
+                            <th >NOME</th>
+
+                            <th >E-MAIL</th>
+
+                            <th >UNIDADE</th>
+
+                            <th >ATIVO</th>
+
+                            <th ></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of colaboradores;let i = index;" @rowHighlight>
+                           
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{(i + 1)+(pageIndexNumber)}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.email}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.unidadeSigla}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+
+
+                                <div *ngIf="item.ativo == true;else inativo">
+
+                                    <mat-icon style="font-size: 1.3em;
+                                        background-color: rgb(227, 240, 227);color: green;" >
+                                        done</mat-icon>
+
+
+                                </div>
+                                <ng-template #inativo>
+
+                                    <mat-icon style="background-color: rgb(227, 240, 227);font-size: 1.3em;
+                                            color: red; ">close</mat-icon>
+
+
+                                </ng-template>
+
+                            </td>
+
+                            <td style="position: relative;text-align:center; 
+                            vertical-align: middle;">
+
+                                <i style="margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="disabledOpenEditButton" (click)="openEditUserModal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i *ngIf="podeDeletar" style="margin: 10px; " #tooltip="matTooltip"
+                                    matTooltip="deletar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="disabledOpenEditButton" 
+                                    (click)="Deletar(item.id)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i>
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <mat-paginator *ngIf="length > 5" style="
+                background-color: rgb(227, 240, 227);
+                bottom: 0px;
+                right: 0px;" 
+                
+                [length]="length"
+                [pageSize]="pageSize" 
+                hidePageSize="true"
+                (page)="pageEvent = Pesquisar($event)">
+            </mat-paginator>
+
+        </div>
+
+    </div>
+
+</div>

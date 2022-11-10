@@ -1,0 +1,78 @@
+<div style="font-size: 1.2em;">Exportar Lead
+  <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+    matTooltipHideDelay="100">
+    <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </i>
+
+</div>
+
+<!-- <div style="font-size: 0.9em;margin-top: 5px;">(TODO? checar todos os dados para ver se ja n existe aluno com algum dos
+    dados</div> -->
+<hr>
+<div style="position: relative;">
+
+
+
+  <!-- <div class="card-header">
+        <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+            LEADS</h4>
+        <p class="card-category"> </p>
+    </div> -->
+
+
+  <!-- <div class="card-body"> -->
+
+
+  <!-- <div class="row" style="margin-bottom:15px;"> -->
+  <div class="">
+    <!-- <input multiple type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;"> -->
+    <!-- <button style="width: 140px;" type="button" class="btn btn-success" (click)="file.click()">Exportar
+            Lead</button> -->
+
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="baixar modelo" matTooltipPosition="above"
+      matTooltipHideDelay="100">
+      <!-- <button (click)="file.click()" style="" mat-icon-button>
+        <mat-icon>file_download</mat-icon>
+      </button> -->
+      <button type="button"
+      [disabled]="disableButton"
+      (click)="exportExcel()"
+      style="" mat-icon-button>
+        <mat-icon>file_download</mat-icon>
+      </button>
+    </i>
+
+    <br>
+
+
+    <div style="font-size: 0.7em;margin: 0px;padding: 0px;">* formato aceito: excel (.xls)</div>
+
+    <div style="font-size: 0.7em;margin: 0px;padding: 0px;">* tamanho máximo: 5 MB</div>
+  </div>
+
+  <div class="">
+    <span class="upload" *ngIf="progress > 0">
+      {{progress}}%
+    </span>
+    <span class="upload" *ngIf="message">
+      {{message}}
+    </span>
+  </div>
+  <!-- </div> -->
+  <mat-progress-bar [style.visibility]="progressBar" @rowHighlight mode="query">
+  </mat-progress-bar>
+  <div class="row">
+    <div class="">
+      <input multiple type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+      <button style="width: 140px;"
+      [disabled]="disableButton"
+      type="button" class="btn btn-success" (click)="file.click()">arquivo</button>
+    </div>
+  </div>
+
+
+
+  <!-- </div> -->
+</div>

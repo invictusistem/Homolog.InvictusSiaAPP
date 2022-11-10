@@ -1,0 +1,112 @@
+<div style="font-size: 1.2em;">Transferência entre unidades
+
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+<hr>
+
+
+<div *ngIf="showDivPesquisa">
+
+    <span style="font-size: 0.9em;">Digite a matrícula do aluno:</span><br>
+
+    <form novalidate [formGroup]="pesquisaForm" (ngSubmit)="consulta()">
+        <mat-form-field appearance="standard" style="width: 145px;">
+            <mat-label>Matrícula</mat-label>
+            <input formControlName="matricula"
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" matInput>
+        </mat-form-field>
+
+        <button type="submit" [disabled]="searchCpfProgressBar == 'visible' ? true : false"
+            style="margin: 0px; margin: 0px;" mat-icon-button>
+            <mat-icon>search</mat-icon>
+        </button>
+    </form>
+    <mat-progress-bar @rowHighlight [style.visibility]="searchCpfProgressBar" style="margin:0px" mode="query">
+    </mat-progress-bar>
+
+    <div @rowHighlight class="card-header " style="background-color: rgb(227, 240, 227);margin-left: 0px;
+       width: 350px; font-size: 0.9em;box-shadow: 0 0 0.5em rgb(172, 170, 170);" unselectable="on"
+        *ngIf="showMensagem">{{mensagem}}</div>
+
+</div>
+
+<div *ngIf="showDivForm" style="position: relative;">
+
+    <form novalidate [formGroup]="transfForm" style="" (ngSubmit)="Transferir()">
+        <mat-form-field appearance="standard" style="width: 55%;">
+            <mat-label>Nome</mat-label>
+            <input [disabled]="true" matInput placeholder="Nome" [value]="aluno.alunoNome">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 40%; margin-left: 5%;">
+            <mat-label>Email</mat-label>
+            <input [disabled]="true" [value]="aluno.email" matInput placeholder="Email">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 18%;">
+            <mat-label>CPF</mat-label>
+            <input [disabled]="true" [value]="aluno.cpf | cpf" matInput>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 55%;">
+            <mat-label>Turma Atual</mat-label>
+            <input [disabled]="true" matInput [value]="aluno.turma">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 40%;margin-left: 3%;">
+            <mat-label>Unidade</mat-label>
+            <input [disabled]="true" matInput [value]="aluno.unidade">
+        </mat-form-field>
+
+        <div *ngIf="msgDebito" style="font-style: italic; font-size: 0.9em;color: red;">Foram localizados débitos em aberto. Por favor, regularizar.</div>
+
+        <div [style.visibility]="efetivarTransf">
+
+            <div style="font-style: italic; font-size: 0.9em;">Selecione a unidade e turma de destino:</div>
+
+            <mat-form-field appearance="standard" style="width: 25%;">
+                <mat-label>Unidade:</mat-label>
+                <mat-select [disabled]="!podeTransf" formControlName="unidadeId" required>
+                    <mat-option (click)="BuscarTurmas(unidade.id)" *ngFor="let unidade of unidades" [value]="unidade.id">{{unidade.descricao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <br>
+            
+                <mat-form-field *ngIf="showTurmaDropDown" appearance="standard" style="width: 25%;">
+                    <mat-label>Turmas em andamento:</mat-label>
+                    <mat-select [disabled]="showTurmasAndamento" formControlName="turmaDestinoId" required>
+                        <mat-option *ngFor="let turma of turmas" [value]="turma.id">{{turma.descricao}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            
+
+            <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+            </mat-progress-bar>
+
+
+            <span style="float: right;margin-top: 15px;">
+
+                <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton"
+                    style="float:right;margin-left: 10px;">
+                    Salvar
+                </button>
+            </span>
+            <div *ngIf="showPendencias" style="color:red; font-size: 0.8em">
+            Foram encontradas pendências financeiras.
+            </div>
+        </div>
+    </form>
+
+</div>

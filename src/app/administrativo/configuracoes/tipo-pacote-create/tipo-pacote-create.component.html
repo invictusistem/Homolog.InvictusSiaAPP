@@ -1,0 +1,50 @@
+<div style="font-size: 1.2em;">Criar Tipo
+  <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+    matTooltipHideDelay="100">
+    <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </i>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<hr>
+<div *ngIf="showForm">
+
+  <form novalidate [formGroup]="tipoForm" (ngSubmit)="onSubmit()">
+
+    <mat-form-field appearance="standard" style="width: 50%; ">
+      <mat-label>Nome</mat-label>
+      <input oninput="this.value = this.value.toUpperCase()" formControlName="nome" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" style="width: 40%;margin-left: 10%;">
+      <mat-label>Nível</mat-label>
+      <mat-select formControlName="nivel">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let nivel of niveis" [value]="nivel">{{nivel}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="standard" style="width: 100%;">
+      <mat-label>Observação</mat-label>
+      <textarea oninput="this.value = this.value.toUpperCase()" formControlName="observacao" matInput></textarea>
+    </mat-form-field>
+
+
+
+    <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+    </mat-progress-bar>
+
+    <span style="float: right;margin-top: 15px;">
+
+      <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton"
+        style="position: relative; float:right;margin-left: 10px;">
+        Salvar
+      </button>
+    </span>
+
+  </form>
+</div>

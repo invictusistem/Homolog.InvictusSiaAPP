@@ -1,0 +1,242 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+    <div>
+        <i style="" #tooltip="matTooltip" matTooltip="cadastrar fornecedor" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="openCreateFornecedorModal()" mat-icon-button>
+                <mat-icon>person_add_alt</mat-icon>
+            </button>
+        </i>
+    </div>
+
+    <br>
+
+
+    <form class="form-inline siteForm" [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()"
+        style="margin-top: 5px;display: inline-block">
+
+        <span style="font-size: 0.9em;font-style: italic;">Digite ao menos um dos campos para
+            pesquisar pelo fornecedor:
+        </span>
+
+        <div class="form-row align-items-center">
+
+            <mat-form-field appearance="standard">
+                <mat-label>Nome/Razão social</mat-label>
+                <input selected formControlName="nome" matInput placeholder="digite o nome">
+            </mat-form-field>
+
+            <mat-form-field class="siteForm-select">
+                <mat-label>E-mail</mat-label>
+                <input selected formControlName="email" matInput placeholder="digite o E-mail">
+            </mat-form-field>
+
+            <mat-form-field class="siteForm-select">
+                <mat-label>CPF/CNPJ</mat-label>
+                <input selected formControlName="cpf" matInput placeholder="digite o CPF">
+            </mat-form-field>
+
+            <span>
+                <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button type="submit" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                incluir inativos:
+            </span>
+
+            <mat-checkbox formControlName="ativo" color="primary"></mat-checkbox>
+
+            <span style="margin-left: 10px;font-size: 0.9em;font-style: italic;">
+                todas unidades:
+            </span>
+            <mat-checkbox formControlName="todasUnidades" color="primary"></mat-checkbox>
+
+
+        </div>
+
+    </form>
+
+    <div class="card-header card-msg-response" unselectable="on" *ngIf="showMessageNoData">{{mensagem}}</div>
+
+
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+        mode="query">
+    </mat-progress-bar>
+
+    <div *ngIf="fornecedores.length > 0" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+            position: relative;
+            margin-top: 50px;
+            box-shadow: 0 0 1em rgb(172, 170, 170);
+            background-color: rgb(227, 240, 227);">
+
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Fornecedores</h4>
+            <p class="card-category">Fornecedores localizados no sistema: </p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive table-fornecedor">
+
+                <table color="primary" class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>NOME</th>
+
+                            <th>CPF/CNJP</th>
+
+                            <th>UNIDADE</th>
+
+                            <th>ATIVO</th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr @rowHighlight *ngFor="let forn of fornecedores; let i = index;">
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{(i + 1)+(pageIndexNumber)}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{forn.nome}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{forn.cnpj }}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{forn.unidadeSigla}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+                                <div *ngIf="forn.ativo;else inativo">
+
+                                    <mat-icon style="margin: 0px; margin: 0px;
+                                        background-color: rgb(227, 240, 227);;color: green;" style="color: green;">
+                                        done</mat-icon>
+
+
+                                </div>
+                                <ng-template #inativo>
+
+                                    <mat-icon style="background-color: rgb(227, 240, 227);
+                                            margin: 0px; margin: 0px;color: red; ">close</mat-icon>
+
+
+                                </ng-template>
+
+                            </td>
+
+                            <td >
+
+                                <i style="margin-right: 5%;margin-left: 5%" #tooltip="matTooltip" matTooltip="editar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="OpenEditFornecedorModal(forn)" style="background-color: rgb(227, 240, 227);"
+                                        mat-icon-button>
+                                        <mat-icon >edit</mat-icon>
+                                    </button>
+                                </i>
+                                <!-- <i style="margin-right: 5%" #tooltip="matTooltip" matTooltip="cadastrar compra"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openFornecedorCompra(forn)" disabled
+                                        style="background-color: rgb(227, 240, 227)" mat-icon-button>
+                                        <mat-icon>paid</mat-icon>
+                                    </button>
+                                </i>                            
+
+                                <i style="" #tooltip="matTooltip" matTooltip="cadastrar venda"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openFornecedorVenda(forn)" disabled
+                                        style="background-color: rgb(227, 240, 227)" mat-icon-button>
+                                        <mat-icon>shopping_cart</mat-icon>
+                                    </button>
+                                </i> -->
+
+                              
+
+                            </td>
+                        </tr>
+
+                        <!-- <tr *ngFor="let item of fornecedores;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{(i + 1)+(pageIndexNumber)}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.email}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.perfil || 'Sem perfil'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+                                <div *ngIf="item.ativo == true;else inativo">
+
+                                    <mat-icon style="margin: 0px; margin: 0px;
+                                        background-color: rgb(227, 240, 227);;color: green;" style="color: green;">
+                                        done_outline</mat-icon>
+                                    
+
+                                </div>
+                                <ng-template #inativo>
+
+                                    <mat-icon style="background-color: rgb(227, 240, 227);
+                                            margin: 0px; margin: 0px;color: red; ">close</mat-icon>
+
+
+                                </ng-template>
+
+                            </td>
+
+                            <td style="position: relative;">
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="showSpinner" (click)="openEditUserModal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i>
+
+                            </td>
+                            <td style="position: relative;">
+
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button [disabled]="showSpinner" (click)="deleteColaborador(item.id)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i>
+
+                            </td>
+                        </tr> -->
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <mat-paginator *ngIf="length > 5" style="
+                background-color: rgb(227, 240, 227);
+                bottom: 0px;
+                right: 0px;" 
+                [length]="length" 
+                [pageSize]="pageSize" 
+                hidePageSize="true" 
+                (page)="pageEvent = Pesquisar($event)"
+                >
+            </mat-paginator>
+
+        </div>
+
+        <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+            top: 46.5%; 
+            position: absolute;">
+        </mat-spinner> -->
+    </div>
+</div>

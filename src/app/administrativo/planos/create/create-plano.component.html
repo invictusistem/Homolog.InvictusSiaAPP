@@ -1,0 +1,112 @@
+<div style="font-size: 1.2em;">Criar Plano de Pagamento
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<mat-progress-bar [style.visibility]="initProgressBar" mode="query"></mat-progress-bar>
+
+<div @rowHighlight *ngIf="showForm">
+
+    <div style="font-size: 0.8em;margin-top: 5px;">* O plano de pagamento poderá ser visualizado, utilizado e editado
+        por todas as unidades.</div>
+
+    <hr>
+    <form novalidate [formGroup]="moduloForm" (ngSubmit)="onSubmit(moduloForm)">
+
+        <!-- <div class="card-body"> -->
+
+            <mat-form-field appearance="standard" style="width: 65%;">
+                <mat-label>Tipo/Pacote</mat-label>
+                <mat-select formControlName="typePacoteId" placeholder="">
+                    <mat-option (click)="GetContratos(type.id)" [value]="type.id" *ngFor="let type of typePacotes">
+                        {{type.nome}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-slide-toggle style="width: 8%;margin-left: 27%; " class="autoPagination-slide" #tooltip="matTooltip"
+                name="ativo" matTooltip="ativo/inativo" matTooltipPosition="above" matTooltipHideDelay="250"
+                color="primary" formControlName="ativo">
+            </mat-slide-toggle>
+            <!-- <mat-slide-toggle style="width: 20%; margin-left: 5%;" class="autoPagination-slide" #tooltip="matTooltip"
+        formControlName="ativo" required matTooltip="ativo/inativo"
+            matTooltipPosition="above" matTooltipHideDelay="250" color="primary">
+        </mat-slide-toggle> -->
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 75%;">
+                <mat-label>Descrição</mat-label>
+                <input selected formControlName="descricao" matInput placeholder="Descrição">
+            </mat-form-field>
+
+
+
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 30%; ">
+                <mat-label>Valor</mat-label>
+                <input formControlName="valor" currencyMask
+                    [options]="{ prefix: '', thousands: '.', decimal: ',' }" placeholder="R$ 00,00" matInput>
+                <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 30%;margin-left: 5% ">
+                <mat-label>Taxa Matrícula</mat-label>
+                <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                    formControlName="taxaMatricula" type="text" required matInput placeholder="R$ 00,00">
+                <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="standard" style="width: 30%;margin-left: 5%; ">
+                <mat-label>Bonus Pontualidade</mat-label>
+                <input currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                    formControlName="bonusPontualidade" type="text" required matInput placeholder="R$ 00,00">
+                <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
+
+            <br>
+
+
+            <mat-form-field appearance="standard" style="width: 45%">
+                <mat-label>Material Gratuito</mat-label>
+                <mat-select formControlName="materialGratuito" placeholder="">
+                    <mat-option [value]="true">Sim</mat-option>
+                    <mat-option [value]="false">Não</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 30%;margin-left: 5%; ">
+                <mat-label>Valor Material</mat-label>
+                <input selected formControlName="valorMaterial" currencyMask
+                    [options]="{ prefix: '', thousands: '.', decimal: ',' }" placeholder="R$ 00,00" matInput>
+                <span matPrefix>R$&nbsp;</span>
+            </mat-form-field>
+
+            <br>
+
+
+            <mat-form-field appearance="standard" style="width: 55%;">
+                <mat-label>Contrato</mat-label>
+                <mat-select [disabled]="disabledContrato" formControlName="contratoId" placeholder="temRecuperacao">
+                    <mat-option [value]="cont.id" *ngFor="let cont of contratos">{{cont.titulo}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        <!-- </div> -->
+
+        <mat-progress-bar [style.visibility]="saveSpinner" mode="query"></mat-progress-bar>
+
+        <!-- <div style="float: right;margin-top: 15px;"> -->
+            <button color="primary" type="submit" [disabled]="disabledSave" mat-raised-button 
+            style="float:right;margin-bottom: 10px;margin-top: 10px;">
+                
+                Salvar
+           </button> 
+        <!-- </div> -->
+    </form>
+</div>

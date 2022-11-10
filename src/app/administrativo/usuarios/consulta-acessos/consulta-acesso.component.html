@@ -1,0 +1,97 @@
+<div style="font-size: 1.2em;">Acessos ao sistema
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<hr>
+
+<form novalidate [formGroup]="rangeForm" style="" (ngSubmit)="Pesquisar()">
+
+    <mat-form-field appearance="outline">
+        <mat-label>Selecione o período</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate formControlName="rangeIni" [disabled]="true" placeholder="Start date">
+            <input matEndDate formControlName="rangeFinal" [disabled]="true" placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+
+        <!-- <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error> -->
+    </mat-form-field>
+
+    <span style="vertical-align:middle;">
+        <i #tooltip="matTooltip" matTooltip="pesquisar" style="vertical-align:middle;" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button type="submit" style="margin-bottom: 10px;vertical-align:middle;" mat-icon-button>
+                <mat-icon>search</mat-icon>
+            </button>
+        </i>
+    </span>
+
+</form>
+
+<div *ngIf="nenhumDadoLocalizado" @rowHighlight style="font-size: 0.8em;font-style: italic;">Nenhum registro localizado para
+    o período informado</div>
+
+
+<div *ngIf="showContent" @rowHighlight>
+
+
+    <div class="table-responsive table-calend" style="position: relative;min-height: 100px;">
+
+        <table color="primary" style="margin-bottom: 0px;" class="table">
+
+            <thead>
+                <tr>
+                    <th style="width: 3%;
+                    text-align:left; 
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+                    <th style="width: 10%;
+                    vertical-align: middle;
+                    text-align:left;
+                    border-top: 0px; font-weight: 400;">HORÁRIO</th>
+
+                    <th style="width: 10%;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">USUARIO/NOME</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let acesso of acessos;let i = index;">
+
+                    <td style="text-align:left;vertical-align: middle; ">
+                        {{ i + 1}}
+                    </td>
+                    <td style="text-align:left;vertical-align: middle;">
+                        {{acesso.data | date:'dd/MM/yyyy HH:mm'}}
+                    </td>
+
+                    <td style="text-align: center;vertical-align: middle;">
+                        {{acesso.email}}/{{acesso.nome}}
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+</div>

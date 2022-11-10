@@ -1,0 +1,182 @@
+<div style="font-size: 1.2em;">Editar Estágio
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+
+
+<div *ngIf="initProgressBar != 'visible'">
+
+    <hr>
+
+    <form novalidate [formGroup]="estagioForm" (ngSubmit)="Salvar(estagioForm)">
+
+
+        <mat-form-field appearance="standard" style="width: 250px; ">
+            <mat-label>Nome Instituição</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" selected formControlName="nome" matInput
+                placeholder="Nome">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 150px; margin-left: 5%; ">
+            <mat-label>CNPJ</mat-label>
+            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" selected
+                formControlName="cnpj" minlength="14" maxlength="18" mask="00.000.000/0000-00" matInput
+                placeholder="CNPJ">
+        </mat-form-field>
+
+        <br>
+
+
+
+
+        <mat-form-field appearance="standard" style="width: 20%; ">
+            <mat-label>Inicio</mat-label>
+            <input matInput [matDatepicker]="dp3" formControlName="dataInicio" [disabled]="true">
+            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+        </mat-form-field>
+
+
+
+        <!-- <mat-form-field appearance="standard" style="width: 25%; ">
+            <mat-label>Inicio</mat-label>
+            <input matInput formControlName="dataInicio" placeholder="início" 
+            
+            [value]="valor"
+                (focusout)="onFocusOutDateEvent($event)"
+                onkeypress="String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+        </mat-form-field> -->
+
+        <!-- <mat-form-field (focusout)="onFocusOutDateEvent($event)" appearance="standard" style="width: 145px; ">
+            <mat-label>Previsão 1</mat-label>
+            <input mask="00/00/0000" required name="prevInicio_1" matInput [value]="previIniOne"
+                formControlName="prevInicio_1"
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+            <mat-hint>Previsão de início 1</mat-hint>
+        </mat-form-field>
+
+
+
+        <mat-form-field appearance="standard" style="width: 150px;">
+            <mat-label>Inicio</mat-label>
+            <date-input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                formControlName="dataInicio" matInput required></date-input>
+            <mat-hint>Previsão de início</mat-hint>
+        </mat-form-field> -->
+
+
+        <mat-form-field appearance="standard" style="width: 65px;margin-left: 5%;">
+            <mat-label>nº vagas</mat-label>
+            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" formControlName="vagas"
+                minlength="1" maxlength="4" required name="vagas" matInput>
+            <!-- <mat-hint>nº vagas</mat-hint> -->
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 40%;margin-left: 5%;">
+            <mat-label>Estágio/Tipo</mat-label>
+            <mat-select formControlName="tipoEstagio" selected required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let tipo of tipoEstagio" 
+                [value]="tipo.id">{{tipo.nome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- <mat-form-field appearance="standard" style="width: 55px;margin-left: 15px;">
+                
+                <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                    formControlName="trimestre" minlength="1" maxlength="4" required name="vagas" matInput>
+                <mat-hint>trimestre</mat-hint>
+            </mat-form-field> -->
+
+        <br>
+        <mat-form-field appearance="standard" style="width: 100px;">
+            <mat-label>CEP</mat-label>
+            <input mask="00.000-000" onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                formControlName="cep" minlength="8" maxlength="10" required matInput placeholder="apenas números">
+        </mat-form-field>
+
+        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button type="button" style="margin: 0px; margin: 0px;" mat-icon-button>
+                <mat-icon (click)="consultaCEP(estagioForm.get('cep')?.value)">search</mat-icon>
+            </button>
+        </i>
+
+        <br>
+
+
+
+        <mat-form-field appearance="standard" style="width: 35%;">
+            <mat-label>Logradouro</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" selected formControlName="logradouro"
+                matInput placeholder="ex: rua tal...">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 10%;margin-left: 5%;">
+            <mat-label>Nº</mat-label>
+            <input formControlName="numero" oninput="this.value = this.value.toUpperCase()" selected 
+                matInput placeholder="ex: rua tal...">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 45%; margin-left: 5%;">
+            <mat-label>Complemento</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" selected formControlName="complemento"
+                matInput placeholder="ex: nº 123... sala 10... apto 123...">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 30%;">
+            <mat-label>Cidade</mat-label>
+            <input [disabled]="true" selected [value]="estagioForm.get('cidade')?.value" matInput placeholder="digite o bairro">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 5%; margin-left: 5%;">
+            <mat-label>UF</mat-label>
+            <input [disabled]="true" selected [value]="estagioForm.get('uf')?.value" matInput placeholder="digite o bairro">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 35%; margin-left: 5%;">
+            <mat-label>Bairro</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" selected formControlName="bairro" matInput
+                placeholder="digite o bairro">
+        </mat-form-field>
+
+
+        <mat-progress-bar [style.visibility]="saveBar" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <div style="float: right;margin-top: 15px;">
+            <button color="primary" [disabled]="desabilitar" type="submit" mat-raised-button
+                style="position: relative; float:right;margin-left: 10px;">
+                Salvar
+            </button>
+        </div>
+
+    </form>
+
+</div>

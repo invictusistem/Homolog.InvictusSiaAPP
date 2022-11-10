@@ -1,0 +1,14 @@
+<div class="container">
+    Olá {{tokenInfo.Nome}}!
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Sim'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+    <hr>
+    <br>
+    <div [innerHTML]="mensagem"></div>
+    <!-- <div [innerHTML]="horario"></div> -->
+    <!-- São {{ horario | date:'long' }} -->
+</div>

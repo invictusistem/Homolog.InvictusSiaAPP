@@ -1,0 +1,92 @@
+// mat-label{
+//     color: black
+// }
+
+// input{
+//     color: black
+// }
+
+// ::ng-deep .mat-form-field-outline{
+//     border-color: green !important;
+// }
+
+// mat-form-field-outline mat-form-field-outline-thick
+
+::ng-deep .myeditturma-class .mat-dialog-container {
+    height: auto;
+    width: 1030px;
+  }
+  ::ng-deep .mat-tab-group.admturmaedit {
+    height: 360px !important;
+  }
+  
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+      color: #b4b8b4 !important;
+      // opacity: 1!important;
+    //  margin: 0px !important;
+  }
+  
+  
+  ::ng-deep .mat-form-field {
+      //transform: scale(0.85) !important ;
+      //padding: 0px !important;
+      font-size: 0.9em; 
+    }
+  
+    ::ng-deep .mat-form-field-wrapper {
+      
+     // padding-bottom: 0px !important;
+      
+  
+    }
+  
+  /*
+  400: #66bb6a,
+    500: #4caf50,
+    600: #43a047,
+    700: #388e3c,
+    800: #2e7d32,
+    900: #1b5e20,
+    A100: #b9f6ca,
+    A200: #69f0ae,
+    A400: #00e676,
+    A700: #00c853,
+  
+  */
+  
+  // //mat-input focused color
+  // ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  //     color: red!important;
+  // }
+  
+  // // mat-input error outline color
+  // ::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+  //     color: red!important;
+  //     opacity: 0.8!important;
+  // }
+  
+  // // mat-input carent color
+  // ::ng-deep .mat-input-element {
+  //     caret-color: red!important;
+  // }
+  
+  // // mat-input error carent color
+  // ::ng-deep .mat-form-field-invalid .mat-input-element, .mat-warn .mat-input-element {
+  //     caret-color: red!important;
+  // }
+  
+  // // mat-label normal state style
+  // ::ng-deep .mat-form-field-label {
+  //     color: rgba(0,0,0,.6)!important;
+  //     // color: $mainColor!important;
+  // }
+  
+  // // mat-label focused style
+  // ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  //     color: red!important;
+  // }
+  
+  // // mat-label error style
+  // ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+  //     color: red!important;
+  // }

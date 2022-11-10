@@ -1,0 +1,147 @@
+<div style="font-size: 1.2em;">
+    Relatório de matrículas
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm" style="">
+
+    <hr>
+    <form novalidate [formGroup]="pesquisaForm" style="" (ngSubmit)="Pesquisar(pesquisaForm)">
+
+
+        <mat-radio-group formControlName="opcao" aria-label="Select an option">
+            <mat-radio-button color="primary" value="periodo">por período</mat-radio-button>
+            <mat-radio-button color="primary" style="margin-left:5px" value="turma">por turma</mat-radio-button>
+        </mat-radio-group>
+
+        <br>
+
+        <ng-container *ngIf="pesquisaForm.get('opcao')?.valid">
+
+            <div *ngIf="pesquisaForm.get('opcao')?.value == 'periodo';else turma">
+                <mat-form-field style="margin-top: 15px;" appearance="standard">
+                    <mat-label>Selecione o período</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate formControlName="inicio" placeholder="início">
+                        <input matEndDate formControlName="fim" placeholder="fim">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+
+                </mat-form-field>
+
+
+                <span>
+                    <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+                        matTooltipHideDelay="100">
+                        <button type="submit" mat-icon-button>
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </i>
+                </span>
+
+            </div>
+            <ng-template #turma>
+
+                <mat-form-field appearance="standard" style="width: 25%;margin-top: 15px;">
+                    <mat-label>Turma</mat-label>
+                    <mat-select formControlName="turmaId" selected>
+                        <mat-option></mat-option>
+                        <mat-option *ngFor="let turma of turmas" [value]="turma.id">{{turma.descricao}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <span>
+                    <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+                        matTooltipHideDelay="100">
+                        <button type="submit" mat-icon-button>
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </i>
+                </span>
+
+            </ng-template>
+
+
+        </ng-container>
+
+    </form>
+
+    <div *ngIf="showTable">
+
+        <span style="font-size: 0.9em;font-style: italic;">Matrículas: {{ matriculas.length }}</span>
+
+        <br>
+
+        <div class="table-responsive">
+            <table color="primary" style="margin-bottom: 0px;" class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 2%; 
+                        text-align:left; 
+                        vertical-align: middle;
+                        border-top: 0px;"></th>
+
+
+                        <th style="width: 35%;font-size:0.9em;
+                        vertical-align: middle; 
+                        text-align:left;
+                        border-top: 0px; font-weight: 400;">ALUNO</th>
+
+                        <th style="width: 21%;font-size:0.9em;
+                        vertical-align: middle;
+                        text-align:center;
+                        border-top: 0px; font-weight: 400;">TURMA</th>
+
+                        <th style="width: 12%;font-size:0.9em;
+                        text-align:center; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">DATA MATRÍCULA</th>
+
+                        <th style="width: 30%;font-size:0.9em;
+                        text-align:center; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">RESPONSÁVEL<br>PELA MATRÍCULA</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let mat of matriculas; let i = index;">
+                        <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                            {{i + 1}}
+                        </td>
+
+                        <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                            {{mat.alunoNome}}
+                        </td>
+
+                        <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                            {{mat.descricao}} - {{mat.identificador}}
+                        </td>
+
+                        <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                            {{mat.diaMatricula | date:'d/M/yyyy H:mm'}}
+                        </td>
+
+                        <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                            {{mat.colaboradorNome}}
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div *ngIf="msgNoRegistro">
+        <span style="font-size: 0.9em; font-style: italic;">Nenhum registro encontrado.</span>
+    </div>
+</div>

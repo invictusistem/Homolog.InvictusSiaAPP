@@ -1,0 +1,58 @@
+<div style="font-size: 1.2em;">Saldo bancário
+    <close-modal [disable]="disabledCloseModalIcon"></close-modal>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showContent" @rowHighlight>
+
+    <div class="table-responsive">
+        <table color="primary" style="margin-bottom: 0px;" class="table">
+           
+            <thead>
+                <tr>
+                    <th style="width: 2%; 
+            text-align:left; 
+            vertical-align: middle;
+            border-top: 0px;"></th>
+
+
+                    <th style="width: 40%;font-size:0.9em;
+            vertical-align: middle; 
+            text-align:left;
+             border-top: 0px; font-weight: 400;">BANCO</th>
+
+                    <th style="width: 29%;font-size:0.9em;
+            vertical-align: middle;
+            text-align:center;
+            border-top: 0px; font-weight: 400;">SALDO</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let banco of bancos; let i = index;">
+                    <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i + 1}}</td>
+
+                    <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                        {{banco.nome}}
+                    </td>
+
+                    <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                        {{banco.saldo | currency:'BRL':'R$ '}}
+                    </td>
+
+                   
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <mat-form-field appearance="standard" style="width: 30%; ">
+        <mat-label>Total</mat-label>
+        <input [value]="total | currency:'BRL':'R$ '" disabled
+           matInput>
+        <!-- <span matPrefix>R$&nbsp;</span> -->
+    </mat-form-field>
+</div>

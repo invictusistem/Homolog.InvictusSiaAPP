@@ -1,0 +1,236 @@
+<div style="font-size: 1.2em;">Criar Pacote NOVO
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+
+<div @rowHighlight *ngIf="showContent">
+
+    <hr>
+
+    <form novalidate [formGroup]="moduloForm">
+
+
+        <mat-form-field appearance="standard" style="width: 350px;">
+            <mat-label>Tipo</mat-label>
+            <mat-select formControlName="typePacoteId" placeholder="">
+                <mat-option></mat-option>
+                <mat-option (click)="buscarMaterias(type.id)" [value]="type.id" *ngFor="let type of typePacotes">
+                    {{type.nome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 280px; ">
+            <mat-label>Nome</mat-label>
+            <input oninput="this.value = this.value.toUpperCase()" formControlName="descricao" matInput
+                placeholder="dica: Curso Técnico de Enfermagem">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 80px;margin-left: 10px; ">
+            <mat-label>Total horas</mat-label>
+            <input selected disabled [value]="totalHoras" matInput placeholder="curso tal...">
+        </mat-form-field>
+
+    </form>
+
+    <mat-tab-group class="matcreatemodulo">
+
+        <mat-tab label="Matérias">
+
+            <ng-container *ngIf="addMateriasForm;else showEscolhaMateriasMsg">
+
+                <div style="font-size: 0.9em;font-style: italic;margin-top: 20px;">
+                    Adicione ao menos uma matéria ao curso:
+                </div>
+
+                <form novalidate [formGroup]="addMateriaForm" (ngSubmit)="addMateria(addMateriaForm)">
+                    <mat-form-field appearance="standard" style="width: 250px;">
+                        <mat-label>Matéria</mat-label>
+                        <mat-select formControlName="pacote" placeholder="">
+                            <mat-option></mat-option>
+                            <mat-option [value]="type" *ngFor="let type of materiasTemplate">
+                                {{type.nome}}
+                            </mat-option>
+                        </mat-select>
+
+                    </mat-form-field>
+                    <button mat-icon-button type="submit" #tooltip="matTooltip" matTooltip="adicionar matéria"
+                        matTooltipPosition="above" matTooltipHideDelay="100">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </form>
+
+
+                <form novalidate [formGroup]="moduloForm">
+
+                    <ng-container formArrayName="materias">
+                        <div cdkDropList (cdkDropListDropped)="drop($event)">
+                            <div *ngFor="let matForm of materias.controls; let i = index;" [formGroupName]="i" cdkDrag>
+
+                                <!-- {{ matForm.value.nome }} -->
+
+                                <mat-form-field appearance="standard" style="width: 245px;">
+                                    <mat-label>Nome</mat-label>
+                                    <input selected value="{{i+1}} {{matForm.value.nome}}" disabled matInput
+                                        placeholder="Descrição">
+                                </mat-form-field>
+
+                                <mat-form-field appearance="standard" style="width: 150px;margin-left: 20px;">
+                                    <mat-label>Descrição</mat-label>
+                                    <input selected [value]="matForm.value.descricao || ' '" disabled matInput
+                                        placeholder="Descrição">
+                                </mat-form-field>
+
+                                <mat-form-field appearance="standard" style="width: 85px;margin-left: 20px;">
+                                    <mat-label>Modalidade</mat-label>
+                                    <input selected [value]="matForm.value.modalidade" disabled matInput
+                                        placeholder="Descrição">
+                                </mat-form-field>
+
+                                <mat-form-field appearance="standard" style="width: 70px;margin-left: 20px;">
+                                    <mat-label>Carga Horária</mat-label>
+                                    <input selected [value]="matForm.value.cargaHoraria" disabled matInput
+                                        placeholder="semestre">
+                                </mat-form-field>
+
+                                <button mat-icon-button (click)="deleteLesson(i)" style="margin-left:10px ;"
+                                    #tooltip="matTooltip" matTooltip="remover" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+
+                                    <mat-icon style="vertical-align: middle;" class="delete-btn">
+                                        delete_forever</mat-icon>
+                                </button>
+
+
+                            </div>
+                        </div>
+                    </ng-container>
+
+                </form>
+                <!-- <button (click)="verordem()">ver ordem</button> -->
+            </ng-container>
+
+            <ng-template #showEscolhaMateriasMsg>
+
+                <span style="font-style: italic; margin-top: 10px; font-size: 0.9em;">
+                    * escolha o tipo para poder adicionar as matérias
+                </span>
+
+            </ng-template>
+
+
+        </mat-tab>
+
+        <mat-tab label="Documentos">
+
+
+            <div div style="font-size: 0.9em;font-style: italic;margin-top: 20px;">
+                Adicione a documentação exigida (opcional):
+            </div>
+
+            <form novalidate [formGroup]="addDocForm" (ngSubmit)="addDocumentos(addDocForm)">
+                <mat-form-field appearance="standard" style="width: 175px;">
+                    <mat-label>Documento</mat-label>
+                    <mat-select formControlName="documento" placeholder="">
+                        <mat-option></mat-option>
+                        <mat-option [value]="type" *ngFor="let type of docTemplates">
+                            {{type.nome}}
+                        </mat-option>
+                    </mat-select>
+
+                </mat-form-field>
+                <button mat-icon-button type="submit" #tooltip="matTooltip" matTooltip="adicionar documentos"
+                    matTooltipPosition="above" matTooltipHideDelay="100">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </form>
+
+            <form novalidate [formGroup]="moduloForm">
+
+                <ng-container formArrayName="documentosExigidos">
+
+                    <ng-container *ngFor="let docsForm of documentos.controls; let i = index;" [formGroupName]="i">
+                        <div>
+
+                            <mat-form-field appearance="standard" style="width: 180px;">
+                                <mat-label>Descrição</mat-label>
+                                <input selected [value]="docsForm.value.descricao" disabled matInput
+                                    placeholder="Descrição">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="standard" style="width: 210px;margin-left: 20px;">
+                                <mat-label>Comentário</mat-label>
+                                <input selected formControlName="comentario" matInput placeholder="Descrição">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="standard" style="width: 175px;;margin-left: 20px;">
+                                <mat-label>Titular</mat-label>
+                                <mat-select formControlName="titular" placeholder="">
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="doc.value" *ngFor="let doc of titularDoc">
+                                        {{doc.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <button mat-icon-button (click)="deleteDocumento(i)" style="margin-left:10px ;"
+                                #tooltip="matTooltip" matTooltip="remover" matTooltipPosition="above"
+                                matTooltipHideDelay="100">
+
+                                <mat-icon style="vertical-align: middle;" class="delete-btn">
+                                    delete_forever</mat-icon>
+                            </button>
+
+                            <!-- <br>
+
+                            <mat-form-field appearance="standard" style="width: 90px;">
+                                <mat-label>Validade (dias)</mat-label>
+                                <input selected [value]="docsForm.value.validadeDias" disabled matInput
+                                    placeholder="semestre">
+                            </mat-form-field>
+
+                            <mat-checkbox color="primary" style="margin-left:10px ;"
+                                formControlName="obrigatorioParaMatricula">
+                                Documento obrigatório para matrícula</mat-checkbox> -->
+
+                        </div>
+                    </ng-container>
+
+                </ng-container>
+
+            </form>
+
+        </mat-tab>
+
+    </mat-tab-group>
+
+    <mat-progress-bar [style.visibility]="saveProgressBar" mode="query"></mat-progress-bar>
+
+    <span *ngFor="let msg of errorMsg" style="margin-top: 20px; font-size: 0.8em;color: red;width: 350px;">
+        {{ msg }}
+
+    </span>
+
+
+    <span>
+        <form novalidate [formGroup]="moduloForm" (ngSubmit)="onSubmit(moduloForm)" style="width: 200px; float: right;">
+            <button type="submit" [disabled]="disabledSave" mat-raised-button color="primary"
+                style="float:right;margin-top: 10px">
+
+                salvar
+            </button>
+        </form>
+    </span>
+
+
+</div>

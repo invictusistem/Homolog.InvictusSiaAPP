@@ -1,0 +1,43 @@
+.example-form-field {
+    font-size: 0.9em;
+}
+
+
+// ::ng-deep .my-class .mat-dialog-container {
+  
+//     height: 75vh;
+//     width: 880px;
+  
+//   }
+
+::ng-deep .profrelatorio-class {
+    
+    
+    width: 1230px !important;
+        //maxHeight: '90vh',
+        //maxWidth: '450vh',
+       // height:'auto' !important;
+       // width: 1230px !important;
+    mat-dialog-container {
+        
+        height: 80vh;    
+        //padding-top: 0px !important;
+        //margin-top: 0px !important;
+   }
+    //border: 1px solid red;
+}
+
+.table-calend {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    // border: 1px solid red;
+    td {
+        /// border: 1px solid red;
+        font-size: 0.8em;
+    }
+
+    th {
+        font-size: 0.9em;
+       // border: 1px solid red;
+    }
+}

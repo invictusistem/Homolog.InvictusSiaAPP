@@ -1,0 +1,122 @@
+<div style="font-size: 1.2em;">
+  Detalhes
+  <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+    matTooltipHideDelay="100">
+    <button [mat-dialog-close]="{clicked:'Cancel'}" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </i>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm">
+
+  <div class="table-responsive">
+    <table color="primary" style="margin-bottom: 0px;" class="table">
+            <thead>
+        <tr>
+
+          <th style="width: 2%;
+        text-align:left;
+        vertical-align: middle;
+        border-top: 0px;"></th>
+
+          <th style="width: 22%;font-size:0.9em;
+        vertical-align: middle;
+        text-align:left;
+         border-top: 0px; font-weight: 400;">NOME</th>
+
+          <th style="width: 13%;font-size:0.9em;
+        vertical-align: middle;
+        text-align:center;
+        border-top: 0px; font-weight: 400;">E-MAIL</th>
+
+          <th style="width: 10%;font-size:0.9em;
+        text-align:center;
+        vertical-align: middle;
+        border-top: 0px; font-weight: 400;">DATA INCLUSÃO</th>
+
+          <th style="width: 15%;font-size:0.9em;
+        text-align:center;
+        vertical-align: middle;
+        border-top: 0px; font-weight: 400;">CURSO PRETENDIDO</th>
+
+          <th style="width: 10%;font-size:0.9em;
+        text-align:center;
+        vertical-align: middle;
+        border-top: 0px; font-weight: 400;">EFETIVADA</th>
+
+          <th style="width: 28%;font-size:0.9em;
+        text-align:center;
+        vertical-align: middle;
+        border-top: 0px; font-weight: 400;">FUNCIONÁRIO</th>
+          <!--<th style="width: 12%;font-size:1em;
+        text-align:center;
+        vertical-align: middle;
+        border-top: 0px; font-weight: 400;">Matriculados</th>
+
+        <th style="width: 13%;font-size:1em;
+        text-align:center;
+        vertical-align: middle;
+        border-top: 0px; font-weight: 400;">Status</th> -->
+
+          <!-- <th style="width: 34%;font-size:1em;
+        text-align:center;
+        vertical-align: middle;
+        border-top: 0px; font-weight: 400;">
+
+        </th> -->
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let lead of leads; let i = index;">
+
+          <td style="font-size:0.9em;text-align:center;vertical-align: middle;">{{i + 1}}</td>
+
+          <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+            {{lead.nome}}<br>
+            <span *ngIf="lead.numeroMatricula != null">mat: {{ lead.numeroMatricula }}</span>
+
+          </td>
+
+          <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{lead.email }}</td>
+
+          <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{lead.dataInclusaoSistema | date: 'dd/MM/yyyy'}}</td>
+
+          <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{lead.cursoPretendido}}</td>
+
+          <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+            <mat-icon [style.color]="lead.efetivada == true ? 'green' : 'red'">{{lead.efetivada == true ? 'done' : 'close'}}</mat-icon>
+            <!-- {{lead.efetivada}}<br> -->
+
+          </td>
+
+          <td style="font-size:0.9em;text-align: center;vertical-align: middle;">{{lead.funcionario}}</td>
+
+
+
+          <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="adiar a tumra para a próxima data"
+            matTooltipPosition="above" matTooltipHideDelay="100">
+            <button style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" mat-icon-button>
+              <mat-icon style="font-size: 1.5em;" class="material-icons-outlined">watch_later</mat-icon>
+            </button>
+          </i>
+
+          <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="iniciar as aulas"
+            matTooltipPosition="above" matTooltipHideDelay="100">
+            <button style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" mat-icon-button>
+              <mat-icon style="font-size: 1.5em;" class="material-icons-outlined">play_arrow</mat-icon>
+            </button>
+          </i>  -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+
+</div>

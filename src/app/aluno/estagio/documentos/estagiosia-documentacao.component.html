@@ -1,0 +1,233 @@
+<div style="font-size: 1.2em;">Estágio/Documentação
+    <close-modal></close-modal>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm">
+
+    <hr>
+
+    <mat-form-field appearance="standard" style="width: 50%">
+        <mat-label>Aluno</mat-label>
+        <input [value]="tokenInfo.Nome" [disabled]="true" matInput>
+    </mat-form-field>
+
+    <br>
+
+    <span style="margin-bottom:10px ">É necessário enviar a documentação listada abaixo para iniciar a
+        escolha do estágio deseja. Após o envio, aguarde a análise
+        que será realizada pela equipe Invictus. Quando toda a documentação for analisada e aprovada, prosseguiremos
+        para a próxima etapa :)
+    </span>
+
+    <br>
+
+    <br>
+
+    <div class="table-responsive table-estagio-sia-document" style="position: relative;">
+
+        <table color="primary" style="margin-bottom: 0px;" class="table">
+
+            <thead>
+                <tr>
+                    <th></th>
+
+                    <th></th>
+
+                    <th>DESCRIÇÃO</th>
+
+                    <th>STATUS</th>
+
+                    <th>DATA ENVIO</th>
+
+                    <th>ARQUIVO</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+
+                <tr *ngFor="let doc of documentos; let i = index;" @rowHighlight>
+
+                    <ng-container [ngSwitch]="doc.status">
+                    
+                        <ng-container *ngSwitchCase="'Não enviado'">
+                    
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                <i #tooltip="matTooltip" matTooltip="escolher arquivo" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button [disabled]="disabledButton" type="button" mat-icon-button
+                                        (click)="fileUpload.click()">
+                                        <input style="display: none;" type="file" id="my-file" onclick="this.value=null"
+                                            (change)="Exportar($event, doc.id)" class="file-input" #fileUpload>
+                                        <mat-icon style="font-size: 1.5em;">file_upload</mat-icon>
+                                    </button>
+                                </i>
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+    
+                                <span>{{ doc.nome }}</span>
+    
+                            </td>
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+    
+                                <span style="font-size: 0.8em; ">documento ainda não enviado</span>
+    
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+    
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+    
+                            </td>
+    
+                            <!-- <td style="width: 45%;font-size:0.9em;text-align: center;vertical-align: middle;">
+    
+                            </td> -->
+                    
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'Aguardando análise'">                    
+                    
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                                <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="baixar arquivo"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button type="button" mat-icon-button>
+                                        <mat-icon style="font-size: 1em;">description</mat-icon>
+                                    </button>
+                                </i>
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+    
+                                <span>{{ doc.nome }}</span>
+    
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">  
+                                        aguarde a análise
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                {{ doc.dataCriacao | date: 'dd/MM/yyyy' }}
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                {{ doc.nomeArquivo }}
+                            </td>
+                    
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'Aprovado'">
+                    
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                                <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="baixar arquivo"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button type="button" mat-icon-button>
+                                        <mat-icon style="font-size: 1em;">description</mat-icon>
+                                    </button>
+                                </i>
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+    
+                                <span>{{ doc.nome }}</span>
+    
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                            <span>
+                                                <mat-icon style="vertical-align: middle; 
+                                            margin: 0px;color: green; margin-bottom: 5px;" #tooltip="matTooltip"
+                                                    [matTooltip]="'aprovado'" matTooltipPosition="above"
+                                                    matTooltipHideDelay="100">
+                                                    done
+                                                </mat-icon>
+                                            </span>
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                {{ doc.dataCriacao | date: 'dd/MM/yyyy' }}
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                {{ doc.nomeArquivo }}    
+                            </td>
+                    
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'Reprovado'">
+                    
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                <i #tooltip="matTooltip" matTooltip="escolher arquivo" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button [disabled]="disabledButton" type="button" mat-icon-button
+                                        (click)="fileUpload.click()">
+                                        <input style="display: none;" type="file" id="my-file" onclick="this.value=null"
+                                            (change)="Exportar($event, doc.id)" class="file-input" #fileUpload>
+                                        <mat-icon style="font-size: 1.5em;">file_upload</mat-icon>
+                                    </button>
+                                </i>
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">    
+                                <span>{{ doc.nome }}</span>    
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                            <span style="color:red">
+                                                Arquivo reprovado. Favor, reenvie.
+                                            </span>
+                            </td>    
+    
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                {{ doc.dataCriacao | date: 'dd/MM/yyyy' }}
+                            </td>
+    
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                {{ doc.nomeArquivo }}    
+                            </td>                    
+                    
+                        </ng-container>
+                    
+                    </ng-container>  
+
+                </tr>
+
+            </tbody>
+        </table>
+
+        <!-- <br>
+        <div>
+            <span style="margin-bottom: 20px; color:red;margin-left: 10px; font-size:0.9em;font-style: italic;">Documentação ainda não enviada pelo aluno:</span>
+            <br>
+            <br>
+            <ul >
+                <li style="font-size:0.9em;">Documentação tal</li>
+            </ul>
+
+        </div> -->
+    </div>
+
+</div>

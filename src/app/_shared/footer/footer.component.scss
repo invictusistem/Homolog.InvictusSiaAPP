@@ -1,0 +1,16 @@
+.footer-div {
+    
+    position: fixed;
+    box-shadow: 8px 4px 8px 8px rgba(0, 0, 0, 0.2), 60px 6px 20px 0 rgba(0, 0, 0, 0.19);
+    height: 25px;
+    margin: 0px;
+    bottom: 0;
+    width: 100%;
+    z-index: 40;
+
+    div {
+        color: white;
+        vertical-align: middle;
+        margin-left: 10px;
+    }
+}

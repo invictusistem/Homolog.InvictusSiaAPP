@@ -1,0 +1,111 @@
+<div style="font-size: 1.2em;">Atribuir matéria(s)
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<hr>
+<div [style.visibility]="showNoMateria" style="font-size: 0.8em;">
+Não há matérias liberadas para este professor.
+</div>
+<div *ngIf="showContent" @rowHighlight>
+
+    <mat-form-field appearance="standard" style="width: 55%;">
+        <mat-label>Professor</mat-label>
+        <input selected disabled [value]="data['professor'].nome" required matInput placeholder="Nome">
+    </mat-form-field>
+
+    <div class="table-responsive" style="height: 410px;position: relative;">
+        <table color="primary" style="margin-bottom: 0px;" class="table">
+
+            <thead>
+                <tr>
+                    <th style="width: 2%; 
+            text-align:left; 
+            vertical-align: middle;
+            border-top: 0px;"></th>
+
+
+                    <th style="width: 27%;font-size:1em;
+            vertical-align: middle;
+            text-align:left;
+             border-top: 0px; font-weight: 400;">Nome</th>
+
+                    <!-- <th style="width: 25%;font-size:1em;
+            vertical-align: middle;
+            text-align:center;
+            border-top: 0px; font-weight: 400;">E-mail</th> -->
+
+                    <!-- <th style="width: 25%;font-size:1em;
+            text-align:center; 
+            vertical-align: middle;
+            border-top: 0px; font-weight: 400;">Matéria</th> -->
+
+                    <!--<th style="width: 12%;font-size:1em;
+            text-align:center; 
+            vertical-align: middle;
+            border-top: 0px; font-weight: 400;">Matriculados</th>
+
+            <th style="width: 13%;font-size:1em;
+            text-align:center; 
+            vertical-align: middle;
+            border-top: 0px; font-weight: 400;">Status</th> -->
+
+                    <th style="width: 17%;font-size:1em;
+            text-align:center; 
+            vertical-align: middle;
+            border-top: 0px; font-weight: 400;">
+                        <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="adicionar professor"
+                    matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button (click)="openAddProfModal()" style="margin: 0px;" mat-icon-button>
+                        <mat-icon>person_add</mat-icon>
+                    </button>
+                </i> -->
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let mat of materias;let i = index;">
+
+                    <td style="text-align:center;vertical-align: middle;">{{ i + 1}} </td>
+
+                    <td style="text-align:left;vertical-align: middle;">
+                        {{mat.nome}}
+                    </td>
+
+                    <!-- <td style="text-align: center;vertical-align: middle;">
+                        
+                    </td> -->
+
+                    <td style="position: relative; float: right;">
+                        <mat-checkbox style="margin-right: 5px;" type="checkbox" [(ngModel)]="mat.isProfessor"
+                            color="primary" class="example-margin" name="checked">
+                        </mat-checkbox>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+
+    </div>
+    <div style="float:right;margin-top: 10px;margin-left: 10px;">
+        <button color="primary" [disabled]="sabeButtom" (click)="Atualizar()" type="button" mat-raised-button
+            disabled="false">
+            Salvar
+        </button>
+        <!-- <button style="float:right;margin-bottom: 10px;" mat-raised-button
+        [mat-dialog-close]="{clicked:'Cancel'}">Cancel</button> -->
+    </div>
+
+</div>

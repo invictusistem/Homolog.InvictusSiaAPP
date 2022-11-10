@@ -1,0 +1,104 @@
+<div style="font-size: 1.2em;">Editar Acesso
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+
+<div @rowHighlight *ngIf="showContent">
+    <mat-form-field appearance="standard" style="width: 350px;">
+        <mat-label>Nome</mat-label>
+        <input selected [value]="this.data['usuario'].nome" disabled matInput
+            placeholder="semestre">
+    </mat-form-field>
+
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="enviar login e senha para o e-mail usuário"
+        matTooltipPosition="above" matTooltipHideDelay="100">
+        <button style="" [disabled]="disabledEnvio" (click)="enviarLogin()" mat-icon-button>
+            <mat-icon>send</mat-icon>
+        </button>
+    </i>
+    <br>
+    <mat-form-field appearance="standard" style="width: 250px;">
+        <mat-label>Email</mat-label>
+        <input selected [disabled]="true" matInput [value]="this.data['usuario'].email"
+            placeholder="semestre">
+    </mat-form-field>
+    <mat-form-field appearance="standard" style="width: 120px;margin-left: 10px;">
+        <mat-label>Perfil</mat-label>
+        <input selected [disabled]="true" matInput [value]="this.data['usuario'].roleName"
+            placeholder="semestre">
+    </mat-form-field>
+    
+    <hr>
+    <div style="position: relative;">
+
+        <!-- <form  novalidate #form="ngForm" (ngSubmit)="saveAcesso(form)"> -->
+            
+            <div class="table-responsive" style="height: 250px;position: relative;">
+                <table color="primary" style="margin-bottom: 0px;" class="table">                    
+                    <thead>
+                        <tr>   
+                            <th style="width: 40%;font-size:0.9em;
+                        vertical-align: middle; 
+                        text-align:left;
+                         border-top: 0px; font-weight: 400;">UNIDADE</th>
+
+                            <th style="width: 30%;font-size:0.9em;
+                        vertical-align: middle;
+                        text-align:center;
+                        border-top: 0px; font-weight: 400;">SIGLA</th>
+
+                            <th style="width: 30%;font-size:0.9em;
+                        text-align:right; 
+                        vertical-align: middle;
+                        border-top: 0px; font-weight: 400;">ACESSO</th>
+
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let uni of editedAcessoView; let i = index;">
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                            {{ uni.descricao }}
+                            </td>
+
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                {{ uni.sigla }}
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: right;vertical-align: middle;">
+                                <mat-checkbox style="margin-right: 5px;"  type="checkbox"
+                                  [disabled]="!uni.podeAlterar"  [(ngModel)]="uni.acesso" color="primary" class="example-margin" name="checked">
+                                </mat-checkbox>
+                            </td>
+
+                           
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <mat-progress-bar [style.visibility]="saveProgressBar" @rowHighlight style="margin:0px" mode="query">
+            </mat-progress-bar>
+            <div style="float: right;margin-top: 15px;">
+
+                <button (click)="saveAcesso()" type="submit" mat-raised-button color="primary" 
+                [disabled]="disabledButton" 
+                style="position: relative; float:right;">
+                    Salvar
+                </button>
+            </div>
+
+        <!-- </form>        -->
+    </div>
+</div>

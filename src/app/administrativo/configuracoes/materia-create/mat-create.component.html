@@ -1,0 +1,66 @@
+<div style="font-size: 1.2em;">Criar matéria
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<hr>
+<div *ngIf="showForm">
+
+    <form novalidate [formGroup]="docForm" (ngSubmit)="onSubmit(docForm)">
+
+        <mat-form-field appearance="standard" style="width: 30%; ">
+            <mat-label>Nome</mat-label>
+            <input 
+             formControlName="nome" matInput placeholder="Ex: RG">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 30%;margin-left: 5%;">
+            <mat-label>Type Pacote</mat-label>
+            <mat-select formControlName="typePacoteId" placeholder="type pacote">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let pac of typesPacotes" [value]="pac.id">{{pac.nome}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 30%; margin-left: 5%;">
+            <mat-label>Descrição</mat-label>
+            <input  formControlName="descricao" matInput placeholder="">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 20%;">
+            <mat-label>Modalidade</mat-label>
+            <mat-select formControlName="modalidade" placeholder="modalidade">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let mol of modalidade" [value]="mol.value">{{mol.value}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 15%; margin-left: 5%;">
+            <mat-label>Carga horária</mat-label>
+            <input selected formControlName="cargaHoraria"
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" matInput
+                placeholder="">
+        </mat-form-field>         
+
+        <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>     
+
+        <span style="float: right;margin-top: 15px;">
+
+            <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton" 
+            style="position: relative; float:right;margin-left: 10px;">
+                Salvar
+            </button>
+        </span>
+
+    </form>
+</div>

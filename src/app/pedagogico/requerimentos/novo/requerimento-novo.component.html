@@ -1,0 +1,291 @@
+<div style="font-size: 1.2em;">Requerimentos
+    <close-modal [disable]="disabledCloseModalIcon"></close-modal>
+</div>
+
+<mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+
+<div *ngIf="showForm" @rowHighlight>
+    <hr>
+
+    <!-- <mat-form-field appearance="standard" style="width: 35%; ">
+        <mat-label>Aluno</mat-label>
+        <input [value]="data['aluno'].nome" [disabled]="true" matInput>
+    </mat-form-field> -->
+
+
+    <br>
+
+    <mat-tab-group class="categoria-tab-group">
+
+        <mat-tab label="Categoria">
+
+            <div class="table-responsive" style="height: 385px;position: relative;">
+
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+
+                    <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+                    <thead>
+                        <tr>
+                            <th style="width: 2%; 
+                    text-align:left; 
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+                            <th style="width: 41%;font-size:0.9em;
+                    vertical-align: middle; 
+                    text-align:left;
+                     border-top: 0px; font-weight: 400;">DESCRIÇÃO</th>
+
+                            <th style="width: 40%;font-size:0.9em;
+                    vertical-align: middle;
+                    text-align:center;
+                    border-top: 0px; font-weight: 400;">ATIVO</th>
+
+                            <!-- <th style="width: 10%;font-size:0.9em;
+                    vertical-align: middle;
+                    text-align:center;
+                    border-top: 0px; font-weight: 400;">CAIXA<br>ESCOLA</th>
+
+                            <th style="width: 20%;font-size:0.9em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;"></th> -->
+
+                            <!--<th style="width: 12%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Matriculados</th>
+    
+                    <th style="width: 13%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Status</th> -->
+
+                            <th style="width: 17%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="cadastrar categoria de requerimento" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button (click)="CreateCategoria()" style="margin: 0px;" mat-icon-button>
+                                        <mat-icon>account_balance</mat-icon>
+                                    </button>
+                                </i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let req of reqs; let i = index;">
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                {{ i + 1}}
+                            </td>
+
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                                {{ req.descricao }}
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                <div *ngIf="req.ativo == true;else inativo">
+
+                                    <mat-icon style="font-size: 1.3em;
+                                        color: green;" >
+                                        done</mat-icon>
+
+
+                                </div>
+                                <ng-template #inativo>
+
+                                    <mat-icon style="font-size: 1.3em;
+                                            color: red; ">close</mat-icon>
+
+
+                                </ng-template>
+                            </td>
+
+                            <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                {{ banco.ehCaixaEscola }}
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+
+                            </td> -->
+
+                            <td style="vertical-align: middle;">
+
+                                <i style="" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="EditarCategoria(req.id)" mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i>
+
+                                <!-- <i style="margin-left: 10px;" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="EditarPlano(plano.id)" mat-icon-button>
+                                        <mat-icon type="button">settings</mat-icon>
+                                    </button>
+                                </i> -->
+
+                                <i *ngIf="podeDeletar" style="float: right;"
+                                    #tooltip="matTooltip" matTooltip="excluir" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button (click)="RemoverCategoria(req.id)" style="margin: 0px;" mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </mat-tab>
+
+        <mat-tab label="Tipo de requerimento">
+
+            <mat-form-field appearance="standard" style="width: 45%;">
+                <mat-label>Categoria</mat-label>
+                <mat-select selected required>
+                    <mat-option></mat-option>
+                   <mat-option (click)="SelectCategoria(req)" *ngFor="let req of reqs" 
+                    [value]="req.id">{{req.descricao}}
+                    </mat-option> 
+                </mat-select>
+            </mat-form-field>
+
+            <mat-progress-bar style="margin-top: 3px;" [style.visibility]="selectPlanoProgressBar" @rowHighlight mode="query">
+            </mat-progress-bar>
+
+            <div class="table-responsive" *ngIf="showType" style="height: 300px;position: relative;">
+
+                <table color="primary" style="margin-bottom: 0px;" class="table">
+
+                    <!--<table class="table-hover" mat-table [dataSource]="genericTasks">-->
+                    <thead>
+                        <tr>
+                            <th style="width: 2%; 
+                    text-align:left; 
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+                            <th style="width: 41%;font-size:0.9em;
+                    vertical-align: middle; 
+                    text-align:left;
+                     border-top: 0px; font-weight: 400;">DESCRIÇÃO</th>
+
+                            <th style="width: 40%;font-size:0.9em;
+                    vertical-align: middle;
+                    text-align:center;
+                    border-top: 0px; font-weight: 400;">ATIVO</th>
+
+                            <!-- <th style="width: 10%;font-size:0.9em;
+                    vertical-align: middle;
+                    text-align:center;
+                    border-top: 0px; font-weight: 400;">CAIXA<br>ESCOLA</th>
+
+                            <th style="width: 20%;font-size:0.9em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;"></th> -->
+
+                            <!--<th style="width: 12%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Matriculados</th>
+    
+                    <th style="width: 13%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">Status</th> -->
+
+                            <th style="width: 17%;font-size:1em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">
+                                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                    matTooltip="cadastrar tipo de requerimento" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button (click)="CreateTipo()" style="margin: 0px;" mat-icon-button>
+                                        <mat-icon>account_balance</mat-icon>
+                                    </button>
+                                </i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let tipo of tipos; let i = index;">
+                            <td style="font-size:0.9em;text-align:center;vertical-align: middle;">
+                                {{ i + 1}}
+                            </td>
+
+                            <td style="font-size:0.9em;text-align:left;vertical-align: middle;">
+                                {{ tipo.descricao }}
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                
+
+                                <div *ngIf="tipo.ativo == true;else inativo">
+
+                                    <mat-icon style="font-size: 1.3em;
+                                        color: green;" >
+                                        done</mat-icon>
+
+
+                                </div>
+                                <ng-template #inativo>
+
+                                    <mat-icon style="font-size: 1.3em;
+                                            color: red; ">close</mat-icon>
+
+
+                                </ng-template>
+                            </td>
+
+                            <!-- <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+                                {{ banco.ehCaixaEscola }}
+                            </td>
+
+                            <td style="font-size:0.9em;text-align: center;vertical-align: middle;">
+
+                            </td> -->
+
+                            <td style="vertical-align: middle;">
+
+                                <i style="" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
+                                    matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="EditarTipo(tipo.id)" mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i>
+
+                                <i *ngIf="podeDeletar" style="float: right;"
+                                    #tooltip="matTooltip" matTooltip="excluir" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                    <button (click)="RemoverTipo(tipo.id)" style="margin: 0px;" mat-icon-button>
+                                        <mat-icon>delete_outline</mat-icon>
+                                    </button>
+                                </i>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </mat-tab>
+
+    </mat-tab-group>
+
+</div>

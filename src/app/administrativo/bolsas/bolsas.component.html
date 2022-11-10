@@ -1,0 +1,146 @@
+<div class="container" >
+
+    <div>
+      
+        <i #tooltip="matTooltip" matTooltip="criar bolsa" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button mat-icon-button (click)="openCreateBolsaModal()">
+                <mat-icon>description</mat-icon>
+            </button>
+        </i>
+    </div>
+
+    <br>
+
+    <form [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm">
+
+        <span>
+            Selecione o tipo do pacote para pesquisar pela bolsa:
+        </span>
+
+        <div class="form-row align-items-center divSiteForm">
+
+            <mat-form-field appearance="standard">
+                <mat-label></mat-label>
+                <mat-select [disabled]="typesPacotes.length == 0" formControlName="typePacoteId">
+                    <mat-option *ngFor="let pac of typesPacotes" [value]="pac.id">{{pac.nome}}</mat-option>
+                </mat-select>
+
+            </mat-form-field>
+
+            <span>
+                <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+                    matTooltipHideDelay="100">
+                    <button mat-icon-button [disabled]="typesPacotes.length == 0 || initProgressBar == 'visible'">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+        </div>
+
+    </form>
+
+
+    <mat-progress-bar [style.visibility]="initProgressBar" @rowHighlight mode="query">
+    </mat-progress-bar>
+
+    <div class="card-header card-msg-response" 
+        *ngIf="showMessageNotFound">Não foram localizadas bolsas cadastradas para esse tipo ou unidade.</div>
+
+
+    <div @rowHighlight *ngIf="bolsas.length > 0" class="card card-plain mat-elevation-z8 card-table">
+
+        <div class="card-header">
+            <h4 class="card-title" >
+                Bolsas</h4>
+            <p class="card-category">Bolsas localizadas: {{length}}.</p>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive table-bolsa" >
+
+                <table color="primary" class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>NOME</th>
+
+                            <th>DESCONTO</th>
+
+                            <th>CRIAÇÃO</th>
+
+                            <th>DATA EXPIRAÇÃO</th>
+
+                            <th>CÓDIGO</th>
+
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of bolsas;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">
+                                {{i + 1}}
+                            </td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.percentualDesconto }} %</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+                                {{item.dataCriacao |
+                                date:'dd/M/yyyy'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.dataExpiracao |
+                                date:'dd/M/yyyy'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">
+                                <i style="margin: 0px; margin: 0px;"  #tooltip="matTooltip"
+                                matTooltip="visualizar código" matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button (click)="VerCodigoBolsa(item.id)" [disabled]="disabledCodigo"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon>visibility</mat-icon>
+                                </button>
+                            </i>
+                            </td>
+
+                            <td style="position: relative;">
+
+                                <i style="margin: 0px; margin: 0px;"  #tooltip="matTooltip"
+                                matTooltip="visualizar código" matTooltipPosition="above" matTooltipHideDelay="100">
+                                <button (click)="EditarBolsa(item.id)" [disabled]="disabledCodigo"
+                                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                    mat-icon-button>
+                                    <mat-icon>settings</mat-icon>
+                                </button>
+                            </i>
+                                <!-- <i style="margin: 0px; margin: 0px;" *ngIf="item.podeEditar" #tooltip="matTooltip"
+                                    matTooltip="Visualizar/Editar" matTooltipPosition="above" matTooltipHideDelay="100">
+                                    <button (click)="openEditContratoModal(item)"
+                                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                        mat-icon-button>
+                                        <mat-icon>settings</mat-icon>
+                                    </button>
+                                </i> -->
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+</div>

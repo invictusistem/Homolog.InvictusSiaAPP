@@ -1,0 +1,149 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+    <div>
+
+        <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="vender produto(s)"
+            matTooltipPosition="above" matTooltipHideDelay="100">
+            <button (click)="openCaixaModal()" mat-icon-button>
+                <mat-icon>point_of_sale</mat-icon>
+            </button>
+        </i>
+
+        <!-- <i style="margin-left: 20px;" #tooltip="matTooltip" matTooltip="venda entre unidades" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button (click)="openVendaUnidades()" [disabled]="true" mat-icon-button>
+                <mat-icon>local_atm</mat-icon>
+            </button>
+        </i> -->
+
+    </div>
+
+    <br>
+
+    <form novalidate [formGroup]="pesquisarForm" (ngSubmit)="Pesquisar()" class="form-inline siteForm">
+
+        <span>Selecione o período
+            para pesquisar pelas
+            vendas efetuadas:
+        </span>
+
+        <div class="form-row align-items-center">
+
+            <mat-form-field appearance="standard">
+                <mat-label>Selecione o período</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate [disabled]="true" formControlName="start" placeholder="início">
+                    <input matEndDate formControlName="end" [disabled]="true" placeholder="fim">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker [disabled]="false"></mat-date-range-picker>
+            </mat-form-field>
+
+            <span>
+                <i #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button type="submit" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </i>
+            </span>
+
+        </div>
+
+    </form>
+
+    <div class="card-header card-msg-response" unselectable="on" *ngIf="showMessageNotFound">{{mensagemNotFound}}</div>
+
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+        mode="query">
+    </mat-progress-bar>
+
+    <div @rowHighlight *ngIf="vendas.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+            position: relative;
+            margin-top: 50px;
+            box-shadow: 0 0 1em rgb(172, 170, 170);
+            background-color: rgb(227, 240, 227);">
+
+        <div class="card-header">
+            <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+                Produtos</h4>
+            <p class="card-category">Vendas localizadas: {{ length }} </p>
+            <span>Total no período: {{totalVendas | currency:'BRL':'R$ ' }} </span>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive table-fin-caixa">
+
+                <table color="primary" class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+
+                            <th>DESCRIÇÃO</th>
+
+                            <th>QNT.</th>
+
+                            <th>VALOR<br>VENDA.</th>
+
+                            <th>PARCELAS</th>
+
+                            <th>MEIO<br>PAGAMENTO</th>
+
+                            <th>DATA</th>
+
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of vendas;let i = index;" @rowHighlight>
+                            <td style="text-align:center;vertical-align: middle;">{{i + 1}}</td>
+
+                            <td style="text-align:left;vertical-align: middle;">{{item.descricao}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.qntItems }}
+                                <i style="margin-left:5px; text-align: center; vertical-align: middle"
+                                #tooltip="matTooltip" [matTooltip]="item.infoItems" matTooltipPosition="above"
+                                    matTooltipHideDelay="100">
+                                        <mat-icon>info</mat-icon>
+                                </i>
+                            </td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.valorTotal |
+                                currency:'BRL':'R$ '}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.parcelas}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.meioPagamento}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;">{{item.dataVenda |
+                                date:'dd/MM/yyyy'}}</td>
+
+                            <td style="text-align: center;vertical-align: middle;"></td>
+                            <!--
+                            <td style="text-align: center;vertical-align: middle;">{{item.valorTotal | currency:'BRL':true:'1.2-2'}}</td>
+                             -->
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- <mat-paginator *ngIf="length > 5" style="
+                background-color: rgb(227, 240, 227);
+                bottom: 0px;
+                right: 0px;" [length]="length" [pageSize]="5" hidePageSize="true" (page)="pageEvent = $event"
+                (click)="changePage(pageEvent)">
+            </mat-paginator> -->
+
+        </div>
+
+        <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+            top: 46.5%; 
+            position: absolute;">
+        </mat-spinner> -->
+    </div>
+
+
+
+</div>

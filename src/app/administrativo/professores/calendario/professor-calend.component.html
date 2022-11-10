@@ -1,0 +1,264 @@
+<div style="font-size: 1.2em;position: sticky;z-index: 9; padding-top: 20px;
+background-color: rgb(252, 253, 255);
+top: 0;">Calendario
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+<!-- 
+    <hr>
+    <div style="font-size: 0.9em;margin-top: 10px;">
+        <mat-form-field appearance="standard" style="width: 55%;">
+            <mat-label>Nome</mat-label>
+            <input [(ngModel)]="data['prof'].nome" disabled
+            oninput="this.value = this.value.toUpperCase()" matInput
+                placeholder="Nome">
+        </mat-form-field>     
+    </div> -->
+
+    <mat-progress-bar style="margin-top: 5px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+    </mat-progress-bar>
+
+    <div *ngIf="infoNenhumDado" style="font-size: 0.8em;font-style: italic;" >Nenhum dado localizado</div>
+
+    <!-- <hr> -->
+    <!-- <div *ngIf="ShowTableHeader" class="table-responsive table-calend-top" style="position: relative;">
+        <table style="margin-bottom: 0px; padding: 0px;" class="table">
+           
+            <thead>
+                <tr>
+                    <th style="width: 3%; font-size: 0.7em;
+                    text-align:left; 
+                    vertical-align: middle;
+                    border-top: 0px;"></th>
+
+
+                    <th style="width: 7%;font-size: 0.7em;
+                    vertical-align: middle; 
+                    text-align:left;
+                     border-top: 0px; font-weight: 400;">DIA</th>
+
+                    <th style="width: 13.5%;font-size: 0.7em;
+                    vertical-align: middle;
+                    text-align:center;
+                    border-top: 0px; font-weight: 400;">HORÁRIO</th>
+
+                    <th style="width: 11%;font-size: 0.7em;
+                    text-align:center; 
+                    vertical-align: middle;
+                    border-top: 0px; font-weight: 400;">INICIADA/CONCLUÍDA</th>
+
+                    <th style="width: 8%;font-size: 0.7em;
+text-align:center; 
+vertical-align: middle;
+border-top: 0px; font-weight: 400;">UNIDADE<br>SALA</th>
+
+                    <th style="width: 18%;font-size: 0.7em;
+text-align:center; 
+vertical-align: middle;
+border-top: 0px; font-weight: 400;">MATÉRIA</th>
+
+                    <th style="width: 25%;font-size: 0.7em;
+text-align:center; 
+vertical-align: middle;
+border-top: 0px; font-weight: 400;">PROFESSOR</th>
+
+                    <th style="width: 12.5%;font-size: 0.7em;
+text-align:center; 
+vertical-align: middle;
+border-top: 0px; font-weight: 400;">OBS</th>
+
+
+                </tr>
+            </thead>
+           
+        </table>
+    </div> -->
+
+</div>
+
+<div *ngIf="showSpin" class="table-responsive table-calend" style="position: relative;min-height: 100px;">
+    
+    <hr>
+
+    <div style="margin-top: 10px;">
+        <mat-form-field appearance="standard" style="width: 55%;font-size: 0.9em;">
+            <mat-label>Nome</mat-label>
+            <input [(ngModel)]="data['prof'].nome" disabled matInput>
+        </mat-form-field>   
+        
+        <mat-form-field appearance="standard" style="width: 40%;margin-left: 2%;font-size: 0.9em;">
+            <mat-label>Email</mat-label>
+            <input [(ngModel)]="data['prof'].email" disabled matInput>
+        </mat-form-field>   
+    </div>
+  
+    <table *ngIf="calendarios.length > 0" color="primary" style="margin-bottom: 0px;" class="table">
+      
+        <thead>
+            <tr>
+                <th style="width: 3%;
+                text-align:left; 
+                vertical-align: middle;
+                border-top: 0px;"></th>
+
+
+                <th style="width: 7%;
+                vertical-align: middle; 
+                text-align:left;
+                 border-top: 0px; font-weight: 400;">DIA</th>
+
+                <th style="width: 11.5%;
+                vertical-align: middle;
+                text-align:center;
+                border-top: 0px; font-weight: 400;">HORÁRIO</th>
+
+                <th style="width: 10%;
+                text-align:center; 
+                vertical-align: middle;
+                border-top: 0px; font-weight: 400;">INICIADA<br>CONCLUÍDA</th>
+
+                <th style="width: 20%;
+text-align:center; 
+vertical-align: middle;
+border-top: 0px; font-weight: 400;">UNIDADE<br>SALA</th>
+
+                <th style="width: 48.5%;
+text-align:center; 
+vertical-align: middle;
+border-top: 0px; font-weight: 400;">MATÉRIA</th>
+
+                <!-- <th style="width: 36.5%;font-size: 1em;
+text-align:center; 
+vertical-align: middle;
+border-top: 0px; font-weight: 400;">PROFESSOR</th> -->
+
+                <!-- <th style="width: 12.5%;font-size: 1em;
+text-align:center; 
+vertical-align: middle;
+border-top: 0px; font-weight: 400;">OBS</th> -->
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let cale of calendarios;let i = index;">
+
+                <td style="text-align:left;vertical-align: middle; ">
+                    {{ i + 1}}
+                </td>
+                <td style="text-align:left;vertical-align: middle;">
+                    {{cale.diaaula | date:'dd/MM/yyyy'}}
+                </td>
+
+                <td style="text-align: center;vertical-align: middle;">
+                    {{cale.diadasemana}}<br>{{cale.horainicial}} às {{cale.horafinal}}
+                </td>
+
+                <td style="text-align: center;vertical-align: middle;">
+
+                    <ng-container *datePastCheck="cale.diaaula;">
+
+
+                        <ng-container *ngIf="cale.aulainiciada;else naoiniciada">
+                            <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                matTooltip="aula iniciada pelo professor" matTooltipPosition="above"
+                                matTooltipHideDelay="100">
+                                <mat-icon style="color: green;">done</mat-icon>
+
+                            </i>
+                        </ng-container>
+                        <ng-template #naoiniciada>
+                            <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                matTooltip="aula não iniciado pelo professor" matTooltipPosition="above"
+                                matTooltipHideDelay="100">
+                                <mat-icon style="color: red;">close</mat-icon>
+                            </i>
+                        </ng-template>
+
+                       
+
+                        <ng-container *ngIf="cale.aulaconcluida;else naoconcluida">
+                            <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                matTooltip="aula concluída pelo professor" matTooltipPosition="above"
+                                matTooltipHideDelay="100">
+                                <mat-icon style="color: green;">done</mat-icon>
+
+                            </i>
+                        </ng-container>
+                        <ng-template #naoconcluida>
+                            <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                                matTooltip="aula não concluída pelo professor" matTooltipPosition="above"
+                                matTooltipHideDelay="100">
+                                <mat-icon style="color: red;">close</mat-icon>
+                            </i>
+                        </ng-template>
+
+
+                    </ng-container>
+
+                
+                </td>
+
+                <td style="text-align: center;vertical-align: middle;">
+                   {{ cale.unidadeDescricao }} / {{cale.titulo}}<br> {{cale.turma}}
+                </td>
+
+                <td style="text-align: center;vertical-align: middle;">
+                    {{cale.materiaDescricao || 'livre'}}
+                </td>
+
+                <!-- <td style="text-align: center;vertical-align: middle;">
+                    {{cale.professor || 'Nenhum professor alocado'}}
+                </td> -->
+
+                <!-- <td style="text-align: center;vertical-align: middle;width: 14%;">
+
+                    
+                    <ng-container *ngIf="cale.podeVerRelatorioAula;">
+                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="nota da aula"
+                            matTooltipPosition="above" matTooltipHideDelay="100">
+                            <button [disabled]="showSpinner" (click)="GetNotaAula(cale)"
+                                style="margin: 0px; margin: 0px;" mat-icon-button>
+                                <mat-icon style="font-size: 1.3em;">note_alt</mat-icon>
+                            </button>
+                        </i>
+                    </ng-container>
+                  
+                    <ng-container *ngIf="cale.podeVerRelatorioAula == false">
+                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="editar"
+                            matTooltipPosition="above" matTooltipHideDelay="100">
+                            <button (click)="EditAula(cale)"  style="margin: 0px; margin: 0px;" mat-icon-button>
+                                <mat-icon style="font-size: 1.3em;">edit</mat-icon>
+                            </button>
+                        </i>
+                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip=""
+                            matTooltipPosition="above" matTooltipHideDelay="100">
+                            <button disabled style="margin: 0px; margin: 0px;" mat-icon-button>
+                                <mat-icon style="font-size: 1.3em;">note_alt</mat-icon>
+                            </button>
+                        </i>
+                        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip=""
+                            matTooltipPosition="above" matTooltipHideDelay="100">
+                            <button disabled style="margin: 0px; margin: 0px;" mat-icon-button>
+                                <mat-icon style="font-size: 1.3em;">note_alt</mat-icon>
+                            </button>
+                        </i>
+                    </ng-container>
+
+                    <ng-container *ngIf="cale.podeVerRelatorioAula == null">
+                        aguarde a conslusão da aula de hoje...
+                    </ng-container>
+                </td> -->
+
+
+            </tr>
+        </tbody>
+    </table>
+   
+</div>
+

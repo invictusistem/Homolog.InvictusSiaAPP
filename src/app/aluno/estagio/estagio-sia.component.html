@@ -1,0 +1,82 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+    <mat-progress-bar mode="query" style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight>
+    </mat-progress-bar>
+
+    <div *ngIf="showForm">
+
+        <ng-container [ngSwitch]="status">
+
+            <ng-container *ngSwitchCase="'sem liberação'">
+
+                <div class="card-header card-msg-response">No momento não há estágios liberados para matrícula. Para
+                    demais
+                    esclarecimentos, favor procurar o setor responsável em sua unidade Invictus.</div>
+
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'no aguardo'">
+
+                <span style="">
+                    <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="documentação/pendência"
+                        matTooltipPosition="above" matTooltipHideDelay="100">
+                        <button style="margin: 0px; margin: 0px;" mat-icon-button>
+                            <mat-icon style="color:rgb(138, 23, 23)">warning</mat-icon>
+                        </button>
+                    </i>
+                    <a (click)="OpenDocModal()" type="button">Clique aqui para enviar os documentos necessários para
+                        poder
+                        se
+                        matricular
+                        em um estágio</a>
+                </span>
+
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'liberado'">
+
+                <span>
+                    <a (click)="OpenEscolhaEstagio()" type="button">
+                        Clique aqui para selecionar dentre os estagios liberados
+                    </a>
+                </span>
+
+                <br>
+
+                <br>
+
+                
+
+            </ng-container>
+
+
+
+        </ng-container>
+
+        <!-- <ng-container *ngIf="semLiberacao">
+
+            <div class="card-header card-msg-response">No momento não há estágios liberados para matrícula. Para demais
+                esclarecimentos, favor procurar o setor responsável em sua unidade Invictus.</div>
+
+        </ng-container>
+
+        <ng-container *ngIf="envioDocContainer">
+
+            <span style="">
+                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="documentação/pendência"
+                    matTooltipPosition="above" matTooltipHideDelay="100">
+                    <button style="margin: 0px; margin: 0px;" mat-icon-button>
+                        <mat-icon style="color:rgb(138, 23, 23)">warning</mat-icon>
+                    </button>
+                </i>
+                <a (click)="OpenDocModal()" type="button">Clique aqui para enviar os documentos necessários para poder
+                    se
+                    matricular
+                    em um estágio</a>
+            </span>
+
+        </ng-container> -->
+
+    </div>
+
+</div>

@@ -1,0 +1,147 @@
+<div style="font-size: 1.2em;">Cadastrar Fornecedor
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+</div>
+
+
+<div style="position: relative;">
+
+    <hr>
+
+    <form novalidate [formGroup]="fornecedorForm" (ngSubmit)="onSubmit(fornecedorForm)">
+
+
+        <mat-form-field appearance="standard" style="width: 300px; ">
+            <mat-label>Nome/Razão Social</mat-label>
+            <input selected formControlName="nome" oninput="this.value = this.value.toUpperCase()" matInput
+                placeholder="Nome">
+
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 220px; margin-left: 10px;">
+            <mat-label>Email</mat-label>
+            <input selected formControlName="email" oninput="this.value = this.value.toLowerCase()" matInput
+                placeholder="Email">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 140px;">
+            <mat-label>CPF/CNPJ</mat-label>
+            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                formControlName="cnpj" minlength="11"
+                maxlength="14" selected matInput>
+        </mat-form-field>
+
+
+
+        <mat-form-field appearance="standard" style="width: 140px;margin-left: 10px;">
+            <mat-label>IE/RG</mat-label>
+            <input onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                formControlName="ie_rg" selected matInput>
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field style="width: 130px;" appearance="standard">
+            <mat-label>Tel contato</mat-label>
+            <input formControlName="telefoneContato" mask="(00) 00000-0000" matInput
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+        </mat-form-field>
+
+        <mat-form-field style="width: 130px; margin-left: 10px;" appearance="standard">
+            <mat-label>Whatsapp</mat-label>
+            <input formControlName="telWhatsapp" mask="(00) 00000-0000" matInput
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" style="width: 150px;margin-left: 10px;">
+            <mat-label>contato/Nome</mat-label>
+            <input selected formControlName="nomeContato" oninput="this.value = this.value.toUpperCase()" matInput
+                placeholder="Nome">
+        </mat-form-field>
+
+        <br>
+
+        <ng-container [formGroup]="endereco" [style.visibility]="enderecoContainer">
+
+        <mat-form-field appearance="standard" style="width: 17%;">
+            <mat-label>CEP</mat-label>
+            <input mask="00.000-000" onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null"
+                formControlName="cep" minlength="8" maxlength="10" matInput placeholder="apenas números">
+        </mat-form-field>
+
+        <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="pesquisar CEP" matTooltipPosition="above"
+            matTooltipHideDelay="100">
+            <button type="button" (click)="consultaCEP(endereco.get('cep')?.value)"
+                style="margin: 0px; margin: 0px;" mat-icon-button>
+                <mat-icon>search</mat-icon>
+            </button>
+        </i>
+
+    </ng-container>
+
+        <br>
+
+        <ng-container [formGroup]="endereco" [style.visibility]="enderecoContainer">
+
+            <mat-form-field appearance="standard" style="width: 250px;">
+                <mat-label>Logradouro</mat-label>
+                <input selected formControlName="logradouro" oninput="this.value = this.value.toUpperCase()" matInput
+                    placeholder="ex: rua tal...">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 80px;margin-left: 10px;">
+                <mat-label>Número</mat-label>
+                <input selected formControlName="numero" oninput="this.value = this.value.toUpperCase()" matInput
+                    placeholder="123...">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
+                <mat-label>Complemento</mat-label>
+                <input selected formControlName="complemento" oninput="this.value = this.value.toUpperCase()" matInput
+                    placeholder="ex: nº 123... sala 10... apto 123...">
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="standard" style="width: 200px;">
+                <mat-label>Cidade</mat-label>
+                <input [disabled]="true" selected [value]="endereco.get('cidade')?.value" name="cidade" matInput
+                    placeholder="digite o bairro">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 40px; margin-left: 10px;">
+                <mat-label>UF</mat-label>
+                <input [disabled]="true" selected [value]="endereco.get('uf')?.value" name="uf" matInput
+                    placeholder="digite o bairro">
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 200px; margin-left: 10px;">
+                <mat-label>Bairro</mat-label>
+                <input selected formControlName="bairro" oninput="this.value = this.value.toUpperCase()" matInput
+                    placeholder="digite o bairro">
+            </mat-form-field>
+
+        </ng-container>
+
+        <div *ngIf="showMensagem" class="alert alert-danger" role="alert"
+            style="text-align: center; vertical-align: middle; position:relative; height: 45px; float:left;margin-bottom: 20px;">
+            {{mensagem}}
+        </div>
+
+        <mat-progress-bar [style.visibility]="saveSpinner" @rowHighlight style="margin:0px" mode="query">
+        </mat-progress-bar>
+
+        <button type="submit" mat-raised-button color="primary" style="float:right;margin-top: 10px;margin-left: 10px;"
+            [disabled]="disabledButton">
+            Salvar
+        </button>
+
+
+    </form>
+</div>

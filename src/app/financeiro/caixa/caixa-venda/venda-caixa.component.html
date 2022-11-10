@@ -1,0 +1,195 @@
+<div style="font-size: 1.2em;">Venda - produtos
+
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button (click)="fechar()" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<hr>
+
+
+<div>
+    <form [formGroup]="pesquisaForm" (ngSubmit)="Search()">
+        <mat-form-field style="width: 21%;" appearance="outline">
+            <mat-label>Pesquise pelo item</mat-label>
+            <input formControlName="name" matInput>
+        </mat-form-field>
+        <span>
+            <i style="margin-left: 5px;" #tooltip="matTooltip" matTooltip="pesquisar" matTooltipPosition="above"
+                matTooltipHideDelay="100">
+                <button type="submit" mat-icon-button>
+                    <mat-icon>search</mat-icon>
+                </button>
+            </i>
+        </span>
+    </form>
+    <!-- <span *ngIf="showMgs">* {{msg}}</span> -->
+</div>
+
+
+
+
+<div *ngIf="produtosCesta.length > 0" class="table-responsive" style="position: relative;">
+    <!-- <div class="table-responsive" style="position: relative;"> -->
+
+    <!-- <form novalidate #form="ngForm" (ngSubmit)="saveEdit(form)"> -->
+    <table style="margin-bottom: 0px;" class="table">
+        <thead>
+            <tr>
+                <th style="text-align: left;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">Produto</th>
+                <th style="text-align: center;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">Quantidade</th>
+                <th style="text-align: center;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">Preço</th>
+                <th style="text-align: center;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">Total</th>
+                <th style="width: 10%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let product of produtosCesta">
+                <td style="vertical-align: middle;width: 6%;font-size:1em;font-weight: 400;
+                border-top: 0px;">{{product.nome}}</td>
+
+
+                <td style="vertical-align: middle;text-align: center;width: 6%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">
+
+                    <span style="vertical-align: middle;margin-top: 5px;">
+                        <span style="vertical-align: middle;" mat-icon-button>
+                            <mat-icon type="button" (click)="add(product)">
+                                add
+                            </mat-icon>
+                        </span>
+                    </span>
+
+                    <span style="margin-right: 5px;margin-left: 5px; vertical-align: middle;width: 6%;font-size:1.4em;font-weight: 400;
+            border-top: 0px;">{{product.quantidade}}</span>
+
+                    <span style="vertical-align: middle;">
+                        <button type="button" [disabled]="product.quantidade == 1" style="vertical-align: middle;"
+                            mat-icon-button>
+                            <mat-icon (click)="remove(product)">remove</mat-icon>
+                        </button>
+                    </span>
+
+                </td>
+
+                <td style="vertical-align: middle;text-align: center;width: 6%;font-size:1em;font-weight: 400;
+                    border-top: 0px;">
+                    <span>{{product.preco | currency:'BRL':'R$ ' }}</span>
+
+                </td>
+
+                <td style="vertical-align: middle;text-align: center;width: 6%;font-size:1em;font-weight: 400;
+                border-top: 0px;">
+                    <span>{{product.Total() |
+                        currency:'BRL':true:'1.2-2' || '0'}}</span>
+
+                </td>
+                <td style="width: 6%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">
+                    <span style="">
+                        <button style="" mat-icon-button>
+                            <mat-icon (click)="deletar(product)">
+                                delete
+                            </mat-icon>
+                        </button>
+                    </span>
+                </td>
+
+            </tr>
+
+        </tbody>
+
+
+
+    </table>
+    <!-- <div>Blusa Invictus xpto + 1 - <span style="">remover</span> R$ 20,00</div> -->
+    
+    <mat-form-field style="width: 21%;margin-top: 20px; " appearance="outline">
+        <mat-label>Valor total:</mat-label>
+        <input disabled name="CPF" matInput [value]="valorTotalVenda">
+    </mat-form-field>
+
+    <br>
+
+    <form novalidate [formGroup]="vendaform">
+        <mat-form-field appearance="standard" style="width: 45%;">
+            <mat-label>Comprador</mat-label>
+            <mat-select formControlName="matriculaId" selected required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let aluno of alunos" [value]="aluno.matriculaId">{{aluno.alunoNome}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+
+    <!-- <mat-form-field appearance="standard" style="width: 25%;">
+        <mat-label>Adicione o pagamento</mat-label>
+        <mat-select selected name="cargo" required>
+            <mat-option value=""></mat-option>
+            <mat-option>Dinheiro</mat-option>
+            <mat-option>Débito</mat-option>
+            <mat-option>Crédito</mat-option>
+        </mat-select>
+    </mat-form-field> -->
+
+
+    <!-- <mat-form-field appearance="standard" style="width: 15%;">
+            <mat-label>CPF Comprador</mat-label>
+            <input [(ngModel)]="compraProdutoCommand.cpf_comprador" mask="000.000.000-00"
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null" minlength="11"
+                maxlength="14" selected name="templateName" matInput placeholder="digite o CPF">
+            <mat-hint @rowHighlight *ngIf="validadeCPFMsg" style="color: red;">
+            O CPF informado já existe
+        </mat-hint>
+        </mat-form-field> -->
+
+
+    <br>
+
+    <!-- <mat-form-field appearance="outline" style="width: 25%;">
+            <mat-label>Adicione o pagamento</mat-label>
+            <mat-select selected name="cargo" required>
+                <mat-option (click)="meioPagamentoSelect('')" value=""></mat-option>
+                <mat-option (click)="meioPagamentoSelect(meioPag.value)" *ngFor="let meioPag of meioPagamento"
+                    [value]="meioPag.value">{{meioPag.viewValue}}</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+    <!-- <mat-form-field *ngIf="showParcelas" style="width: 8%; margin-bottom: 20px; 
+            margin-left: 2%;" appearance="standard">
+            <mat-label>Parcelas</mat-label>
+            <input [(ngModel)]="totalParcelas" name="totalParcelas" matInput type="number"
+                onkeypress="return String.fromCharCode(event.charCode).match(/[^0-9]/g) === null">
+        </mat-form-field> -->
+
+    <!-- <mat-form-field *ngIf="showParcelas" appearance="outline" style="width: 25%;margin-left: 2%;margin-top: 20px;">
+            <mat-label>Número de parcelas</mat-label>
+            <mat-select [(ngModel)]="parcelasTotais" selected name="noparcelas" required>
+                <mat-option *ngFor="let item of parcelas" [value]="item.type">
+                    {{item.value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+
+    <br>
+
+    <button type="submit" color="primary" mat-raised-button disabled="false" 
+    [disabled]="saveVendaButton"
+        (click)="saveEdit()" style="float:right;margin-bottom: 0px;margin-left: 10px;">
+        Concluir Venda
+    </button>
+
+    <!-- </form> -->
+
+</div>

@@ -1,0 +1,124 @@
+<div style="font-size: 1.2em;">Doação entre Unidades - produtos
+
+    <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+        matTooltipHideDelay="100">
+        <button [mat-dialog-close]="{clicked:'Cancel'}" style="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </i>
+
+</div>
+
+<mat-progress-bar style="" [style.visibility]="initProgressBar" @rowHighlight mode="query">
+</mat-progress-bar>
+<hr>
+
+<br>
+
+<span *ngIf="showeMsgError" style="font-size: 0.9em; color:red">* Não há outras unidade cadastradas. </span>
+
+<div *ngIf="showForm" class="table-responsive" style="position: relative;">
+
+    <form novalidate [formGroup]="doacaoForm" (ngSubmit)="onSubmit()">
+        <table style="margin-bottom: 0px;" class="table">
+            <thead>
+                <tr>
+                    <th style="text-align: left;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">Produto</th>
+                    <th style="text-align: center;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">Quantidade</th>
+                    <th style="text-align: center;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">Preço</th>
+                    <th style="text-align: center;width: 30%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">Total</th>
+                    <th style="width: 10%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;"></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td style="vertical-align: middle;width: 6%;font-size:1em;font-weight: 400;
+                    border-top: 0px;">{{produto.nome}}</td>
+
+
+                    <td style="vertical-align: middle;text-align: center;width: 6%;font-size:0.8em;font-weight: 400;
+                    border-top: 0px;">
+
+                        <span style="vertical-align: middle;margin-top: 5px;">
+                            <span style="vertical-align: middle;" mat-icon-button>
+                                <button mat-icon-button type="button" [disabled]="disabledAdd">
+                                    <mat-icon (click)="add()">
+                                        add
+                                    </mat-icon>
+                                </button>
+                            </span>
+                        </span>
+
+                        <span style="margin-right: 5px;margin-left: 5px; vertical-align: middle;width: 6%;font-size:1.4em;font-weight: 400;
+            border-top: 0px;">{{qntProduto}}</span>
+
+                        <span style="vertical-align: middle;">
+                            <span style="vertical-align: middle;" mat-icon-button>
+                                <mat-icon type="button" (click)="remove()">remove</mat-icon>
+                            </span>
+                        </span>
+
+                    </td>
+
+                    <td style="vertical-align: middle;text-align: center;width: 6%;font-size:1em;font-weight: 400;
+                    border-top: 0px;">
+
+                        <div>{{produto.preco | currency:'BRL':true:'1.2-2'}}</div>
+
+                    </td>
+
+                    <td style="vertical-align: middle;text-align: center;width: 6%;font-size:1em;font-weight: 400;
+                border-top: 0px;">
+                        <span #valorTotal>{{produto.preco * qntProduto |
+                            currency:'BRL':true:'1.2-2'}}</span>
+
+                    </td>
+                    <td style="width: 6%;font-size:0.8em;font-weight: 400;
+                border-top: 0px;">
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+
+
+        </table>
+
+        <mat-form-field style="width: 21%;margin-top: 20px; " appearance="outline">
+            <mat-label>Valor total da doação:</mat-label>
+            <input disabled name="CPF" matInput [value]="valorTotalVenda">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field appearance="standard" style="width: 25%;">
+            <mat-label>Unidade donatária:</mat-label>
+            <mat-select formControlName="unidadeDonatariaId" selected required>
+                <mat-option></mat-option>
+                <mat-option [value]="uni.id" *ngFor="let uni of unidades">{{uni.sigla}}</mat-option>
+
+            </mat-select>
+        </mat-form-field>
+
+       
+
+        <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        </mat-progress-bar>
+
+        <button type="submit" color="primary" 
+        mat-raised-button [disabled]="disabledButton"
+            style="float:right;margin-bottom: 0px;margin-left: 10px;">
+            Salvar
+        </button>
+
+    </form>
+
+</div>

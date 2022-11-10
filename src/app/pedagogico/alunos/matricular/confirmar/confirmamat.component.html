@@ -1,0 +1,20 @@
+<div class="container">
+
+    <div class="row" style="margin-bottom: 10px;">
+
+        <div style="font-size: 1.2em;">Matrícula realizada com sucesso!</div>
+
+        <div>
+            Deseja imprimir o contrato e a ficha de matrícula?
+        </div>
+
+    </div>
+    <span [style.visibility]="msgSpan" style="font-size: 0.8em;">{{msg}}</span>
+    <mat-progress-bar [style.visibility]="hidden" @rowHighlight mode="query">
+    </mat-progress-bar>
+
+    <div class="row">
+        <button style="width: 30px;" [disabled]="disabledButton" (click)="Confirm(true)" mat-button>SIM</button>
+        <button style="width: 30px;" [disabled]="disabledButton" (click)="Confirm(false)" mat-button>NÃO</button>
+    </div>
+</div>

@@ -1,0 +1,425 @@
+<div class="container" style="width: 95%; padding-top: 20px;">
+
+  <span>
+    <i style="" #tooltip="matTooltip" matTooltip="criar cargo" matTooltipPosition="above" matTooltipHideDelay="100">
+      <button (click)="OpenCreateCargoModal()" mat-icon-button>
+        <mat-icon>engineering</mat-icon>
+      </button>
+    </i>
+  </span>
+
+  <span>
+    <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar documento" matTooltipPosition="above"
+      matTooltipHideDelay="100">
+      <button (click)="OpenCreateDocModal()" mat-icon-button>
+        <mat-icon>assignment_ind</mat-icon>
+      </button>
+    </i>
+  </span>
+
+  <span>
+    <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar materia" matTooltipPosition="above"
+      matTooltipHideDelay="100">
+      <button (click)="OpenCreateMateriaModal()" mat-icon-button>
+        <mat-icon>school</mat-icon>
+      </button>
+    </i>
+  </span>
+
+  <span>
+    <i style="margin-left: 0px;" #tooltip="matTooltip" matTooltip="criar tipo de môdulo" matTooltipPosition="above"
+      matTooltipHideDelay="100">
+      <button (click)="OpenCreateTipoModal()" mat-icon-button>
+        <mat-icon>settings</mat-icon>
+      </button>
+    </i>
+  </span>
+
+  <br>
+  <br>
+
+  <span color="primary" style="display: block; font-size: 0.9em;font-style: italic;">
+    pesquisar:
+  </span>
+
+  <mat-form-field appearance="standard" style="width: 150px;">
+    <mat-label></mat-label>
+    <mat-select placeholder="">
+      <mat-option></mat-option>
+      <mat-option (click)="GetConfig('CARGOS')">Cargos</mat-option>
+      <mat-option (click)="GetConfig('DOCUMENTOS')">Documentos</mat-option>
+      <mat-option (click)="GetConfig('MATERIAS')">Matérias</mat-option>
+      <mat-option (click)="GetConfig('TIPOS')">Tipo pacotes</mat-option>
+
+    </mat-select>
+  </mat-form-field>
+
+  <!-- <div class="card-header card-msg-response" unselectable="on"
+    onselectstart="return false;" *ngIf="showMessageNoColaborador">{{mensagem}}</div> -->
+
+  <mat-progress-bar [style.visibility]="searchSpinner" style="margin-top: 20px;" @rowHighlight style="margin:0px"
+    mode="query">
+  </mat-progress-bar>
+
+  <!--    CARGOS         -->
+
+  <div *ngIf="showCargosTable" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+        position: relative;
+        margin-top: 20px;
+        box-shadow: 0 0 1em rgb(172, 170, 170);
+        background-color: rgb(227, 240, 227);">
+
+    <div class="card-header">
+      <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+        Cargos</h4>
+      <p class="card-category"> Cargos cadastrados no sistema: </p>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive table-config-cargos" style="height: 430px;position: relative;">
+
+        <table color="primary" style="margin-bottom: 0px;" class="table">
+          <thead>
+            <tr>
+              <th></th>
+
+              <th>NOME</th>
+
+              <th>DESCRIÇÃO</th>
+
+              <th></th>
+
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of cargos;let i = index;" @rowHighlight>
+              <td style="text-align:center;vertical-align: middle;">
+                {{i + 1}}
+              </td>
+
+              <td style="text-align:left;vertical-align: middle;">{{ item.value }}</td>
+
+              <td style="text-align: center;vertical-align: middle;">{{ item.comentario }}</td>
+
+              <td style="text-align: center;vertical-align: middle;">
+
+                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
+                  matTooltipPosition="above" matTooltipHideDelay="100">
+                  <button (click)="OpenEditCargoModal(item.id)"
+                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" mat-icon-button>
+                    <mat-icon>settings</mat-icon>
+                  </button>
+                </i>
+
+                <i *ngIf="!podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                  matTooltip="deletar turma e os matriculados" matTooltipPosition="above" matTooltipHideDelay="100">
+                  <button (click)="DeleteCargo(item)" disabled
+                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" mat-icon-button>
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                </i>
+
+              </td>
+
+
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+      <!-- <mat-paginator *ngIf="length > 5" style="
+            background-color: rgb(227, 240, 227);
+            bottom: 0px;
+            right: 0px;" [length]="length" [pageSize]="5" hidePageSize="true" (page)="pageEvent = $event"
+            (click)="changePage(pageEvent)">
+        </mat-paginator> -->
+
+    </div>
+
+    <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+        top: 46.5%;
+        position: absolute;">
+    </mat-spinner> -->
+  </div>
+
+
+
+  <!--    DOCUMENTOS         -->
+
+  <div *ngIf="showDocumentosTable" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+        position: relative;
+        margin-top: 20px;
+        box-shadow: 0 0 1em rgb(172, 170, 170);
+        background-color: rgb(227, 240, 227);">
+
+    <div class="card-header">
+      <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+        Documentos</h4>
+      <p class="card-category"> Documentos cadastrados no sistema: </p>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive table-config-documentos" style="height: 430px;position: relative;">
+
+        <table color="primary" style="margin-bottom: 0px;" class="table">
+          <thead>
+            <tr>
+              <th></th>
+
+              <th>NOME</th>
+
+              <th>DESCRIÇÃO</th>
+
+              <th>VALIDADE</th>
+
+              <th></th>
+
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of documentos;let i = index;" @rowHighlight>
+
+              <td style="text-align:center;vertical-align: middle;">
+                {{i + 1}}
+              </td>
+
+              <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+              <td style="text-align: center;vertical-align: middle;">{{item.descricao }}</td>
+
+              <td style="text-align:center;vertical-align: middle;">{{item.validadeDias}}</td>
+
+              <td style="text-align: center;vertical-align: middle;">
+                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
+                  matTooltipPosition="above" matTooltipHideDelay="100">
+                  <button (click)="OpenEditDocModal(item.id)"
+                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" mat-icon-button>
+                    <mat-icon>settings</mat-icon>
+                  </button>
+                </i>
+
+                <i *ngIf="!podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                  matTooltip="deletar turma e os matriculados" matTooltipPosition="above" matTooltipHideDelay="100">
+                  <button (click)="deleteDocumento(item)" disabled
+                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" mat-icon-button>
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                </i>
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+      <!-- <mat-paginator *ngIf="length > 5" style="
+            background-color: rgb(227, 240, 227);
+            bottom: 0px;
+            right: 0px;" [length]="length" [pageSize]="5" hidePageSize="true" (page)="pageEvent = $event"
+            (click)="changePage(pageEvent)">
+        </mat-paginator> -->
+
+    </div>
+
+    <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+        top: 46.5%;
+        position: absolute;">
+    </mat-spinner> -->
+  </div>
+
+
+
+
+  <!--    MATERIAS         -->
+
+  <div *ngIf="showMateriasTable" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+        position: relative;
+        margin-top: 20px;
+        box-shadow: 0 0 1em rgb(172, 170, 170);
+        background-color: rgb(227, 240, 227);">
+
+    <div class="card-header">
+      <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+        Matérias</h4>
+      <p class="card-category"> Matérias cadastrados no sistema: </p>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive table-config-materias" style="height: 490px;position: relative;">
+
+        <table color="primary" style="margin-bottom: 0px;" class="table">
+          <thead>
+            <tr>
+              <th></th>
+
+              <th>NOME</th>
+
+              <th>TIPO PACOTE</th>
+
+              <th>DESCRIÇÃO</th>
+
+              <th>MODALIDADE</th>
+
+              <th>CARGA HORÁRIA</th>
+
+              <th></th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of materias;let i = index;" @rowHighlight>
+
+              <td style="text-align:center;vertical-align: middle;">
+                {{i + 1}}
+              </td>
+
+              <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+
+
+              <td style="text-align: center;vertical-align: middle;">{{item.typePacoteNome}}</td>
+
+              <td style="text-align: center;vertical-align: middle;">{{item.descricao}}</td>
+
+              <td style="text-align: center;vertical-align: middle;">
+                {{item.modalidade }}
+              </td>
+
+              <td style="text-align: center;vertical-align: middle;">{{item.cargaHoraria }}</td>
+
+              <td style="text-align: center;vertical-align: middle;">
+                <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
+                  matTooltipPosition="above" matTooltipHideDelay="100">
+                  <button (click)="OpenEditMatModal(item.id)"
+                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" mat-icon-button>
+                    <mat-icon>settings</mat-icon>
+                  </button>
+                </i>
+
+                <!-- <i *ngIf="!podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip"
+                  matTooltip="deletar turma e os matriculados" matTooltipPosition="above" matTooltipHideDelay="100">
+                  <button (click)="deleteMateria(item)" disabled
+                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" mat-icon-button>
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                </i> -->
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+      <!-- <mat-paginator style="
+                background-color: rgb(227, 240, 227);
+                bottom: 0px;
+                right: 0px;" [length]="materiasLength" [pageSize]="materiasPageSize" hidePageSize="true"
+                (page)="materiasPageEvent = GetMaterias($event)">
+            </mat-paginator> -->
+
+    </div>
+
+    <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+        top: 46.5%;
+        position: absolute;">
+    </mat-spinner> -->
+  </div>
+
+  <!--    TIPOS         -->
+
+  <div *ngIf="showTiposTable" @rowHighlight class="card card-plain mat-elevation-z8" style="width: 100%;
+position: relative;
+margin-top: 20px;
+box-shadow: 0 0 1em rgb(172, 170, 170);
+background-color: rgb(227, 240, 227);">
+
+    <div class="card-header">
+      <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+        Tipos de pacote</h4>
+      <p class="card-category"> Tipos cadastrados no sistema: </p>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive table-config-documentos" style="height: 430px;position: relative;">
+
+        <table color="primary" style="margin-bottom: 0px;" class="table">
+          <thead>
+            <tr>
+              <th></th>
+
+              <th>NOME</th>
+
+              <th>NÍVEL</th>
+
+              <th>OBSERVAÇÃO</th>
+
+              <th></th>
+
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of tipos;let i = index;" @rowHighlight>
+
+              <td style="text-align:center;vertical-align: middle;">
+                {{i + 1}}
+              </td>
+
+              <td style="text-align:left;vertical-align: middle;">{{item.nome}}</td>
+
+              <td style="text-align: center;vertical-align: middle;">{{item.nivel }}</td>
+
+              <td style="text-align:center;vertical-align: middle;">{{item.observacao}}</td>
+
+              <td style="text-align: center;vertical-align: middle;">
+                <!-- <i style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="Visualizar/Editar"
+                  matTooltipPosition="above" matTooltipHideDelay="100">
+                  <button (click)="OpenEditTipoModal(item.id)"
+                    style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" mat-icon-button>
+                    <mat-icon>settings</mat-icon>
+                  </button>
+                </i> -->
+
+                <!-- <i *ngIf="!podeDeletar" style="margin: 0px; margin: 0px;" #tooltip="matTooltip" matTooltip="deletar turma e os matriculados"
+                            matTooltipPosition="above" matTooltipHideDelay="100">
+                            <button (click)="deleteDocumento(item)"  disabled
+                                style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                                mat-icon-button>
+                                <mat-icon>delete_outline</mat-icon>
+                            </button>
+                        </i> -->
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+      <!-- <mat-paginator *ngIf="length > 5" style="
+    background-color: rgb(227, 240, 227);
+    bottom: 0px;
+    right: 0px;" [length]="length" [pageSize]="5" hidePageSize="true" (page)="pageEvent = $event"
+    (click)="changePage(pageEvent)">
+</mat-paginator> -->
+
+    </div>
+
+    <!-- <mat-spinner @rowHighlight *ngIf="showSpinner" [diameter]="100" style="margin-left: 46.5%;
+top: 46.5%;
+position: absolute;">
+</mat-spinner> -->
+  </div>
+
+
+
+</div>

@@ -1,0 +1,30 @@
+<div class="container">
+
+  <div class="row" style="margin-bottom: 10px;">
+
+      <div style="font-size: 1.2em;"></div>
+
+      <div style="font-size: 1.1em;">
+          {{mensagem}}
+      </div>
+
+  </div>
+
+  <div>
+      <i style="margin-left: 5px;float: left;margin-left: 10px;" #tooltip="matTooltip" matTooltip="confirmar"
+          matTooltipPosition="above" matTooltipHideDelay="100">
+          <button (click)="confirmar()" style="color: green;" mat-icon-button>
+              <mat-icon>done</mat-icon>
+          </button>
+      </i>
+
+      <i style="margin-left: 5px;float: left;margin-left: 10px;" #tooltip="matTooltip" matTooltip="cancelar"
+          matTooltipPosition="above" matTooltipHideDelay="100">
+          <button (click)="cancelar()" style="color: red;" mat-icon-button>
+              <mat-icon>close</mat-icon>
+          </button>
+      </i>
+
+  </div>
+
+</div>

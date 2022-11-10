@@ -1,0 +1,18 @@
+::ng-deep .contrato-create-class {
+  height: 700px !important;
+  width: 950px;
+}
+
+::ng-deep .mat-form-field {
+  font-size: 0.9em;
+}
+
+.html {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: #f1f1f1;
+  min-height: 20px;
+  max-height: 10rem;
+  overflow: auto;
+}

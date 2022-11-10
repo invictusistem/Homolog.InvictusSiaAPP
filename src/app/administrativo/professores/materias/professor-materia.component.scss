@@ -1,0 +1,20 @@
+::ng-deep .mat-form-field {
+  font-size: 0.9em;
+  //position: relative;
+  input {
+    color: black !important;
+  }
+}
+
+::ng-deep .myprofmateria-class .mat-dialog-container {
+  height: 79vh;
+  width: 880px;
+}
+
+::ng-deep .mat-tab-group.profmaterias {
+  height: 500px !important;
+}
+
+// ::ng-deep .mat-form-field.mat-input-element{
+//   color: black;
+// }
