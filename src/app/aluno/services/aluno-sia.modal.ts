@@ -17,6 +17,25 @@ export function OpenEstagioSelecionarModalConfig(usuario?: any) {
     }
 }
 
+export function InfoFinancModalConfig() {
+  return {
+      width: '1150px',
+     // data: { aluno: aluno },
+      hasBackdrop: true,
+      disableClose: true
+  }
+}
+
+export function ViewRequerimentoModalConfig(req:any) {
+  return {
+      height: '580px',
+      width: '700px',
+      data: { req: req },
+      hasBackdrop: true,
+      disableClose: true
+  }
+}
+
 // Requerimento
 
 export function OpenRequerimentoCreateModalConfig() {

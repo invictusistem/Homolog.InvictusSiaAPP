@@ -12,12 +12,12 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private router: Router) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        
+
         if (req.url.includes(this.baseUrl)) {
-            if (localStorage.getItem('jwt') !== null) {
+            if (localStorage.getItem('jwt-aluno') !== null) {
                 const cloneReq = req.clone({
-                    headers: req.headers.set('Authorization', `Bearer ${localStorage.getItem('jwt')}`)
-                    
+                    headers: req.headers.set('Authorization', `Bearer ${localStorage.getItem('jwt-aluno')}`)
+
                 });
                 return next.handle(cloneReq).pipe(
                     tap(

@@ -12,9 +12,9 @@ export class AuthGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-    const token = localStorage.getItem('jwt') || '{}'; 
+    const token = localStorage.getItem('jwt-aluno') || '{}';
 
-    if ((localStorage.getItem('jwt') !== null) && 
+    if ((localStorage.getItem('jwt-aluno') !== null) &&
     (!this.jwtHelper.isTokenExpired(token))) {
       return true;
     } else {

@@ -17,23 +17,22 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(model: any, unidadeId:any) {
+  public Login(model: any) {
 
-    let url = `${this.baseURL}/identity/login/${unidadeId}`
+    let url = `${this.baseURL}/sia/login`
 
-   
+    console.log(model)
+    console.log(url)
+
+
     return this.http
       .post(url, model, {
 
       }).pipe(
         map((response: any) => {
-          const user = response;
-         
-          if (user) {
-            localStorage.setItem('jwt', user.accessToken);
-            //this.decodedToken = this.jwtHelper.decodeToken(user.userToken);
-            sessionStorage.setItem('username', user.userToken.nome);
-          }
+         // if (token) {
+            localStorage.setItem('jwt-aluno', response['token']);
+         // }
         })
       );
   }
@@ -42,19 +41,19 @@ export class AuthService {
     return response || {};
   }
 
-  preLogin(model: any) {
-   
-    let url = `${this.baseURL}/identity/pre-login`
-   
-    let response = this.http
-      .post(url, model, {
+  // preLogin(model: any) {
 
-      }).pipe(
-        map(this.extractData),
-        catchError(this.serviceError));
+  //   let url = `${this.baseURL}/identity/pre-login`
 
-    return response;
-  }
+  //   let response = this.http
+  //     .post(url, model, {
+
+  //     }).pipe(
+  //       map(this.extractData),
+  //       catchError(this.serviceError));
+
+  //   return response;
+  // }
 
   public serviceError(response: Response | any) {
     let customError: string[] = [];
@@ -67,13 +66,13 @@ export class AuthService {
       }
     }
 
-   
+
     return throwError(response);
   }
-  
+
   loggedIn() {
     var token: string | null  = localStorage.getItem('jwt') || '{}';
-   
+
     return !this.jwtHelper.isTokenExpired(token);
   }
 

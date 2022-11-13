@@ -7,6 +7,10 @@ import { AlunoSiaService } from './services/aluno-sia.service';
 import { EstagioSelecionarComponent } from './estagio/selecionar/estagio-selecionar.component';
 import { AlunoReqsComponent } from './requerimento/aluno-reqs.component';
 import { ReqsCriarComponent } from './requerimento/criar/reqs-criar.component';
+import { ReqViewComponent } from './requerimento/view/req-view.component';
+import { AlunoFinanceiroComponent } from './financeiro/aluno-financeiro.component';
+import { AlunoFinViewComponent } from './financeiro/view/aluno-fin-view.component';
+import { AlunoBoletoComponent } from './financeiro/view/boleto/aluno-boleto.component';
 
 @NgModule({
     declarations: [
@@ -17,8 +21,12 @@ import { ReqsCriarComponent } from './requerimento/criar/reqs-criar.component';
         EstagioSelecionarComponent,
         // Requerimento
         AlunoReqsComponent,
-        ReqsCriarComponent
-        
+        ReqsCriarComponent,
+        ReqViewComponent,
+        AlunoFinanceiroComponent,
+        AlunoFinViewComponent,
+        AlunoBoletoComponent
+
         // AlunoEstagioComponent,
         // InscricaoEstComponent,
         // AlunoDocsComponent
@@ -29,16 +37,17 @@ import { ReqsCriarComponent } from './requerimento/criar/reqs-criar.component';
     ],
     providers: [
         AlunoSiaService
-    ],    
+    ],
     exports: [
         AlunoSiaComponent,
         // Estágio
         EstagioSiaComponent,
         // Requerimento
-        AlunoReqsComponent
-        //AlunoEstagioComponent        
+        AlunoReqsComponent,
+        AlunoFinanceiroComponent
+        //AlunoEstagioComponent
     ],
-    entryComponents: [  
+    entryComponents: [
         EstagiosiaDocumentacaoComponent,
         EstagioSelecionarComponent,
         // Requerimento

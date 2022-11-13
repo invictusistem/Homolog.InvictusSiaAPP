@@ -1,9 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { PreventRoteRoleGuard, Setor } from '../_shared/models/nav-bar-routes';
 
 declare interface RouteInfo {
   path: string;
@@ -16,8 +13,8 @@ export const ROUTES: RouteInfo[] = [
   { path: '/aluno/estagio', title: 'Cadastro', class: '', typeIcon: 'person' },
   { path: '/aluno/estagio', title: 'Notas', class: '', typeIcon: 'domain' },
   { path: '/aluno/estagio', title: 'Frequência', class: '', typeIcon: 'edit_calendar' },
-  { path: '/aluno/estagio', title: 'Financeiro', class: '', typeIcon: 'paid' },
-  { path: '/aluno/alunodocs', title: 'Documentação', class: '', typeIcon: 'text_snippet' }
+  { path: '/aluno-sia/alunofin', title: 'Financeiro', class: '', typeIcon: 'paid' },
+  { path: '/aluno/alunodocs', title: 'Documentação', class: '', typeIcon: 'text_snippet' },
   //{ path: '/aluno/alunodocs', title: 'Requerimentos', class: '', typeIcon: 'attachment' }
 ]
 
@@ -47,19 +44,24 @@ export class AlunoSiaComponent implements OnInit {
   menu: any;
   menu2: any;
   menu3: any;
+  data: string = "";
   constructor(
-    //private jwtHelper: JwtHelperService,
-    private router: Router,
-    private http: HttpClient) { }
-  ngOnInit() {
-    console.log('aluno component')
-    var authorize = PreventRoteRoleGuard(Setor.Aluno)
-
-    if(!authorize){
-      this.router.navigate(['/adm']);
+    private _router: Router,
+    private http: HttpClient) {
+    const navigation = this._router.getCurrentNavigation();
+    //  console.log(navigation.extras['state'])
+    if (navigation?.extras['state'] != undefined) {
+      const state = navigation.extras.state as { data: string };
+      this.data = state.data;
     }
 
-    // this.isUserAuthenticated();
+  }
+  ngOnInit() {
+console.log('from aluno sia')
+    if (this.data != "") {
+      // this.getMessage();
+
+    }
     this.menu = ROUTES.filter(menu => menu);
     this.menu2 = ROUTES2.filter(menu2 => menu2);
     this.menu3 = ROUTES3.filter(menu3 => menu3);
@@ -68,8 +70,8 @@ export class AlunoSiaComponent implements OnInit {
   invalidLogin!: boolean;
 
   logOut() {
-    localStorage.removeItem("jwt");
-    this.router.navigate(["/login"]);
+    localStorage.removeItem("jwt-aluno");
+    this._router.navigate(["/login"]);
 
   }
 

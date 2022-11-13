@@ -1,0 +1,112 @@
+<div style="font-size: 1.2em;">Detalhes
+  <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="fechar" matTooltipPosition="above"
+      matTooltipHideDelay="100">
+      <button [mat-dialog-close]="{clicked: atualizar}" mat-icon-button>
+          <mat-icon>close</mat-icon>
+      </button>
+  </i>
+</div>
+
+<hr>
+
+<ng-container *ngIf="debito.status != 'Pago'">
+  <!-- <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="quitar" matTooltipPosition="above"
+      matTooltipHideDelay="100">
+      <button (click)="quitar(debito.id)" style="" mat-icon-button>
+          <mat-icon style="color:green">paid</mat-icon>
+      </button>
+  </i> -->
+</ng-container>
+
+<mat-form-field appearance="standard" style="width: 35%; ">
+  <mat-label>Aluno</mat-label>
+  <input [value]="nome" selected [disabled]="true" required name="nome" matInput placeholder="Nome">
+</mat-form-field>
+
+<mat-form-field appearance="standard" style="width: 12%; margin-left: 5%; ">
+  <mat-label>Nº matrícula</mat-label>
+  <input [value]="matricula" selected [disabled]="true" required name="nome" matInput placeholder="Nome">
+</mat-form-field>
+
+
+<!-- <ng-container *ngIf="PodeCancelar" >
+  <i style="margin-left: 5px;float: right;" #tooltip="matTooltip" matTooltip="cancelar cobrança"
+      matTooltipPosition="above" matTooltipHideDelay="100">
+      <button (click)="CancelarBoleto()" mat-icon-button>
+          <mat-icon>cancel_presentation</mat-icon>
+      </button>
+  </i>
+</ng-container> -->
+
+<br>
+
+<div *ngIf="debito.statusBoleto != 'Pago';else naoPago" style="vertical-align: middle;">
+  <i style="vertical-align: middle;margin-left: 5px;float: left;">
+
+      <mat-icon style="font-size: 1em;color:red">warning</mat-icon>
+
+  </i>
+
+  <span style="font-size: 0.9em;">
+      Status: {{debito.statusBoleto}} - vencimento {{ debito.vencimento | date:'dd/MM/y'}}
+  </span>
+</div>
+
+
+<ng-template #naoPago>
+  <div style="vertical-align: middle;">
+      <i style="vertical-align: middle;margin-left: 5px;float: left;">
+
+          <mat-icon style="font-size: 1em;color:green">paid</mat-icon>
+
+      </i>
+
+      <span style="font-size: 0.9em;">
+          Pagamento efetuado em {{ debito.dataPagamento | date:'dd/MM/y'}}
+      </span>
+  </div>
+</ng-template>
+
+
+
+
+<!-- TODO VENCIDO -->
+<ng-container *ngIf="debito.statusBoleto == 'Pago'">
+  <mat-form-field appearance="standard" style="width: 100px; ">
+      <mat-label>Valor recebido</mat-label>
+      <input [value]="debito.valorPago | currency:'BRL':'R$ '" [disabled]="true" matInput>
+  </mat-form-field>
+
+  <!-- <mat-form-field  appearance="standard" style="width: 120px;margin-left: 20px; ">
+      <mat-label>Data pagamento</mat-label>
+      <input [value]="debito.dataPagamento | date: 'dd/MM/yyyy'"
+          disabled matInput >
+  </mat-form-field> -->
+
+</ng-container>
+
+<mat-form-field *ngIf="debito.statusBoleto != 'Pago';" appearance="standard" style="width: 100px; ">
+  <mat-label>Valor a receber</mat-label>
+  <input [value]="debito.valor | currency:'BRL':'R$ '" [disabled]="true" matInput>
+</mat-form-field>
+
+<!-- <ng-template #recebido appearance="standard" style="width: 15%; ">
+
+  <mat-form-field appearance="standard" style="width: 17%; ">
+      <mat-label>Valor a receber</mat-label>
+      <input [value]="debito.valor" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" selected
+          disabled required name="nome" matInput placeholder="Nome">
+  </mat-form-field>
+
+</ng-template> -->
+
+<br>
+
+<span style="font-size: 0.9em;">
+  Linha Digitável: {{ debito.linhaDigitavel }}
+</span>
+<!-- <div style="font-weight: 400;font-size: 0.9;margin-left: 30px;">débito gerado em </div> -->
+<br>
+<span style="font-size: 0.9em;">
+  pagamento {{ debito.subConta }}
+</span>

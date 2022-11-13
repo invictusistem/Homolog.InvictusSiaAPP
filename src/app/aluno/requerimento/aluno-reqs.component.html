@@ -12,6 +12,165 @@
 
     <br>
 
+    <mat-progress-bar style="margin-top: 20px;" [style.visibility]="spinnerSearch" @rowHighlight style="margin:0px"
+    mode="query">
+  </mat-progress-bar>
+
+  <div @rowHighlight *ngIf="requerimentos.length > 0" class="card card-plain mat-elevation-z8" style="width: 100%;
+    position: relative;
+    margin-top: 20px;
+    box-shadow: 0 0 1em rgb(172, 170, 170);
+    background-color: rgb(227, 240, 227);">
+
+    <div class="card-header" style="background-color: rgb(207, 231, 207);">
+      <h4 class="card-title" style="font-size:1.5em; font-weight: 400;">
+        Requerimentos</h4>
+      <p class="card-category">{{length}} Requerimento(s) localizado(s) no sistema: </p>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive table-requerimento">
+
+        <table color="primary" class="table">
+          <thead>
+            <tr>
+              <th></th>
+
+              <th>DATA<br>SOLICITAÇÃO</th>
+
+              <th>REQUERIMENTO</th>
+
+              <th>MATRÍCULA<br>SOLICITANTE</th>
+
+              <th>STATUS</th>
+
+              <!-- <th>RESPONSÁVEL</th> -->
+
+              <th>DATA<br>ENCERRAMENTO</th>
+
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- <tr @rowHighlight>
+
+              <td style="text-align:center;vertical-align: middle;">
+                1
+              </td>
+
+              <td style="text-align: center;vertical-align: middle;">08/11/2022 08:00</td>
+
+              <td style="text-align: center;vertical-align: middle;">
+                <div>DECLARAÇÃO DE MATRÍCULA<br>CERTIDÃO/DECLARAÇÃO</div>
+              </td>
+
+              <td style="text-align: center;vertical-align: middle;">202200000244</td>
+
+              <td style="text-align: center;vertical-align: middle;">EM ABERTO</td>
+
+              <td style="text-align: center;vertical-align: middle;">ROSIMERE SERRA AREDE DA
+                SILVA<br>rosimereserra@gmail.com</td>
+
+              <td style="text-align: center;vertical-align: middle;">
+                <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="Visualizar/Editar" matTooltipPosition="above"
+                  matTooltipHideDelay="100">
+                  <button
+                  (click)="OpenReqEdit()"
+                  style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;"
+                  mat-icon-button>
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </i>
+              </td>
+
+
+            </tr> -->
+
+
+
+
+            <tr *ngFor="let item of requerimentos;let i = index;" @rowHighlight>
+
+              <td style="text-align:center;vertical-align: middle;">
+                {{(i + 1)+(pageIndexNumber)}}
+              </td>
+
+              <td style="text-align: center;vertical-align: middle;">
+                {{item.dataRequerimento | date:'dd/MM/yyyy'}}</td>
+
+              <td style="text-align: center;vertical-align: middle;">
+
+                <div>{{item.tipo}}<br>{{item.categoria}}</div>
+              </td>
+
+              <td style="text-align: center;vertical-align: middle;">{{item.numeroMatricula}}</td>
+
+              <td style="text-align: center;vertical-align: middle;">
+
+                <ng-container [ngSwitch]="item.statusAndamento">
+                  <div *ngSwitchCase="0">Em aberto</div>
+                  <div *ngSwitchCase="1">Deferido</div>
+                  <div *ngSwitchCase="2">Indeferido</div>
+                  <!-- <div *ngSwitchCase="'4'">Four</div>
+                <div *ngSwitchCase="'5'">Five</div>
+                <div *ngSwitchDefault>This is Default</div> -->
+
+
+                </ng-container>
+              </td>
+
+              <!-- <td style="text-align: center;vertical-align: middle;">{{item.responsavel}}<br>
+                {{item.emailResponsavel}}</td> -->
+
+              <td style="text-align: center;vertical-align: middle;">
+                {{item.dataEncerramento | date: 'dd/MM/yyyy HH:mm' || '-' }}
+              </td>
+
+              <td style="text-align: center;vertical-align: middle;">
+                <ng-container [ngSwitch]="item.statusAndamento">
+
+                  <!-- <div *ngSwitchCase="0">
+                    <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="Editar/Responder"
+                      matTooltipPosition="above" matTooltipHideDelay="100">
+                      <button (click)="OpenReqEdit(item)"
+                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" mat-icon-button>
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                    </i>
+                  </div> -->
+
+                  <div *ngSwitchDefault>
+                    <i style="margin: 0px;" #tooltip="matTooltip" matTooltip="Visualizar"
+                      matTooltipPosition="above" matTooltipHideDelay="100">
+                      <button (click)="OpenReqView(item)"
+                        style="background-color: rgb(227, 240, 227);margin: 0px; margin: 0px;" mat-icon-button>
+                        <mat-icon>search</mat-icon>
+                      </button>
+                    </i>
+                  </div>
+
+
+                </ng-container>
+
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+      <mat-paginator *ngIf="length > 5" style="
+        background-color: rgb(227, 240, 227);
+        bottom: 0px;
+        right: 0px;" [length]="length" [pageSize]="pageSize" hidePageSize="true"
+        (page)="pageEvent = Pesquisar($event)">
+      </mat-paginator>
+
+    </div>
+
+  </div>
+
 
 
 </div>

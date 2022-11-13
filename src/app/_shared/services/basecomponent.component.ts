@@ -116,7 +116,7 @@ export class BaseComponent {
     // }
 
     protected GetTokenInfos() {
-        const token: any = localStorage.getItem('jwt')
+        const token: any = localStorage.getItem('jwt-aluno')
         this.tokenInfo = this.jwtHelper.decodeToken(token)
 
         return this.tokenInfo

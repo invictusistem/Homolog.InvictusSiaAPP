@@ -7,7 +7,7 @@ import { HighlightTrigger } from "src/app/_shared/animation/animation";
 import { SelectUnidadeModalConfig } from "src/app/_shared/models/shared-modal";
 import { TokenInfos } from "src/app/_shared/models/token.model";
 import { AuthService } from "../../auth.service";
-import { SelectUnidadeComponent } from "./selecionar-unidade/select-unidade.component";
+//import { SelectUnidadeComponent } from "./selecionar-unidade/select-unidade.component";
 
 @Component({
   selector: 'app-login',
@@ -35,65 +35,39 @@ export class LoginComponent implements OnInit {
     //, private toastr: ToastrService
   ) {
     this.authForm = _fb.group({
-      email: ['', [Validators.required]],
+      matricula: ['', [Validators.required]],
       senha: ['', [Validators.required, Validators.minLength(8)]]
     })
   }
 
   ngOnInit() {
-    if (localStorage.getItem('jwt') != null) {
-      this.router.navigate(['/adm']);
+    if (localStorage.getItem('jwt-aluno') != null) {
+      this.router.navigate(['/aluno-sia']);
     }
   }
 
-  preLogin(form: any) {
+  public Login(form: any) {
     this.showErrorMsg = 'hidden'
     this.progress = true
     if (this.authForm.valid) {
-      this.authService.preLogin(form)
+      this.authService.Login(form)
         .subscribe(
-          sucesso => { this.preLoginSucess(sucesso) },
-          falha => { this.preLoginError(falha) });
+          sucesso => { this.LoginSucess(sucesso) },
+          falha => { this.LoginError(falha) });
     }
 
   }
 
-  preLoginSucess(sucesso: any) {
-    //console.log(sucesso)
-    this.unidades = sucesso['unidades']
+  private LoginSucess(sucesso: any) {
+    console.log('login sucesso')
     this.progress = false
-    if (this.unidades.length == 1) {
+    const navigationExtras: NavigationExtras = { state: { data: 'From Login' } };
 
-      // this.authService.login(this.authForm.value)
-      //   .subscribe(
-      //     sucesso => { this.preLoginSucesso(sucesso) },
-      //     falha => { this.preLoginError(falha) });
-
-      this.login(this.unidades[0].unidadeId)
-
-    } else {
-
-      this.openSelectUnidadeModal()
-
-    }
+    this.router.navigate(['/aluno-sia'], navigationExtras);
   }
 
-  openSelectUnidadeModal(): void {
-    const dialogRef = this._modal
-      .open(SelectUnidadeComponent, SelectUnidadeModalConfig(
-        this.authForm.value,
-        this.unidades));
-    dialogRef.afterClosed().subscribe((data) => {
-      // if(data.clicked == true){
-      //   this.login(data.unidadeId)
-      // }
-    });
-  }
-
-
-
-  preLoginError(error: any) {
-    //console.log(error['status'])
+  private LoginError(error: any) {
+    console.log(error['status'])
 
     if (error['status'] == 401) {
       this.progress = false
@@ -102,52 +76,6 @@ export class LoginComponent implements OnInit {
     } else {
       this.progress = false
       this.errorMsg = error['error'].errors.Mensagens[0]
-      this.showErrorMsg = 'visible'
-    }
-  }
-
-  login(unidadeId: any) {
-    //console.log(this.authForm.value)
-    //console.log(unidadeId)
-    this.showErrorMsg = 'hidden'
-    this.progress = true
-
-    if (this.authForm.valid) {
-      this.authService.login(this.authForm.value, unidadeId)
-        .subscribe(
-          sucesso => { this.loginSucesso(sucesso) },
-          falha => { this.loginError(falha) });
-    }
-  }
-
-  loginSucesso(resposta: any) {
-
-    this.progress = false
-    const navigationExtras: NavigationExtras = { state: { data: 'From Login' } };
-
-    //var token: any = localStorage.getItem('jwt');
-    //this.tokenInfo = this.jwtHelper.decodeToken(token)
-    // if (this.tokenInfo.role == 'Aluno') {
-    //   this.router.navigate(['/aluno-sia'], navigationExtras);
-    // } else {
-    //   this.router.navigate(['/adm'], navigationExtras);
-    // }
-
-
-    this.router.navigate(['/adm'], navigationExtras);
-  }
-
-  loginError(error: any) {
-
-    // console.log(error['status'])
-
-    if (error['status'] != 0) {
-      this.progress = false
-      this.errorMsg = error['error'].errors.Mensagens[0]
-      this.showErrorMsg = 'visible'
-    } else {
-      this.progress = false
-      this.errorMsg = 'Ocorreu um erro desconhecido. Entre em contato com o administrador do sistema.'
       this.showErrorMsg = 'visible'
     }
   }

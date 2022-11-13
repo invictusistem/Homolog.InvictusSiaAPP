@@ -1,34 +1,34 @@
 <body class="text-center" data-gr-c-s-loaded="true">
 
-    <form class="form-signin" [formGroup]="authForm" (ngSubmit)="preLogin(authForm.value)" style="margin-top: 150px;background-color: rgb(227, 240, 227);
+    <form class="form-signin" [formGroup]="authForm" (ngSubmit)="Login(authForm.value)" style="margin-top: 150px;background-color: rgb(227, 240, 227);
     border-radius: 10px">
-  
+
       <h1 class="h3 mb-3 font-weight-normal"></h1>
-  
-      <label for="username" class="sr-only">Usuário</label>
-  
-      <input type="email" id="username" class="form-control" placeholder="Usuário"
-        formControlName="email">
-  
+
+      <label for="username" class="sr-only">Matrícula</label>
+
+      <input id="username" class="form-control" placeholder="Matrícula"
+        formControlName="matricula">
+
       <label for="password" class="sr-only">Senha</label>
-  
+
       <input type="password" id="password" class="form-control" placeholder="Senha" minlength="8"
         formControlName="senha">
-  
+
       <div [style.visibility]="showErrorMsg" @rowHighlight>
         <span @rowHighlight style="color: red;font-size: 0.9em;">{{ errorMsg }}
         </span>
       </div>
-  
+
       <div>
         <button [disabled]="disabledButton" mat-raised-button color="primary" type="submit">
           <mat-spinner *ngIf="progress" style="margin-left: 12px;margin-top: 5px; position: absolute;" [diameter]="26">
           </mat-spinner>
           Entrar
         </button>
-  
+
       </div>
-  
-    </form>  
-  
+
+    </form>
+
   </body>
