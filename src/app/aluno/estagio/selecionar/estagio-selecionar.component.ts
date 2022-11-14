@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BaseComponent } from 'src/app/_shared/services/basecomponent.component';
@@ -19,8 +20,11 @@ export class EstagioSelecionarComponent extends BaseComponent implements OnInit 
   public estagiosTipos: any[] = new Array<any>()
   public estagios: any[] = new Array<any>()
   public estagio: any
+  semEstagio = false
+  //public disabledButton = false
 
   constructor(
+    private _http: HttpClient,
     override _snackBar: MatSnackBar,
     private _fb: FormBuilder,
     private _alunoService: AlunoSiaService,
@@ -29,44 +33,60 @@ export class EstagioSelecionarComponent extends BaseComponent implements OnInit 
   ) {
     super(_snackBar);
     this.estagioForm = _fb.group({
-
+      estagioId: ['', [Validators.required]],
+      typeEstagioId:['', [Validators.required]]
     })
   }
 
   ngOnInit(): void {
+    //console.log(this.estagio)
     this.GetEstagiosTiposLiberados()
   }
 
-  private GetEstagiosTiposLiberados(){
+  private GetEstagiosTiposLiberados() {
 
-            this._alunoService.GetEstagiosTiposLiberados("D41BC26F-DC80-4F33-8EEC-3727B37846C0")
-                .subscribe(
-                    sucesso => { this.Sucesso(sucesso ) },
-                    falha => { this.Erro(falha) }
-                );   
+    this._alunoService.GetEstagiosTiposLiberados()
+      .subscribe(
+        sucesso => { this.Sucesso(sucesso) },
+        falha => { this.Erro(falha) }
+      );
   }
 
-  private Sucesso(resp:any){
+  private Sucesso(resp: any) {
 
     this.initProgressBar = 'hidden'
     this.showForm = true
     this.estagiosTipos = resp['tipos']
   }
 
-  private Erro(error:any){
+  private Erro(error: any) {
+    console.log(error['status'])
 
+    if (error['status'] == 404) {
+      this.initProgressBar = 'hidden'
+      this.semEstagio = true
+    }else {
+      this.OpenSnackBarErrorDefault()
+      this.dialogRef.close({ sucesso: false })
+
+    }
   }
 
-  public GetEstagios(tipoId: any){
+  public GetEstagios(tipoId: any) {
 
+    //this.showForm = false
+   // this.showInfos = false
+    this.estagios = new Array<any>()
+    this.estagioForm.get('estagioId')?.setValue('')
+   // this.estagio = undefined
     this._alunoService.GetEstagiosLiberados(tipoId)
-                .subscribe(
-                    sucesso => { this.EstagioSucesso(sucesso ) },
-                    falha => { this.EstagioErro(falha) }
-                ); 
+      .subscribe(
+        sucesso => { this.EstagioSucesso(sucesso) },
+        falha => { this.EstagioErro(falha) }
+      );
   }
 
-   private EstagioSucesso(resp:any){
+  private EstagioSucesso(resp: any) {
 
     this.initProgressBar = 'hidden'
     this.disabledSelectLocal = false
@@ -74,29 +94,58 @@ export class EstagioSelecionarComponent extends BaseComponent implements OnInit 
     this.estagios = resp['estagios']
   }
 
-  private EstagioErro(error:any){
+  private EstagioErro(error: any) {
+
 
   }
 
-  public SelectEstagio(estagioId: any){
+  public SelectEstagio(estagioId: any) {
     this._alunoService.GetEstagio(estagioId)
-    .subscribe(
-        sucesso => { this.SelectEstagioSucesso(sucesso ) },
+      .subscribe(
+        sucesso => { this.SelectEstagioSucesso(sucesso) },
         falha => { this.SelectEstagioError(falha) }
-    ); 
+      );
   }
 
-  private SelectEstagioSucesso(resp: any){
+  private SelectEstagioSucesso(resp: any) {
     this.estagio = resp['estagio']
     this.showInfos = true
   }
 
-  private SelectEstagioError(error: any){
+  private SelectEstagioError(error: any) {
     this.OpenSnackBarErrorDefault()
   }
 
   public Salvar() {
 
+    if (this.estagioForm.valid) {
+
+      this.disabledSaveButton = 'visible'
+
+      this._http.put(`${this.baseUrl}/estagio/matricular/selecionar/${this.estagioForm.get('estagioId')?.value}/${this.estagioForm.get('typeEstagioId')?.value}`, {})
+        .subscribe({
+          next: (resp: any) => {
+            this.OpenSnackBarSucesso('Matricula ocorrida com sucesso.')
+            this.dialogRef.close({ sucesso: true })
+
+          },
+          error: (fail: any) => {
+            this.OpenSnackBarErrorDefault()
+            this.disabledSaveButton = 'hidden'
+          }
+        })
+    }
   }
+
+  get disabledButton() {
+    if (this.estagioForm.valid) {
+      return this.disabledSaveButton != 'hidden'
+    } else {
+      return true
+    }
+  }
+
+
+
 
 }

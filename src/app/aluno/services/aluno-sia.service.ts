@@ -8,7 +8,7 @@ import { BaseService } from 'src/app/_shared/services/base.service';
 export class AlunoSiaService extends BaseService {
 
     constructor(private http: HttpClient) { super(); }
-    
+
     // Estagio
 
     public GetEstagioStatus(): Observable<any> {
@@ -37,9 +37,9 @@ export class AlunoSiaService extends BaseService {
         return response;
     }
 
-    public GetEstagiosTiposLiberados(matriculaId:any): Observable<any> {
+    public GetEstagiosTiposLiberados(): Observable<any> {
 
-        let path = `/sia/estagio/tipo/${matriculaId}`
+        let path = `/sia/estagio/tipo`
 
         let response = this.http
             .get(this.BaseUrl + path, this.ObterHeaderJson())
@@ -91,6 +91,6 @@ export class AlunoSiaService extends BaseService {
 
    // Requerimento
 
-   
+
 
 }

@@ -5,10 +5,12 @@
 <mat-progress-bar style="margin-top: 20px;" [style.visibility]="initProgressBar" @rowHighlight mode="query">
 </mat-progress-bar>
 
+<span *ngIf="semEstagio">Não há estágio disponíveis!</span>
+
 <div *ngIf="showForm" @rowHighlight>
 
     <form novalidate [formGroup]="estagioForm" style="" (ngSubmit)="Salvar()">
-        <!-- 
+        <!--
         <mat-form-field appearance="standard" style="width: 25%;margin-left: 5%;">
             <mat-label>Estágio</mat-label>
             <mat-select formControlName="cargoId" selected required>
@@ -20,7 +22,7 @@
 
         <mat-form-field appearance="standard" style="width: 35%;">
             <mat-label>Estágio</mat-label>
-            <mat-select selected required>
+            <mat-select formControlName="typeEstagioId">
                 <mat-option></mat-option>
                 <mat-option (click)="GetEstagios(tipo.id)" *ngFor="let tipo of estagiosTipos" [value]="tipo.id">
                 {{tipo.nome}}
@@ -30,15 +32,15 @@
 
         <mat-form-field appearance="standard" style="width: 55%;margin-left: 5%;">
             <mat-label>Selecione o local</mat-label>
-            <mat-select [disabled]="disabledSelectLocal" selected required>
+            <mat-select [disabled]="disabledSelectLocal" formControlName="estagioId">
                 <mat-option (click)="SelectEstagio(estagio.id)" *ngFor="let estagio of estagios" [value]="estagio.id">
                     {{ estagio.nome }} - {{ estagio.bairro }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        
+
         <hr>
-        
+
         <div *ngIf="showInfos">
 
             <mat-form-field appearance="standard" style="width: 40%;">
@@ -88,24 +90,24 @@
         </div>
 
 
-        <!-- <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
+        <mat-progress-bar [style.visibility]="disabledSaveButton" @rowHighlight mode="query">
         </mat-progress-bar>
 
-        <span [style.visibility]="showMensagem" style="width: 480px; text-align: left; vertical-align: middle;
+        <!-- <span [style.visibility]="showMensagem" style="width: 480px; text-align: left; vertical-align: middle;
     float:left;margin-top: 15px;
         padding: 0px;">
             <div *ngFor="let erro of msgErros; " style="font-size: 0.8em;color: red;">
                 * {{ erro }}
             </div>
-        </span>
+        </span> -->
 
         <span style="float: right;margin-top: 15px;">
 
             <button type="submit" mat-raised-button color="primary" [disabled]="disabledButton"
                 style="float:right;margin-left: 10px;">
-                Salvar
+                Matricular
             </button>
-        </span> -->
+        </span>
 
     </form>
 
